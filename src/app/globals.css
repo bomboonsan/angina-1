@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Prompt:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: #171717;
+  /* background: var(--background); */
+  font-family: "Poppins", "Prompt", serif;
+}
+
+.app-wrapper {
+  padding-bottom: 60px;
+  background-image: url("/img/bg-b.png");
+  background-position: bottom center;
+  background-size: 140%;
+  background-repeat: no-repeat;
+}
+
+.top-bar {
+  background: hsla(0, 0%, 94%, 1);
+
+  background: radial-gradient(circle, hsla(0, 0%, 94%, 1) 0%, hsla(0, 0%, 100%, 1) 100%);
+
+  background: -moz-radial-gradient(circle, hsla(0, 0%, 94%, 1) 0%, hsla(0, 0%, 100%, 1) 100%);
+
+  background: -webkit-radial-gradient(circle, hsla(0, 0%, 94%, 1) 0%, hsla(0, 0%, 100%, 1) 100%);
+
+  filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#F0F0F0", endColorstr="#FEFEFE", GradientType=1 );
+}
