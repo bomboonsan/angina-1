@@ -1,9 +1,11 @@
 'use client';
 import Image from "next/image";
 import Header from "@/components/Header";
+import LangSwitch from "@/components/LangSwitch";
 import Title from "@/components/Title";
 import AgeSex from "@/components/AgeSex";
 import Question from "@/components/Question";
+import QuestionList from "@/components/QuestionList";
 import Skeleton from "@/components/Skeleton";
 import Result from "@/components/Result";
 import SymptomSection from "@/components/SymptomSection";
@@ -16,6 +18,10 @@ import questionTitleSection1_1 from '@/data/questionTitleSection1_1.json'
 import questionTitleSection1_2 from '@/data/questionTitleSection1_2.json'
 import questionTitleSection2 from '@/data/questionTitleSection2.json'
 
+import questionTitleSection1_1_en from '@/data/questionTitleSection1_1_en.json'
+import questionTitleSection1_2_en from '@/data/questionTitleSection1_2_en.json'
+import questionTitleSection2_en from '@/data/questionTitleSection2_en.json'
+
 export default function Home() {
     const [stateSection , setStateSection] = useState({
         start : true,
@@ -25,6 +31,7 @@ export default function Home() {
         questionSection_2 : false,        
         showResult : false
     });
+    const [lang , setLang] = useState('en');
     const [loading , setLoading] = useState(false);
     const [symptomSectionSelected , setSymptomSectionSelected] = useState(null);
     const [sex , setSex] = useState(null);
@@ -62,6 +69,9 @@ export default function Home() {
     ]);
     const [totalScore , setTotalScore] = useState(0);
     const [totalScore2 , setTotalScore2] = useState(0);
+    const sendLang = (value) => {
+        setLang(value);
+    }
     const saveScore = (value) => {
         // score[step].score = value;
         // setScore(score);
@@ -109,7 +119,7 @@ export default function Home() {
             setLoading(false);
         }, 1000)
 
-        if (step >= maxStep -1 && !stateSection.questionSection_2) {           
+        if (!stateSection.questionSection_2) {           
             
             
             // Show Section 2
@@ -125,7 +135,7 @@ export default function Home() {
             return;
         }
 
-        if (step >= maxStep -1 && stateSection.questionSection_2) {            
+        if (stateSection.questionSection_2) {            
 
             // Show Result
             let state = stateSection;
@@ -135,7 +145,7 @@ export default function Home() {
 
             return;
         }
-        setStep(step + 1);
+        // setStep(step + 1);
     }
     const calculateScore = () => {
         let total = 0;
@@ -174,27 +184,41 @@ export default function Home() {
         <>
             <Header />
             <div className="my-5 p-4">
-
+                <LangSwitch props={{ sendLang: sendLang }} />
 
 
                 {stateSection.start &&
-                    <AgeSex props={{ sendData: saveInfo }} />
+                    <AgeSex props={{ sendData: saveInfo , lang: lang }} />
                 }
 
                 {stateSection.symptom &&
-                    <SymptomSection props={{ sendData: saveSymptom }} />
+                    <SymptomSection props={{ sendData: saveSymptom , lang: lang }} />
                 }
 
                 {stateSection.questionSection_1_1 &&
                     <>
                     <progress className="progress progress-primary w-full" value={`${step / 9 * 100}`} max="100"></progress>
 
-                    <Title props={{ title: pageTitle[step] }} />
+                    {
+                        lang == "en" ?
+                        (
+                        <>
+                        <Title props={{ title: 'Chest pain characteristics' }} />
+                        </>
+                        ) : 
+                        (
+                        <>
+                        <Title props={{ title: 'ลักษณะของอาการเจ็บหน้าอก' }} />
+                        </>
+                        )
+                    }
+
                     {loading && <Skeleton /> }
-                    {!loading && 
-                    <Question props={{ sendData: saveScore , point : questionTitleSection1_1[step].point }}>
-                        <span dangerouslySetInnerHTML={{ __html: questionTitleSection1_1[step].text }} />
-                    </Question>
+                    {!loading && lang == "en" &&
+                    <QuestionList props={{ sendData: saveScore , questions : questionTitleSection1_1_en , lang: lang }} />
+                    }
+                    {!loading && lang == "th" &&
+                    <QuestionList props={{ sendData: saveScore , questions : questionTitleSection1_1 , lang: lang }} />
                     }
                     </>
                 }
@@ -203,12 +227,31 @@ export default function Home() {
                     <>
                     <progress className="progress progress-primary w-full" value={`${step / 9 * 100}`} max="100"></progress>
 
-                    <Title props={{ title: pageTitle[step] }} />
+                    {
+                        lang == "en" ?
+                        (
+                        <>
+                        <Title props={{ title: 'Dyspnoea characteristics' }} />
+                        </>
+                        ) : 
+                        (
+                        <>
+                        <Title props={{ title: 'ลักษณะการหายใจลำบาก' }} />
+                        </>
+                        )
+                    }
+
                     {loading && <Skeleton /> }
-                    {!loading && 
+                    {/* {!loading && 
                     <Question props={{ sendData: saveScore , point : questionTitleSection1_2[step].point }}>
                         <span dangerouslySetInnerHTML={{ __html: questionTitleSection1_2[step].text }} />
                     </Question>
+                    } */}
+                    {!loading && lang == "en" &&
+                    <QuestionList props={{ sendData: saveScore , questions : questionTitleSection1_2_en , lang: lang }} />
+                    }
+                    {!loading && lang == "th" &&
+                    <QuestionList props={{ sendData: saveScore , questions : questionTitleSection1_2 , lang: lang }} />
                     }
                     </>
                 }
@@ -217,18 +260,32 @@ export default function Home() {
                     <>
                     <progress className="progress progress-primary w-full" value={`${step / 9 * 100}`} max="100"></progress>
 
-                    <Title props={{ title: pageTitle[step] }} />
+                    {
+                        lang == "en" ?
+                        (
+                        <>
+                        <Title props={{ title: 'Personal Information' }} />
+                        </>
+                        ) : 
+                        (
+                        <>
+                        <Title props={{ title: 'ข้อมูลส่วนตัว' }} />
+                        </>
+                        )
+                    }
+                    
                     {loading && <Skeleton /> }
-                    {!loading && 
-                    <Question props={{ sendData: saveScore , point : questionTitleSection2[step].point }}>
-                        <span dangerouslySetInnerHTML={{ __html: questionTitleSection2[step].text }} />
-                    </Question>
+                    {!loading && lang == "en" &&
+                    <QuestionList props={{ sendData: saveScore , questions : questionTitleSection2_en , lang: lang }} />
+                    }
+                    {!loading && lang == "th" &&
+                    <QuestionList props={{ sendData: saveScore , questions : questionTitleSection2 , lang: lang }} />
                     }
                     </>
                 }
                 
                 {stateSection.showResult &&
-                    <Result props={{ point1 : totalScore , point2 : totalScore2 , text : getResultData() , sex : sex , age : age }} />
+                    <Result props={{ point1 : totalScore , point2 : totalScore2 , text : getResultData() , sex : sex , age : age , lang: lang }} />
                 }
             </div>
         </>

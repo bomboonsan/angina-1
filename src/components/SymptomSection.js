@@ -17,7 +17,9 @@ export default function SymptomSection({ props }) {
             <div className="relative z-0">
                 <div className="py-3 mt-3">
                     <div className="p-3 top-bar rounded-3xl shadow">
-                        <h1 className="text-center text-xl font-semibold text-primary drop-shadow">คุณมีอาการแบบไหน</h1>
+                        <h1 className="text-center text-xl font-semibold text-primary drop-shadow">
+                            {props.lang == "en" ? "Symptoms" : "อาการ"}
+                        </h1>
                     </div>
                 </div>
                 <div className="grid grid-cols-2 gap-5">
@@ -29,7 +31,9 @@ export default function SymptomSection({ props }) {
                         `}
                     >
                         <div className="">
-                            <p className="text-center text-xl font-bold text-black">เจ็บหน้าอก</p>
+                            <p className="text-center text-xl font-bold text-black">
+                                {props.lang == "en" ? "Chest pain" : "เจ็บหน้าอก"}
+                            </p>
                         </div>
                     </div>
 
@@ -41,7 +45,9 @@ export default function SymptomSection({ props }) {
                         `}
                     >
                         <div className="">
-                            <p className="text-center text-xl font-bold text-black">หายใจลำบาก</p>
+                            <p className="text-center text-xl font-bold text-black">
+                                {props.lang == "en" ? "Dyspnoea" : "หายใจลำบาก"}
+                            </p>
                         </div>
                     </div>
                 </div>

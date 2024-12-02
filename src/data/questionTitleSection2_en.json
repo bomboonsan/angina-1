@@ -1,0 +1,22 @@
+[
+    {
+        "text" : "1 or more first-degree relatives with early signs of CAD",
+        "point" : 1
+    },
+    {
+        "text" : "Smoking",
+        "point" : 1
+    },
+    {
+        "text" : "Dyslipidaemia",
+        "point" : 1
+    },
+    {
+        "text" : "Hypertension",
+        "point" : 1
+    },
+    {
+        "text" : "Diabetes",
+        "point" : 1
+    }
+]

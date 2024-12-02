@@ -38,17 +38,29 @@ export default function Result({ props }) {
         return result
     }
     const getRiskLevel = (value) => {
-        if (value >= 0 && value <= 5) return "ต่ำมาก"; // สีฟ้า
-        if (value >= 6 && value <= 10) return "ต่ำ"; // สีเขียว
-        if (value > 10) return "ปานกลาง"; // สีเหลือง
+        if (value >= 0 && value <= 5) {
+            if (props.lang == "th") return "ต่ำมาก";
+            if (props.lang == "en") return "Very low";
+        }; // สีฟ้า
+        if (value >= 6 && value <= 10) {
+            if (props.lang == "th") return "ต่ำ";
+            if (props.lang == "en") return "Low";
+        }; // สีเขียว
+        if (value > 10) {
+            if (props.lang == "th") return "ปานกลาง";
+            if (props.lang == "en") return "Medium";
+        }; // สีเหลือง
         return "Unknown"; // กรณีไม่มีในช่วง
     };
+    useEffect(() => {
+        setCad(getResultData());
+    } , [props.point1 , props.point2 , props.sex , props.age])
     return (
         <>
         <div className="bg-[#f2e8ce] rounded-xl overflow-hidden shadow-lg mb-10">
             <div className="bg-primary text-white p-3">
                 <h2 className="text-center text-xl">
-                    ผลลัพท์
+                    {props.lang == "en" ? "Results" : "ผลลัพท์"}
                 </h2>
             </div>
             <div className="p-5">
@@ -63,9 +75,15 @@ export default function Result({ props }) {
                     />
                     </div>
                     <div className="flex-initial">
-                        <p className="text-xl font-medium text-center">ความเสี่ยงของคุณอยู่ในระดับ</p>
-                        <p className="text-3xl font-bold text-primary text-center">{getRiskLevel(getResultData())}</p>
-                        <p className="text-xl font-bold text-center text-primary">CAD {getResultData()}</p>
+                        <p className="text-xl font-medium text-center">{props.lang == "en" ? "Clinical likelihood" : "ความเสี่ยงของคุณอยู่ในระดับ"}</p>
+                        <p className={cad < 7 ? "text-3xl font-bold text-center text-[#74b8e4]" : cad >= 7 && cad < 17 ? "text-3xl font-bold text-center text-[#45bc8d]" : cad >= 17 ? "text-3xl font-bold text-center text-yellow-600" : "" }>{getRiskLevel(getResultData())}</p>
+                        <div className="text-center mt-5">
+                            <p className="text-xl font-bold text-center text-primary">CAD</p>
+                            <span className="inline-flex aspect-square items-center justify-center text-3xl bg-primary text-white w-24 h-24 rounded-full">
+                                {getResultData()}
+                            </span>
+
+                        </div>
                     </div>
                 </div>
                 <div className="mt-5">

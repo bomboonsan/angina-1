@@ -13,7 +13,7 @@ export default function AgeSex({ props }) {
         if ( sex == null ) {
             Swal.fire({
                 icon: 'warning',
-                title: 'กรุณาเลือกเพศ',
+                title: 'Please select your gender.',
                 showConfirmButton: false,
                 timer: 1500
             })
@@ -22,7 +22,7 @@ export default function AgeSex({ props }) {
         if ( age == 0 ) {
             Swal.fire({
                 icon: 'warning',
-                title: 'กรุณาเลือกช่วงอายุ',
+                title: 'Please select age',
                 showConfirmButton: false,
                 timer: 1500
             })
@@ -43,7 +43,9 @@ export default function AgeSex({ props }) {
                     >
                         <div className="">
                             <svg className="w-20 h-20 " strokeWidth="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M14.2323 9.74707C13.1474 8.66733 11.6516 8 10 8C6.68629 8 4 10.6863 4 14C4 17.3137 6.68629 20 10 20C13.3137 20 16 17.3137 16 14C16 12.3379 15.3242 10.8337 14.2323 9.74707ZM14.2323 9.74707L20 4M20 4H16M20 4V8" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path></svg>
-                            <p className="text-center text-xl font-bold text-black">ผู้ชาย</p>
+                            <p className="text-center text-xl font-bold text-black">
+                                {props.lang == "en" ? "Man" : "ผู้ชาย"}
+                            </p>
                         </div>
                     </div>
 
@@ -56,17 +58,21 @@ export default function AgeSex({ props }) {
                     >
                         <div className="">
                             <svg className="w-20 h-20 " strokeWidth="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M12 15C15.3137 15 18 12.3137 18 9C18 5.68629 15.3137 3 12 3C8.68629 3 6 5.68629 6 9C6 12.3137 8.68629 15 12 15ZM12 15V19M12 21V19M12 19H10M12 19H14" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path></svg>
-                            <p className="text-center text-xl font-bold text-black">ผู้หญิง</p>
+                            <p className="text-center text-xl font-bold text-black">
+                                {props.lang == "en" ? "Woman" : "ผู้หญิง"}
+                            </p>
                         </div>
                     </div>
                 </div>
                 <div className="mt-10">
                     <label className="form-control w-full">
                         <div className="label">
-                            <span className="label-text text-xl text-black">ช่วงอายุ</span>
+                            <span className="label-text text-xl text-black">
+                                {props.lang == "en" ? "Age" : "ช่วงอายุ"}
+                            </span>
                         </div>
                         <select className="select select-bordered select-lg w-full" onChange={(e) => handleAge(e.target.value)}>
-                            <option value={0}>เลือก</option>
+                            <option value={0}>{props.lang == "en" ? "Select" : "เลือก"}</option>
                             <option value={1}>30-39</option>
                             <option value={2}>40-49</option>
                             <option value={3}>50-59</option>
@@ -80,7 +86,7 @@ export default function AgeSex({ props }) {
                         onClick={submit}
                         className="btn btn-wide btn-primary text-lg text-white"
                     >
-                        เริ่มต้น
+                        {props.lang == "en" ? "Start" : "เริ่มต้น"}
                     </button>
                 </div>
             </div>
