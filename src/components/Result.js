@@ -1,5 +1,48 @@
 import Image from "next/image";
+import {useEffect, useState} from "react";
 export default function Result({ props }) {
+    const [cad , setCad] = useState(0);
+    const getResultData = () => {
+        // props.point1 , props.point2 , props.sex , props.age
+        const table = {
+            Women: {
+                1: [
+                    [0, 1, 2], [0, 1, 3], [1, 2, 5], [2, 4, 7], [4, 7, 11],
+                ],
+                2: [
+                    [0, 1, 2], [1, 2, 5], [3, 6, 10], [6, 10, 16], [10, 15, 19],
+                ],
+                3: [
+                    [2, 5, 10], [4, 7, 12], [6, 10, 15], [10, 16, 23], [16, 19, 23],
+                ],
+            },
+            Men: {
+                1: [
+                    [1, 2, 5], [2, 4, 8], [4, 8, 17], [8, 12, 19], [15, 19, 24],
+                ],
+                2: [
+                    [2, 4, 8], [3, 6, 12], [6, 11, 17], [12, 17, 25], [22, 27, 34],
+                ],
+                3: [
+                    [9, 14, 22], [14, 20, 27], [21, 27, 33], [32, 35, 39], [44, 45, 45],
+                ],
+            },
+        };
+        const { point1, point2, sex, age } = props;
+        console.log(point1, point2, sex, Number(age));
+        const gender = sex === "male" ? "Men" : "Women";
+        const point2Final = Math.floor(point2 / 2);
+        const genderTable = table[gender];
+        // ดึงค่าจากตาราง
+        const result = genderTable[point1][Number(age)-1][point2Final]; // คำนวณผลลัพธ์
+        return result
+    }
+    const getRiskLevel = (value) => {
+        if (value >= 0 && value <= 5) return "ต่ำมาก"; // สีฟ้า
+        if (value >= 6 && value <= 10) return "ต่ำ"; // สีเขียว
+        if (value > 10) return "ปานกลาง"; // สีเหลือง
+        return "Unknown"; // กรณีไม่มีในช่วง
+    };
     return (
         <>
         <div className="bg-[#f2e8ce] rounded-xl overflow-hidden shadow-lg mb-10">
@@ -21,7 +64,8 @@ export default function Result({ props }) {
                     </div>
                     <div className="flex-initial">
                         <p className="text-xl font-medium text-center">ความเสี่ยงของคุณอยู่ในระดับ</p>
-                        <p className="text-3xl font-bold text-primary text-center">{props.text}</p>
+                        <p className="text-3xl font-bold text-primary text-center">{getRiskLevel(getResultData())}</p>
+                        <p className="text-xl font-bold text-center text-primary">CAD {getResultData()}</p>
                     </div>
                 </div>
                 <div className="mt-5">

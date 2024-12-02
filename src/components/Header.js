@@ -14,9 +14,9 @@ export default function Header({ props }) {
                     />
                 </div>
                 <div className="py-3 px-5">
-                    <h1 className="text-xl sm:text-2xl font-semibold text-right leading-3 text-primary">
-                        แบบทดสอบปัจจัยเสี่ยง <br />
-                        <span className="text-lg sm:text-xl text-[#c8a33a]">โรคหลอดเลือดหัวใจเรื้อรัง</span>
+                    <h1 className="text-[3.3vw] sm:text-lg font-semibold text-right leading-3 text-primary">
+                        ESC 2024 Chronic Coronary Syndromes<br />
+                        <span className="text-[2.5vw] sm:text-[0.9rem] text-[#c8a33a]">Risk Factor-weighted Clinical Likelihood model (EF-CL)                        </span>
                     </h1>
                     
                 </div>
