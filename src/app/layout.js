@@ -1,3 +1,4 @@
+import { CookiesProvider } from 'next-client-cookies/server';
 import localFont from "next/font/local";
 import "./globals.css";
 
@@ -13,7 +14,9 @@ export default function RootLayout({ children }) {
         className={`bg-neutral-100 text-black`}
       >
         <div className="max-w-[500px] mx-auto bg-white shadow min-h-screen overflow-hidden app-wrapper relative">
+          <CookiesProvider>
           {children}
+          </CookiesProvider>
         </div>
       </body>
     </html>

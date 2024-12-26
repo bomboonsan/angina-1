@@ -1,6 +1,11 @@
+'use client';
+import { useCookies } from 'next-client-cookies';
 import Image from "next/image";
 import {useEffect, useState} from "react";
+import { useRouter } from 'next/navigation'
 export default function Result({ props }) {
+    const router = useRouter();
+    const cookies = useCookies();
     const [cad , setCad] = useState(0);
     const getResultData = () => {
         // props.point1 , props.point2 , props.sex , props.age
@@ -35,6 +40,7 @@ export default function Result({ props }) {
         const genderTable = table[gender];
         // ดึงค่าจากตาราง
         const result = genderTable[point1][Number(age)-1][point2Final]; // คำนวณผลลัพธ์
+        // cookies.set('RF_PTP' , Number(result));
         return result
     }
     const getRiskLevel = (value) => {
@@ -54,7 +60,10 @@ export default function Result({ props }) {
     };
     useEffect(() => {
         setCad(getResultData());
+        cookies.set('RF_PTP' , Number(getResultData()));
     } , [props.point1 , props.point2 , props.sex , props.age])
+    
+
     return (
         <>
         <div className="bg-[#f2e8ce] rounded-xl overflow-hidden shadow-lg mb-10">
@@ -90,6 +99,10 @@ export default function Result({ props }) {
                     
                 </div>
             </div>
+        </div>
+
+        <div>
+            <button className="btn btn-wide" onClick={() => router.push('/secondary')}>{props.lang == "en" ? "Section II" : "ส่วนต่อไป"}</button>
         </div>
         </>
     );

@@ -1,4 +1,5 @@
 'use client';
+import { useCookies } from 'next-client-cookies';
 import Image from "next/image";
 import Header from "@/components/Header";
 import LangSwitch from "@/components/LangSwitch";
@@ -23,6 +24,7 @@ import questionTitleSection1_2_en from '@/data/questionTitleSection1_2_en.json'
 import questionTitleSection2_en from '@/data/questionTitleSection2_en.json'
 
 export default function Home() {
+    const cookies = useCookies();
     const [stateSection , setStateSection] = useState({
         start : true,
         symptom : false,
@@ -178,6 +180,15 @@ export default function Home() {
             return level[3]
         }
     }
+
+
+    useEffect(() => {
+        cookies.remove('lang');
+        cookies.remove('RF_PTP');
+    } , [])
+    useEffect(() => {
+        cookies.set('lang' , lang);
+    } , [lang])
 
 
     return (
