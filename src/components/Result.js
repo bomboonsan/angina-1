@@ -101,8 +101,8 @@ export default function Result({ props }) {
             </div>
         </div>
 
-        <div>
-            <button className="btn btn-wide" onClick={() => router.push('/secondary')}>{props.lang == "en" ? "Section II" : "ส่วนต่อไป"}</button>
+        <div className='text-center'>
+            <button className="btn btn-primary btn-wide" onClick={() => router.push('/secondary')}>{props.lang == "en" ? "Adjust clinical likelihood" : "ปรับความน่าจะเป็นทางคลินิก"}</button>
         </div>
         </>
     );

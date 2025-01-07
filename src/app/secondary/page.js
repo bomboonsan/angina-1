@@ -31,8 +31,10 @@ export default function Secondary() {
     const [lang , setLang] = useState('en');
     const [loading , setLoading] = useState(false);
     const [RF_PTP , setRF_PTP] = useState(30);
+    const [RF_PTP_percent , setRF_PTP_percent] = useState(0);
     const [cacsScore , setCacsScore] = useState(0);
     const [cacs_cs , setCacs_cs] = useState(0);
+    const [cacs_cs_percent , setCacs_cs_percent] = useState(0);
 
     useEffect(() => {
         const RF_PTP_value = cookies.get('RF_PTP')
@@ -41,6 +43,7 @@ export default function Secondary() {
         }
         if (RF_PTP_value) {
             setRF_PTP(RF_PTP_value);
+            setRF_PTP_percent(RF_PTP_value / 0.8);
         }
     }, []);
 
@@ -87,6 +90,9 @@ export default function Secondary() {
 
         setCacs_cs(result);
 
+        const resultPercent_80 = result / 0.8;
+        setCacs_cs_percent(resultPercent_80);
+
     }
 
 
@@ -99,13 +105,32 @@ export default function Secondary() {
 
                 <CacsclInput props={{ sendCacsScore: sendCacsScore }} />
 
-                <div>
+                <div className='hidden'>
                     <p>
                     RF_PTP <span className="ml-4">{RF_PTP}</span>
                     </p>
                     <p>
                         CACS CL  <span className="ml-4">{cacs_cs}</span>
                     </p>
+                </div>
+                <div className='mt-10 relative'>
+                    <Image
+                        src="/img/graph2.png"
+                        width={939}
+                        height={355}
+                        alt="Picture of the author"
+                    />       
+                    <div id='graph-area' className='absolute top-[43%] left-[59%] -translate-x-1/2 -translate-y-1/2 w-[38%] h-[76%] bg-neutral-600/30'>
+                        <div 
+                            className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[10%] h-auto aspect-square rounded-full bg-[#25215f]/70'
+                            style={{
+                                top: `${cacs_cs_percent}%`,
+                                left: `${RF_PTP_percent}%`
+                            }}
+                        >
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </>
