@@ -17,6 +17,7 @@ export default function Question({ props , children }) {
             setScore(newScore);
         }
     }
+    console.log('score', score);
     const submit = () => {
         let totalScore = 0;
         score.forEach((item , index) => {
@@ -26,6 +27,7 @@ export default function Question({ props , children }) {
         })
         props.sendData(totalScore);
         // console.log(totalScore);
+        props.sendCookie(score);
     }
     return (
         <>

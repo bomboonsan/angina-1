@@ -9,7 +9,7 @@ import Question from "@/components/Question";
 import QuestionList from "@/components/QuestionList";
 import Skeleton from "@/components/Skeleton";
 import Result from "@/components/Result";
-
+import CacsBox from '@/components/CacsBox';
 
 import CacsclInput from "@/components/CacsclInput";
 
@@ -92,7 +92,12 @@ export default function Secondary() {
 
         const resultPercent_80 = result / 0.8;
         setCacs_cs_percent(resultPercent_80);
+        cookies.set('CACS' , resultPercent_80);
 
+    }
+
+    const submit = () => {        
+        router.push('/record')
     }
 
 
@@ -104,15 +109,7 @@ export default function Secondary() {
                 <LangSwitch props={{ sendLang: sendLang }} />
 
                 <CacsclInput props={{ sendCacsScore: sendCacsScore }} />
-
-                <div className='hidden'>
-                    <p>
-                    RF_PTP <span className="ml-4">{RF_PTP}</span>
-                    </p>
-                    <p>
-                        CACS CL  <span className="ml-4">{cacs_cs}</span>
-                    </p>
-                </div>
+                
                 <div className='mt-10 relative'>
                     <Image
                         src="/img/graph2.png"
@@ -122,15 +119,20 @@ export default function Secondary() {
                     />       
                     <div id='graph-area' className='absolute top-[43%] left-[59%] -translate-x-1/2 -translate-y-1/2 w-[38%] h-[76%] bg-neutral-600/30'>
                         <div 
-                            className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[10%] h-auto aspect-square rounded-full bg-[#25215f]/70'
+                            className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[10%] h-auto aspect-square rounded-full bg-[#25215f]/70  hidden'
                             style={{
                                 top: `${cacs_cs_percent}%`,
                                 left: `${RF_PTP_percent}%`
                             }}
                         >
-
                         </div>
                     </div>
+                </div>
+
+                <CacsBox props={{ RF_PTP : RF_PTP , cacs_cs : cacs_cs }} />
+
+                <div className='text-center mt-10'>
+                    <button className="btn btn-primary btn-wide" onClick={submit}>SUBMIT</button>
                 </div>
             </div>
         </>

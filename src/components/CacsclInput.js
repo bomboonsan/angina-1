@@ -2,14 +2,16 @@
 import {useEffect, useState} from "react";
 import Image from "next/image";
 export default function CacsclInput({ props }) {
-    const [score , setScore] = useState(0);
+    const [score , setScore] = useState('');
     const sendCacsScore = (score) => {
         const newScore = parseInt(score);
         if (isNaN(newScore)) {
-            return;
+            // return;
+            setScore(0);
         }
         if (newScore < 0) {
-            return;
+            // return;
+            setScore(0);
         }
         
         setScore(newScore);
@@ -25,8 +27,8 @@ export default function CacsclInput({ props }) {
                         </p>
                     </div>
                 </div>
-                <label className="input input-bordered flex items-center gap-2">
-                    <span className="text-primary font-bold">CACS SCORE : </span> 
+                <label className="input input-bordered shadow-md flex items-center gap-2">
+                    <span className="text-primary font-bold">CACS SCORE </span> 
                     <input 
                         min="0"
                         onChange={(e) => sendCacsScore(e.target.value)} 

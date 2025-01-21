@@ -1,0 +1,218 @@
+'use client';
+import { useCookies } from 'next-client-cookies';
+import Image from "next/image";
+import Header from "@/components/Header";
+import LangSwitch from "@/components/LangSwitch";
+import Title from "@/components/Title";
+import AgeSex from "@/components/AgeSex";
+import Question from "@/components/Question";
+import QuestionList from "@/components/QuestionList";
+import Skeleton from "@/components/Skeleton";
+import Result from "@/components/Result";
+import CacsBox from '@/components/CacsBox';
+
+import CacsclInput from "@/components/CacsclInput";
+
+import { useEffect, useState } from "react";
+
+import { useRouter } from 'next/navigation'
+
+export default function Record() {
+    const router = useRouter();
+    const cookies = useCookies();
+    const [stateSection , setStateSection] = useState({
+        start : true,
+        symptom : false,
+        questionSection_1_1 : false,
+        questionSection_1_2 : false,        
+        questionSection_2 : false,        
+        showResult : false
+    });
+    const [lang , setLang] = useState('en');
+    const [loading , setLoading] = useState(false);
+    const [RF_PTP , setRF_PTP] = useState(30);
+    const [RF_PTP_percent , setRF_PTP_percent] = useState(0);
+    const [cacsScore , setCacsScore] = useState(0);
+    const [cacs_cs , setCacs_cs] = useState(0);
+    const [cacs_cs_percent , setCacs_cs_percent] = useState(0);
+
+    // report
+    const [sex , setSex] = useState('');
+    const [age , setAge] = useState('');
+    const [Section1 , setSection1] = useState('');
+    const [Section2 , setSection2] = useState('');
+    const [CACS , setCACS] = useState('');
+
+    // data var
+    const ageRange = ["30-39", "40-49", "50-59", "60-69", "70-80"];
+
+    useEffect(() => {
+        const RF_PTP_value = cookies.get('RF_PTP')
+        const sex = cookies.get('sex')
+        const age = cookies.get('age')
+        const Section1 = cookies.get('Section1')
+        const Section2 = cookies.get('Section2')
+        const CACS = cookies.get('CACS')
+
+        console.log('Section1', Section1);
+        console.log('Section2', Section2);
+        
+
+        if (!RF_PTP_value || !sex || !age || !Section1 || !Section2 || !CACS) {
+            router.push('/')
+        }
+        if (RF_PTP_value) {
+            setRF_PTP(RF_PTP_value);
+            setRF_PTP_percent(RF_PTP_value / 0.8);
+
+            setSex(sex)
+            setAge(age)
+            setSection1(Section1)
+            setSection2(Section2)
+            setCACS(CACS)
+        }
+    }, []);
+
+    const sendLang = (value) => {
+        setLang(value);
+    }
+    const sendCacsScore = (value) => {
+        setCacsScore(value);
+        calculateCacs_cs(value);
+    }
+
+    // cacs_cs = 0.0013 + (RF_PTP * 0.2021) + (cacs_1_9*0.0082) + (cacs_10_99*0.0238) + (cacs_100_399*0.1131) + (cacs_400_999*0.2306) + (cacs_1000*0.4040) + (RF_PTP*cacs_1_9*0.1311) + (RF_PTP*cacs_10_99*0.2909) + (RF_PTP*cacs_100_399* 0.4077) + (RF_PTP*cacs_400_999*0.4658) + (RF_PTP*cacs_1000*0.4489)
+
+    const calculateCacs_cs = (value) => {
+        let result = 0;
+        let cacs_1_9 = 0;
+        let cacs_10_99 = 0;
+        let cacs_100_399 = 0;
+        let cacs_400_999 = 0;
+        let cacs_1000 = 0;
+        if (value <= 9) {
+            cacs_1_9 = value;
+            result = 0.0013 + (RF_PTP * 0.2021) + (value*0.0082);
+        }
+        else if (value <= 99) {
+            cacs_10_99 = value;
+            result = 0.0013 + (RF_PTP * 0.2021) + (cacs_10_99*0.0238);
+        }
+        else if (value <= 399) {
+            cacs_100_399 = value;
+            result = 0.0013 + (RF_PTP * 0.2021) + (cacs_100_399*0.1131);
+        }
+        else if (value <= 999) {
+            cacs_400_999 = value;
+            result = 0.0013 + (RF_PTP * 0.2021) + (cacs_400_999*0.2306);
+        }
+        else {
+            cacs_1000 = value;
+            result = 0.0013 + (RF_PTP * 0.2021) + (cacs_1000*0.4040);
+        }
+
+        // result = 0.0013 + (RF_PTP * 0.2021) + (cacs_1_9*0.0082) + (cacs_10_99*0.0238) + (cacs_100_399*0.1131) + (cacs_400_999*0.2306) + (cacs_1000*0.4040) + (RF_PTP*cacs_1_9*0.1311) + (RF_PTP*cacs_10_99*0.2909) + (RF_PTP*cacs_100_399* 0.4077) + (RF_PTP*cacs_400_999*0.4658) + (RF_PTP*cacs_1000*0.4489)
+        result = result.toFixed(2);
+
+        setCacs_cs(result);
+
+        const resultPercent_80 = result / 0.8;
+        setCacs_cs_percent(resultPercent_80);
+
+    }
+
+    const getRiskLevel = (value) => {
+        if (value >= 0 && value <= 5) {
+            return "Very low";
+        }; // สีฟ้า
+        if (value >= 6 && value <= 10) {
+            return "Low";
+        }; // สีเขียว
+        if (value > 10) {
+            return "Moderate";
+        }; // สีเหลือง
+        return "Unknown"; // กรณีไม่มีในช่วง
+    };
+
+
+
+    return (
+        <>
+            <Header />
+            <main className="my-1 p-4 pt-7">
+
+                <div className='space-y-4'>
+                    <div className='record-box'>
+                        <h2 className='text-lg font-bold text-primary mb-4'>Risk Factor-weighted Clinical Likelihood</h2>
+                        <p className=''>
+                            <span className='font-semibold'>SEX</span> : {sex} 
+                            <span className='inline-block px-4'>|</span>
+                            <span className='font-semibold'>AGE</span> : {ageRange[age-1]}
+                        </p>
+                        {/* <div className='space-y-1 mt-4 '>
+                            <div className='recordCheckbox'>
+                                <input type='checkbox' value={true} />
+                                <label>Constricting discomfort located retrosternally or in neck, jaw, shoulder or arm</label>
+                            </div>
+                            <div className='recordCheckbox'>
+                                <input type='checkbox' value={true} />
+                                <label>Physical or emotional stress</label>
+                            </div>
+                            <div className='recordCheckbox'>
+                                <input type='checkbox' value={true} />
+                                <label>Rest or nitrates within 5 minutes</label>
+                            </div>
+                        </div> */}
+                    </div>
+
+                    <div className="p-5 bg-primary text-white rounded-xl">
+                        <p className="text-xl font-medium text-center">Clinical likelihood</p>
+                        <p className={RF_PTP < 7 ? "text-3xl font-bold text-center text-[#74b8e4]" : RF_PTP >= 7 && RF_PTP < 17 ? "text-3xl font-bold text-center text-[#45bc8d]" : RF_PTP >= 17 ? "text-3xl font-bold text-center text-yellow-600" : "" }>{getRiskLevel(RF_PTP)}</p>
+                        <div className="flex flex-row gap-5 items-center justify-center">
+                            <div>
+                            <Image 
+                                src="/img/hearth.png"
+                                alt="hearth"
+                                width={400}
+                                height={400}
+                                className="h-24 w-auto block"
+                            />
+                            </div>
+                            <div className="flex-initial">                                                                           
+                                <div className="text-center">
+                                    <span className={RF_PTP < 7 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#74b8e4] text-white w-24 h-24 rounded-full" : RF_PTP >= 7 && RF_PTP < 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#45bc8d] text-white w-24 h-24 rounded-full" : RF_PTP >= 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-yellow-600 text-white w-24 h-24 rounded-full" : "" }>
+                                    {/* <span className='inline-flex aspect-square items-center justify-center text-3xl bg-[#74b8e4] text-white w-24 h-24 rounded-full'> */}
+                                        {RF_PTP} <span className='text-base'>%</span>
+                                    </span>
+        
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className='record-box'>
+                        <h2 className='text-lg font-bold text-primary mb-4'>Consider reclassification of low RF-CL</h2>
+                        <Image
+                            src="/img/graph2.png"
+                            width={939}
+                            height={355}
+                            alt="Picture of the author"
+                        />
+
+                        <div className='mt-4'>
+                            <p>
+                                <span className='font-semibold inline-block w-[80px]'>CACS CL</span>  <span className="">:</span> <span className="ml-4">{CACS} %</span>
+                            </p>
+                            <p>
+                                <span className='font-semibold inline-block w-[80px]'>RF_PTP</span> <span className="">:</span> <span className="ml-4">{RF_PTP} %</span>
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+
+            </main>
+        </>
+    );
+}
+

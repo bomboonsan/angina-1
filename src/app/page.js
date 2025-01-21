@@ -84,6 +84,16 @@ export default function Home() {
         }
         nextStep();
     }
+    const saveCookies = (value) => {
+        if (stateSection.questionSection_2) {
+            // console.log('Section2' , value);
+            cookies.set('Section2' , value);
+            
+        } else {
+            // console.log('Section1' , value);
+            cookies.set('Section1' , value);
+        }
+    }
     const saveInfo = (age , sex , start) => {
         let state = stateSection;
         state.start = false;
@@ -92,6 +102,8 @@ export default function Home() {
 
         setSex(sex);
         setage(age);
+        cookies.set('sex' , sex);
+        cookies.set('age' , age);
         setLoading(true);
         setTimeout(() => { 
             setLoading(false);
@@ -184,7 +196,12 @@ export default function Home() {
 
     useEffect(() => {
         cookies.remove('lang');
+        cookies.remove('sex');
+        cookies.remove('age');
         cookies.remove('RF_PTP');
+        cookies.remove('CACS');
+        cookies.remove('Section1');
+        cookies.remove('Section2');
     } , [])
     useEffect(() => {
         cookies.set('lang' , lang);
@@ -226,10 +243,10 @@ export default function Home() {
 
                     {loading && <Skeleton /> }
                     {!loading && lang == "en" &&
-                    <QuestionList props={{ sendData: saveScore , questions : questionTitleSection1_1_en , lang: lang }} />
+                    <QuestionList props={{ sendData: saveScore , sendCookie : saveCookies , questions : questionTitleSection1_1_en , lang: lang }} />
                     }
                     {!loading && lang == "th" &&
-                    <QuestionList props={{ sendData: saveScore , questions : questionTitleSection1_1 , lang: lang }} />
+                    <QuestionList props={{ sendData: saveScore , sendCookie : saveCookies , questions : questionTitleSection1_1 , lang: lang }} />
                     }
                     </>
                 }
@@ -259,10 +276,10 @@ export default function Home() {
                     </Question>
                     } */}
                     {!loading && lang == "en" &&
-                    <QuestionList props={{ sendData: saveScore , questions : questionTitleSection1_2_en , lang: lang }} />
+                    <QuestionList props={{ sendData: saveScore , sendCookie : saveCookies , questions : questionTitleSection1_2_en , lang: lang }} />
                     }
                     {!loading && lang == "th" &&
-                    <QuestionList props={{ sendData: saveScore , questions : questionTitleSection1_2 , lang: lang }} />
+                    <QuestionList props={{ sendData: saveScore , sendCookie : saveCookies , questions : questionTitleSection1_2 , lang: lang }} />
                     }
                     </>
                 }
@@ -287,10 +304,10 @@ export default function Home() {
                     
                     {loading && <Skeleton /> }
                     {!loading && lang == "en" &&
-                    <QuestionList props={{ sendData: saveScore , questions : questionTitleSection2_en , lang: lang }} />
+                    <QuestionList props={{ sendData: saveScore , sendCookie : saveCookies , questions : questionTitleSection2_en , lang: lang }} />
                     }
                     {!loading && lang == "th" &&
-                    <QuestionList props={{ sendData: saveScore , questions : questionTitleSection2 , lang: lang }} />
+                    <QuestionList props={{ sendData: saveScore , sendCookie : saveCookies , questions : questionTitleSection2 , lang: lang }} />
                     }
                     </>
                 }
