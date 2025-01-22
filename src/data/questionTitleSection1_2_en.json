@@ -2,5 +2,9 @@
     {
         "text" : "Shortness of breath and/or trouble catching breath aggravated by physical exertion",
         "point" : 2
+    },
+    {
+        "text" : "None",
+        "point" : 0
     }
 ]

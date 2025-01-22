@@ -292,7 +292,7 @@ export default function Home() {
                         lang == "en" ?
                         (
                         <>
-                        <Title props={{ title: 'Personal Information' }} />
+                        <Title props={{ title: 'Risk Factors for CAD' }} />
                         </>
                         ) : 
                         (

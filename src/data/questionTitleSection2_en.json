@@ -1,10 +1,10 @@
 [
     {
-        "text" : "1 or more first-degree relatives with early signs of CAD",
+        "text" : "Family history (1 or more first-degree relatives with early signs of CAD (men <55 and women <65 years of age)",
         "point" : 1
     },
     {
-        "text" : "Smoking",
+        "text" : "Smoking (as Current or pass smoker)",
         "point" : 1
     },
     {
@@ -18,5 +18,9 @@
     {
         "text" : "Diabetes",
         "point" : 1
+    },
+    {
+        "text" : "None of Above",
+        "point" : 0
     }
 ]

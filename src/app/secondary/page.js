@@ -17,6 +17,8 @@ import { useEffect, useState } from "react";
 
 import { useRouter } from 'next/navigation'
 
+import Swal from 'sweetalert2'
+
 export default function Secondary() {
     const router = useRouter();
     const cookies = useCookies();
@@ -96,7 +98,16 @@ export default function Secondary() {
 
     }
 
-    const submit = () => {        
+    const submit = () => {
+
+        if (!cacsScore) {
+            Swal.fire({
+                icon: 'warning',
+                text: 'Please enter CACS score',
+            })
+            return;
+        }
+        
         router.push('/record')
     }
 

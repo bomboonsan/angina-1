@@ -13,7 +13,7 @@ export default function RootLayout({ children }) {
       <body
         className={`bg-neutral-100 text-black`}
       >
-        <div className="max-w-[500px] mx-auto bg-white shadow min-h-screen overflow-hidden app-wrapper relative">
+        <div id='page' className="max-w-[500px] mx-auto bg-white shadow min-h-screen overflow-hidden app-wrapper relative">
           <CookiesProvider>
           {children}
           </CookiesProvider>

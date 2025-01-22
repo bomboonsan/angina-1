@@ -17,6 +17,8 @@ import { useEffect, useState } from "react";
 
 import { useRouter } from 'next/navigation'
 
+import domtoimage from 'dom-to-image';
+
 export default function Record() {
     const router = useRouter();
     const cookies = useCookies();
@@ -135,11 +137,33 @@ export default function Record() {
     };
 
 
+    const captureDivAsImage = (time) => {
+        const element = document.getElementById('record');
+        if (element) {
+            domtoimage.toPng(element)
+            .then((dataUrl) => {
+                const link = document.createElement('a');
+                link.href = dataUrl;
+                link.download = `recorded-1-${time}.png`;
+                link.click();
+            })
+            .catch((error) => {
+                console.error('Error capturing image:', error);
+            });
+        }
+    };
+
+    const save = () => {
+        const time = new Date().getTime();
+        captureDivAsImage(time);
+    }
+
+
 
     return (
         <>
             <Header />
-            <main className="my-1 p-4 pt-7">
+            <main id='record' className="my-1 p-4 pt-7 bg-white">
 
                 <div className='space-y-4'>
                     <div className='record-box'>
@@ -170,7 +194,7 @@ export default function Record() {
                         <p className={RF_PTP < 7 ? "text-3xl font-bold text-center text-[#74b8e4]" : RF_PTP >= 7 && RF_PTP < 17 ? "text-3xl font-bold text-center text-[#45bc8d]" : RF_PTP >= 17 ? "text-3xl font-bold text-center text-yellow-600" : "" }>{getRiskLevel(RF_PTP)}</p>
                         <div className="flex flex-row gap-5 items-center justify-center">
                             <div>
-                            <Image 
+                            <img 
                                 src="/img/hearth.png"
                                 alt="hearth"
                                 width={400}
@@ -192,7 +216,7 @@ export default function Record() {
 
                     <div className='record-box'>
                         <h2 className='text-lg font-bold text-primary mb-4'>Consider reclassification of low RF-CL</h2>
-                        <Image
+                        <img
                             src="/img/graph2.png"
                             width={939}
                             height={355}
@@ -210,8 +234,10 @@ export default function Record() {
 
                     </div>
                 </div>
-
             </main>
+            <div className='text-center mt-10'>
+                    <button className="btn btn-primary btn-wide" onClick={save}>SAVE</button>
+                </div>
         </>
     );
 }

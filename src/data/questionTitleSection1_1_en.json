@@ -10,5 +10,9 @@
     {
         "text" : "Rest or nitrates within 5 minutes",
         "point" : 1
+    },
+    {
+        "text" : "None",
+        "point" : 0
     }
 ]

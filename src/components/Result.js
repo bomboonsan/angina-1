@@ -39,6 +39,7 @@ export default function Result({ props }) {
         const point2Final = Math.floor(point2 / 2);
         const genderTable = table[gender];
         // ดึงค่าจากตาราง
+        if (point1 == 0) return 0;
         const result = genderTable[point1][Number(age)-1][point2Final]; // คำนวณผลลัพธ์
         // cookies.set('RF_PTP' , Number(result));
         return result

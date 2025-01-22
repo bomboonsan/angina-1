@@ -58,7 +58,7 @@ export default function Question({ props , children }) {
             })}
             <div className="my-5 text-center">
                 <button onClick={submit} className="btn btn-wide btn-primary text-lg text-white">
-                    {props.lang == "en" ? "Send" : "ส่งคำตอบ"}
+                    {props.lang == "en" ? "Next" : "ส่งคำตอบ"}
                 </button>
             </div>
         </>
