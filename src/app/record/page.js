@@ -19,6 +19,8 @@ import { useRouter } from 'next/navigation'
 
 import domtoimage from 'dom-to-image';
 
+import domToPdf from 'dom-to-pdf'
+
 export default function Record() {
     const router = useRouter();
     const cookies = useCookies();
@@ -37,10 +39,11 @@ export default function Record() {
     const [cacsScore , setCacsScore] = useState(0);
     const [cacs_cs , setCacs_cs] = useState(0);
     const [cacs_cs_percent , setCacs_cs_percent] = useState(0);
-
+    
     // report
     const [sex , setSex] = useState('');
     const [age , setAge] = useState('');
+    const [symptom , setSymptom] = useState(null);
     const [Section1 , setSection1] = useState('');
     const [Section2 , setSection2] = useState('');
     const [CACS , setCACS] = useState('');
@@ -52,11 +55,12 @@ export default function Record() {
         const RF_PTP_value = cookies.get('RF_PTP')
         const sex = cookies.get('sex')
         const age = cookies.get('age')
+        const symptom = cookies.get('symptom')
         const Section1 = cookies.get('Section1')
         const Section2 = cookies.get('Section2')
         const CACS = cookies.get('CACS')
 
-        console.log('Section1', Section1);
+                console.log('Section1', Section1);
         console.log('Section2', Section2);
         
 
@@ -69,6 +73,7 @@ export default function Record() {
 
             setSex(sex)
             setAge(age)
+            setSymptom(symptom)
             setSection1(Section1)
             setSection2(Section2)
             setCACS(CACS)
@@ -158,35 +163,127 @@ export default function Record() {
         captureDivAsImage(time);
     }
 
+    const captureDivAsPdf = (time) => {
+        const element = document.getElementById('record');
+        const options = {
+            filename: `recorded-1-${time}.pdf`,
+        };
+        if (element) {
+            domToPdf(element, options, function(pdf) {
+                console.log('done');
+            });
+        }
+    };
+
+    const saveAsPdf = () => {
+        const time = new Date().getTime();
+        captureDivAsPdf(time);
+    }
+
+    console.log('symptom', symptom);
+
+    console.log('Section1',Section1)
+    console.log('Section2',Section2)
+    const Section1List = Section1.split(',');
+    const Section2List = Section2.split(',');
+    console.log('Section1List',Section1List)
+    console.log('Section2List',Section2List)
+
 
 
     return (
         <>
             <Header />
-            <main id='record' className="my-1 p-4 pt-7 bg-white">
+            <main id='record' className="my-1 p-4 pt-7 bg-white mx-auto max-w-screen-md">
 
                 <div className='space-y-4'>
                     <div className='record-box'>
-                        <h2 className='text-lg font-bold text-primary mb-4'>Risk Factor-weighted Clinical Likelihood</h2>
+                        <h2 className='text-lg font-bold text-primary mb-4 text-center'>Risk Factor-weighted Clinical Likelihood</h2>
                         <p className=''>
                             <span className='font-semibold'>SEX</span> : {sex} 
                             <span className='inline-block px-4'>|</span>
                             <span className='font-semibold'>AGE</span> : {ageRange[age-1]}
                         </p>
-                        {/* <div className='space-y-1 mt-4 '>
-                            <div className='recordCheckbox'>
-                                <input type='checkbox' value={true} />
-                                <label>Constricting discomfort located retrosternally or in neck, jaw, shoulder or arm</label>
-                            </div>
-                            <div className='recordCheckbox'>
-                                <input type='checkbox' value={true} />
-                                <label>Physical or emotional stress</label>
-                            </div>
-                            <div className='recordCheckbox'>
-                                <input type='checkbox' value={true} />
-                                <label>Rest or nitrates within 5 minutes</label>
-                            </div>
-                        </div> */}
+                        {
+                            symptom == 'option1' && Section1List && (
+                                <div className='space-y-1 mt-4 '>
+                                    <div className='recordCheckbox'>
+                                        <input type='checkbox' checked={Section1List[0] != 0} readOnly />
+                                        <label>Constricting discomfort located retrosternally or in neck, jaw, shoulder or arm</label>
+                                    </div>
+                                    <div className='recordCheckbox'>
+                                        <input type='checkbox' checked={Section1List[1] != 0} readOnly />
+                                        <label>Physical or emotional stress</label>
+                                    </div>
+                                    <div className='recordCheckbox'>
+                                        <input type='checkbox' checked={Section1List[1] != 0} readOnly />
+                                        <label>Rest or nitrates within 5 minutes</label>
+                                    </div>
+                                    <div className='recordCheckbox'>
+                                        <input type='checkbox' checked={Section1List[1] != 0} readOnly />
+                                        <label>None</label>
+                                    </div>
+                                </div>
+                            )
+                        }
+                        {
+                            symptom == 'option2' && Section1List && (
+                                <div className='space-y-1 mt-4 '>
+                                    <div className='recordCheckbox'>
+                                        <input type='checkbox' checked={Section1List[0] != 0} readOnly />
+                                        <label>Shortness of breath and/or trouble catching breath aggravated by physical exertion</label>
+                                    </div>
+                                    <div className='recordCheckbox'>
+                                        <input type='checkbox' checked={Section1List[1] != 0} readOnly />
+                                        <label>None</label>
+                                    </div>
+                                </div>
+                            )
+                        }
+                        {/* Section2 */}
+                        <hr className='my-3' />
+                        {
+                            Section2List && (
+                                <div className='space-y-1 mt-4 '>
+                                    <div className='recordCheckbox'>
+                                        <input type='checkbox' checked={Section2List[0] != 0} readOnly />
+                                        <label>Family history (1 or more first-degree relatives with early signs of CAD (men less 55 and women less 65 years of age))</label>
+                                    </div>
+                                    <div className='recordCheckbox'>
+                                        <input type='checkbox' checked={Section2List[1] != 0} readOnly />
+                                        <label>Smoking (as Current or pass smoker)</label>
+                                    </div>
+                                    <div className='recordCheckbox'>
+                                        <input type='checkbox' checked={Section2List[2] != 0} readOnly />
+                                        <label>Dyslipidaemia</label>
+                                    </div>
+                                    <div className='recordCheckbox'>
+                                        <input type='checkbox' checked={Section2List[3] != 0} readOnly />
+                                        <label>Hypertension</label>
+                                    </div>
+                                    <div className='recordCheckbox'>
+                                        <input type='checkbox' checked={Section2List[4] != 0} readOnly />
+                                        <label>Diabetes</label>
+                                    </div>
+                                    <div className='recordCheckbox'>
+                                        <input type='checkbox' checked={Section2List[5] != 0} readOnly />
+                                        <label>None of Above</label>
+                                    </div>
+                                </div>
+                            )
+                        }
+                        
+
+                    </div>
+
+                    <div className='my-2'>
+                        <img 
+                            src="/img/score-board.png"
+                            alt="score-board"
+                            width={900}
+                            height={400}
+                            className="block aspect-[1097/388] w-full"
+                        />
                     </div>
 
                     <div className="p-5 bg-primary text-white rounded-xl">
@@ -235,9 +332,10 @@ export default function Record() {
                     </div>
                 </div>
             </main>
-            <div className='text-center mt-10'>
-                    <button className="btn btn-primary btn-wide" onClick={save}>SAVE</button>
-                </div>
+            <div className='text-center mt-10 grid grid-cols-2 gap-3 px-3'>
+                    <button className="btn btn-primary w-full" onClick={save}>SAVE IMG</button>
+                    <button className="btn btn-primary w-full" onClick={saveAsPdf}>SAVE PDF</button>
+            </div>
         </>
     );
 }

@@ -1,6 +1,8 @@
 'use client';
 import {useEffect, useState} from "react";
+import { useCookies } from 'next-client-cookies';
 export default function SymptomSection({ props }) {
+    const cookies = useCookies();
     const [Symptom , setSymptom] = useState(null);
     useEffect(() => {
         if (Symptom != null) {
@@ -10,6 +12,7 @@ export default function SymptomSection({ props }) {
         }
     } , [Symptom])
     const handleSymptom = (symptom) => {
+        cookies.set('symptom' , symptom);
         setSymptom(symptom);
     }
     return (

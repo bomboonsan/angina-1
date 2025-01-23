@@ -86,12 +86,12 @@ export default function Home() {
     }
     const saveCookies = (value) => {
         if (stateSection.questionSection_2) {
-            // console.log('Section2' , value);
-            cookies.set('Section2' , value);
+            console.log('Section1' , value);
+            cookies.set('Section1' , value);
             
         } else {
-            // console.log('Section1' , value);
-            cookies.set('Section1' , value);
+            // console.log('Section2' , value);
+            cookies.set('Section2' , value);
         }
     }
     const saveInfo = (age , sex , start) => {

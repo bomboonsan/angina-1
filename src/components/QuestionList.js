@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import Swal from 'sweetalert2'
 export default function Question({ props , children }) {
     const questions = props.questions;
-    const [score , setScore] = useState([]);
+    const [score , setScore] = useState([0,0,0,0,0]);
     const handleCheckBox = (e) => {
         const value = e.target.value;
         const isChecked = e.target.checked;

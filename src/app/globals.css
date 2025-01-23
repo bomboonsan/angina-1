@@ -52,3 +52,5 @@ body {
 .recordCheckbox input {
   @apply relative top-1;
 }
+.recordCheckbox label {
+}
