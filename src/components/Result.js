@@ -86,10 +86,10 @@ export default function Result({ props }) {
                     </div>
                     <div className="flex-initial">
                         <p className="text-xl font-medium text-center">{props.lang == "en" ? "Clinical likelihood" : "ความเสี่ยงของคุณอยู่ในระดับ"}</p>
-                        <p className={cad < 7 ? "text-3xl font-bold text-center text-[#74b8e4]" : cad >= 7 && cad < 17 ? "text-3xl font-bold text-center text-[#45bc8d]" : cad >= 17 ? "text-3xl font-bold text-center text-yellow-600" : "" }>{getRiskLevel(getResultData())}</p>
+                        <p className={cad < 7 ? "text-3xl font-bold text-center text-[#74b8e4]" : cad >= 7 && cad < 17 ? "text-3xl font-bold text-center text-[#45bc8d]" : cad >= 17 ? "text-3xl font-bold text-center text-[#c7c246]" : "" }>{getRiskLevel(getResultData())}</p>
                         <div className="text-center mt-5">
                             {/* <p className="text-xl font-bold text-center text-primary">CAD</p> */}
-                            <span className={cad < 7 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#74b8e4] text-white w-24 h-24 rounded-full" : cad >= 7 && cad < 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#45bc8d] text-white w-24 h-24 rounded-full" : cad >= 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-yellow-600 text-white w-24 h-24 rounded-full" : "" }>
+                            <span className={cad < 7 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#74b8e4] text-white w-24 h-24 rounded-full" : cad >= 7 && cad < 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#45bc8d] text-white w-24 h-24 rounded-full" : cad >= 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#c7c246] text-white w-24 h-24 rounded-full" : "" }>
                                 {getResultData()} <span className='text-base'>%</span>
                             </span>
 
