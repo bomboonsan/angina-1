@@ -11,8 +11,11 @@
   "dependencies": {
     "dom-to-image": "^2.6.0",
     "dom-to-pdf": "^0.3.2",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.2",
     "next": "15.0.2",
     "next-client-cookies": "^2.0.0",
+    "postcss-color-function": "^4.1.0",
     "react": "19.0.0-rc-02c0e824-20241028",
     "react-dom": "19.0.0-rc-02c0e824-20241028",
     "sweetalert2": "^11.14.5"

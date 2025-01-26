@@ -13,7 +13,7 @@ import CacsBox from '@/components/CacsBox';
 
 import CacsclInput from "@/components/CacsclInput";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState , useRef } from "react";
 
 import { useRouter } from 'next/navigation'
 
@@ -21,7 +21,13 @@ import domtoimage from 'dom-to-image';
 
 import domToPdf from 'dom-to-pdf'
 
+import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas";
+
 export default function Record() {
+
+    const pdfRef = useRef();
+
     const router = useRouter();
     const cookies = useCookies();
     const [stateSection , setStateSection] = useState({
@@ -180,6 +186,43 @@ export default function Record() {
         captureDivAsPdf(time);
     }
 
+    const generatePdf = () => {
+        const element = document.getElementById('record');
+        // const element = pdfRef.current; // อ้างอิง DOM ที่ต้องการแปลงเป็น PDF
+        const originalWidth = 210; // กว้างของ A4
+        const originalHeight = 297; // สูงของ A4
+
+        const width = 180; // กว้างใหม่
+        let height = 520; // สูงใหม่
+
+        if (screen.width > 768) {
+            height = 450;
+        }
+
+
+
+        // const pdf = new jsPDF("p", "mm", "a4"); // สร้างไฟล์ PDF
+        const pdf = new jsPDF({
+            orientation: "p", // แนวตั้ง (portrait)
+            unit: "mm",
+            format: [width, height], // ใช้ขนาดที่กำหนดเอง
+        });
+    
+        domtoimage.toPng(element) // แปลง DOM เป็นรูปภาพ PNG
+          .then((imgData) => {
+            const pdfWidth = pdf.internal.pageSize.getWidth(); // กว้างของ PDF
+            const pdfHeight = (element.offsetHeight * pdfWidth) / element.offsetWidth; // คำนวณความสูงให้พอดี
+
+            const time = new Date().getTime();
+    
+            pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight); // เพิ่มรูปภาพลงใน PDF
+            pdf.save(`recorded-1-${time}.pdf`); // บันทึกไฟล์ PDF
+          })
+          .catch((error) => {
+            console.error("เกิดข้อผิดพลาดขณะสร้าง PDF:", error);
+          });
+    };
+
     console.log('symptom', symptom);
 
     console.log('Section1',Section1)
@@ -194,7 +237,7 @@ export default function Record() {
     return (
         <>
             <Header />
-            <main id='record' className="my-1 p-4 pt-7 bg-white mx-auto max-w-screen-md">
+            <main ref={pdfRef} id='record' className="my-1 p-4 pt-7 bg-white mx-auto max-w-screen-md">
 
                 <div className='space-y-4'>
                     <div className='record-box'>
@@ -334,7 +377,7 @@ export default function Record() {
             </main>
             <div className='text-center mt-10 grid grid-cols-2 gap-3 px-3'>
                     <button className="btn btn-primary w-full" onClick={save}>SAVE IMG</button>
-                    <button className="btn btn-primary w-full" onClick={saveAsPdf}>SAVE PDF</button>
+                    <button className="btn btn-primary w-full" onClick={generatePdf}>SAVE PDF</button>
             </div>
         </>
     );
