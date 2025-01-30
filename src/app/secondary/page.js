@@ -94,7 +94,7 @@ export default function Secondary() {
 
         const resultPercent_80 = result / 0.8;
         setCacs_cs_percent(resultPercent_80);
-        cookies.set('CACS' , resultPercent_80);
+        cookies.set('CACS' , result);
 
     }
 

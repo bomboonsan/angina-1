@@ -3,7 +3,8 @@ import {useEffect, useState} from "react";
 import Swal from 'sweetalert2'
 export default function Question({ props , children }) {
     const questions = props.questions;
-    const [score , setScore] = useState([0,0,0,0,0]);
+    const [lastIndex , setLastIndex] = useState(null);
+    const [score , setScore] = useState([0,0,0,0,0,0]);
     const handleCheckBox = (e) => {
         const value = e.target.value;
         const isChecked = e.target.checked;
@@ -15,6 +16,25 @@ export default function Question({ props , children }) {
         } else {
             newScore[index] = 0;
             setScore(newScore);
+        }
+        if(value == 0 && isChecked) {
+            for (let i = 0; i < index; i++) {
+                document.getElementById(i).checked = false;
+                setScore((prev) => {
+                    const newScore = [...prev];
+                    newScore[i] = 0;
+                    return newScore;
+                });
+            }
+            setLastIndex(index);
+        }
+        if(value != 0 && isChecked && lastIndex != null) {
+            setScore((prev) => {
+                const newScore = [...prev];
+                newScore[lastIndex] = 0;
+                return newScore;
+            });
+            document.getElementById(lastIndex).checked = false;
         }
     }
     console.log('score', score);

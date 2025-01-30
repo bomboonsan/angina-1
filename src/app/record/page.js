@@ -54,6 +54,9 @@ export default function Record() {
     const [Section2 , setSection2] = useState('');
     const [CACS , setCACS] = useState('');
 
+    const [finalSection1 , setFinalSection1] = useState(null);
+    const [finalSection2 , setFinalSection2] = useState(null);
+
     // data var
     const ageRange = ["30-39", "40-49", "50-59", "60-69", "70-80"];
 
@@ -149,7 +152,7 @@ export default function Record() {
 
 
     const captureDivAsImage = (time) => {
-        const element = document.getElementById('record');
+        const element = document.getElementById('record');        
         if (element) {
             domtoimage.toPng(element)
             .then((dataUrl) => {
@@ -232,7 +235,15 @@ export default function Record() {
     console.log('Section1List',Section1List)
     console.log('Section2List',Section2List)
 
+    useEffect(() => {
+        setFinalSection1(Section1List);
+        setFinalSection2(Section2List);
+    }, [Section1]);
 
+    if(!finalSection1)
+    {
+        return
+    }
 
     return (
         <>
@@ -248,36 +259,36 @@ export default function Record() {
                             <span className='font-semibold'>AGE</span> : {ageRange[age-1]}
                         </p>
                         {
-                            symptom == 'option1' && Section1List && (
+                            symptom == 'option1' && finalSection1 && (
                                 <div className='space-y-1 mt-4 '>
                                     <div className='recordCheckbox'>
-                                        <input type='checkbox' checked={Section1List[0] != 0} readOnly />
+                                        <input name='section1[]' type='checkbox' defaultChecked={finalSection1[0] != 0} checked={finalSection1[0] != 0} readOnly />
                                         <label>Constricting discomfort located retrosternally or in neck, jaw, shoulder or arm</label>
                                     </div>
                                     <div className='recordCheckbox'>
-                                        <input type='checkbox' checked={Section1List[1] != 0} readOnly />
-                                        <label>Physical or emotional stress</label>
+                                        <input name='section1[]' type='checkbox' defaultChecked={finalSection1[1] != 0} checked={finalSection1[1] != 0} readOnly />
+                                        <label>Aggravated by physical or emotional stress</label>
                                     </div>
                                     <div className='recordCheckbox'>
-                                        <input type='checkbox' checked={Section1List[1] != 0} readOnly />
-                                        <label>Rest or nitrates within 5 minutes</label>
+                                        <input name='section1[]' type='checkbox' defaultChecked={finalSection1[2] != 0} checked={finalSection1[2] != 0} readOnly />
+                                        <label>Relieved by rest or nitrates within 5 min </label>
                                     </div>
                                     <div className='recordCheckbox'>
-                                        <input type='checkbox' checked={Section1List[1] != 0} readOnly />
+                                        <input name='section1[]' type='checkbox' defaultChecked={finalSection1[3] != 0} checked={finalSection1[3] != 0} readOnly />
                                         <label>None</label>
                                     </div>
                                 </div>
                             )
                         }
                         {
-                            symptom == 'option2' && Section1List && (
+                            symptom == 'option2' && finalSection1 && (
                                 <div className='space-y-1 mt-4 '>
                                     <div className='recordCheckbox'>
-                                        <input type='checkbox' checked={Section1List[0] != 0} readOnly />
+                                        <input name='section1[]' type='checkbox' defaultChecked={finalSection1[0] != 0} checked={finalSection1[0] != 0} readOnly />
                                         <label>Shortness of breath and/or trouble catching breath aggravated by physical exertion</label>
                                     </div>
                                     <div className='recordCheckbox'>
-                                        <input type='checkbox' checked={Section1List[1] != 0} readOnly />
+                                        <input name='section1[]' type='checkbox' defaultChecked={finalSection1[1] != 0} checked={finalSection1[1] != 0} readOnly />
                                         <label>None</label>
                                     </div>
                                 </div>
@@ -286,30 +297,30 @@ export default function Record() {
                         {/* Section2 */}
                         <hr className='my-3' />
                         {
-                            Section2List && (
+                            finalSection2 && (
                                 <div className='space-y-1 mt-4 '>
                                     <div className='recordCheckbox'>
-                                        <input type='checkbox' checked={Section2List[0] != 0} readOnly />
+                                        <input type='checkbox' defaultChecked={finalSection2[0] != 0} checked={finalSection2[0] != 0} readOnly />
                                         <label>Family history (1 or more first-degree relatives with early signs of CAD (men less 55 and women less 65 years of age))</label>
                                     </div>
                                     <div className='recordCheckbox'>
-                                        <input type='checkbox' checked={Section2List[1] != 0} readOnly />
-                                        <label>Smoking (as Current or pass smoker)</label>
+                                        <input type='checkbox' defaultChecked={finalSection2[1] != 0} checked={finalSection2[1] != 0} readOnly />
+                                        <label>Smoking (as Current or past smoker)</label>
                                     </div>
                                     <div className='recordCheckbox'>
-                                        <input type='checkbox' checked={Section2List[2] != 0} readOnly />
+                                        <input type='checkbox' defaultChecked={finalSection2[2] != 0} checked={finalSection2[2] != 0} readOnly />
                                         <label>Dyslipidaemia</label>
                                     </div>
                                     <div className='recordCheckbox'>
-                                        <input type='checkbox' checked={Section2List[3] != 0} readOnly />
+                                        <input type='checkbox' defaultChecked={finalSection2[3] != 0} checked={finalSection2[3] != 0} readOnly />
                                         <label>Hypertension</label>
                                     </div>
                                     <div className='recordCheckbox'>
-                                        <input type='checkbox' checked={Section2List[4] != 0} readOnly />
+                                        <input type='checkbox' defaultChecked={finalSection2[4] != 0} checked={finalSection2[4] != 0} readOnly />
                                         <label>Diabetes</label>
                                     </div>
                                     <div className='recordCheckbox'>
-                                        <input type='checkbox' checked={Section2List[5] != 0} readOnly />
+                                        <input type='checkbox' defaultChecked={finalSection2[5] != 0} checked={finalSection2[5] != 0} readOnly />
                                         <label>None of Above</label>
                                     </div>
                                 </div>
