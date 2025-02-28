@@ -152,7 +152,12 @@ export default function Record() {
 
 
     const captureDivAsImage = (time) => {
-        const element = document.getElementById('record');        
+        const element = document.getElementById('record');       
+        const recordFooter = document.getElementById('recordFooter');
+        recordFooter.classList.remove('hidden');
+
+        element.classList.add('record-textresize');
+ 
         if (element) {
             domtoimage.toPng(element)
             .then((dataUrl) => {
@@ -160,6 +165,10 @@ export default function Record() {
                 link.href = dataUrl;
                 link.download = `recorded-1-${time}.png`;
                 link.click();
+            })
+            .finally(() => {
+                element.classList.remove('record-textresize');
+                recordFooter.classList.add('hidden');
             })
             .catch((error) => {
                 console.error('Error capturing image:', error);
@@ -205,7 +214,8 @@ export default function Record() {
         const originalHeight = 297; // สูงของ A4
 
         const width = 180; // กว้างใหม่
-        let height = 520; // สูงใหม่
+        // let height = 520; // สูงใหม่
+        let height = 400; // สูงใหม่
 
         if (screen.width > 768) {
             height = 450;
