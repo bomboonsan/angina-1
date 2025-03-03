@@ -153,19 +153,19 @@ export default function Record() {
     }
 
     const getRiskLevel = (value) => {
-        if (value >= 0 && value <= 5) {
+        if (value >= 0 && value <= 6) {
             if (lang == 'th') {
                 return "ต่ำมาก";
             }
             return "Very low";
         }; // สีฟ้า
-        if (value >= 6 && value <= 10) {
+        if (value >= 7 && value <= 15) {
             if (lang == 'th') {
                 return "ต่ำ";
             }
             return "Low";
         }; // สีเขียว
-        if (value > 10) {
+        if (value >= 16) {
             if (lang == 'th') {
                 return "ปานกลาง";
             }

@@ -46,7 +46,7 @@ export default function Question({ props , children }) {
                 </div>
             </div>
             <div className="text-center">
-                <button onClick={submit} className="btn btn-wide btn-primary text-lg text-white">ส่งคำตอบ</button>
+                <button onClick={submit} className="btn btn-wide btn-primary text-lg text-white">ถัดไป</button>
             </div>
         </>
     );

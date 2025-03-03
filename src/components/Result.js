@@ -57,15 +57,15 @@ export default function Result({ props }) {
         return result
     }
     const getRiskLevel = (value) => {
-        if (value >= 0 && value <= 5) {
+        if (value >= 0 && value <= 6) {
             if (props.lang == "th") return "ต่ำมาก";
             if (props.lang == "en") return "Very low";
         }; // สีฟ้า
-        if (value >= 6 && value <= 10) {
+        if (value >= 7 && value <= 15) {
             if (props.lang == "th") return "ต่ำ";
             if (props.lang == "en") return "Low";
         }; // สีเขียว
-        if (value > 10) {
+        if (value >= 16) {
             if (props.lang == "th") return "ปานกลาง";
             if (props.lang == "en") return "Moderate";
         }; // สีเหลือง

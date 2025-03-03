@@ -144,7 +144,7 @@ export default function Secondary() {
 
                 <div className='text-center mt-10'>
                     <button className="btn btn-primary btn-wide" onClick={submit}>
-                        {lang == 'en' ? 'SUBMIT' : 'บันทึก'}
+                        {lang == 'en' ? 'SUBMIT' : 'ส่งคำตอบ'}
                     </button>
                 </div>
             </div>
