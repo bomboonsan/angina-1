@@ -375,7 +375,11 @@ export default function Record() {
                     </div>
 
                     <div className='record-box'>
-                        <h2 className='text-lg font-bold text-primary mb-4'>Consider reclassification of low RF-CL</h2>
+                        <h2 className='text-lg font-bold text-primary mb-4'>
+                            {
+                                lang == 'th' ? 'การแก้ไขการเจ็บป่วย' : 'Consider reclassification of low RF-CL'
+                            }
+                        </h2>
                         <img
                             src="/img/graph2.png"
                             width={939}
@@ -396,8 +400,16 @@ export default function Record() {
                 </div>
             </main>
             <div className='text-center mt-10 grid grid-cols-2 gap-3 px-3'>
-                    <button className="btn btn-primary w-full" onClick={save}>SAVE IMG</button>
-                    <button className="btn btn-primary w-full" onClick={generatePdf}>SAVE PDF</button>
+                    <button className="btn btn-primary w-full" onClick={save}>
+                        {
+                            lang == 'th' ? 'บันทึกรูปภาพ' : 'SAVE IMG'
+                        }
+                    </button>
+                    <button className="btn btn-primary w-full" onClick={generatePdf}>
+                        {
+                            lang == 'th' ? 'บันทึกเป็น PDF' : 'SAVE PDF'
+                        }
+                    </button>
             </div>
         </>
     );

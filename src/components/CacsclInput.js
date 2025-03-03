@@ -23,12 +23,18 @@ export default function CacsclInput({ props }) {
                 <div className="mt-10 mb-5">
                     <div className="bg-[#e8e5ef] rounded-xl overflow-hidden shadow-lg p-3">
                         <p className="label-text text-xl text-black text-center">
-                            Please specify CACS value.
+                            {
+                                props.lang == 'th' ? 'กรุณาระบุค่า CACS' : 'Please specify CACS value.'
+                            }
                         </p>
                     </div>
                 </div>
                 <label className="input input-bordered shadow-md flex items-center gap-2">
-                    <span className="text-primary font-bold">CACS SCORE </span> 
+                    <span className="text-primary font-bold">
+                            {
+                                props.lang == 'th' ? 'ค่า CACS' : 'CACS SCORE'
+                            }
+                    </span> 
                     <input 
                         min="0"
                         onChange={(e) => sendCacsScore(e.target.value)} 

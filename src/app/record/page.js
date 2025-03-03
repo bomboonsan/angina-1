@@ -69,7 +69,14 @@ export default function Record() {
         const Section2 = cookies.get('Section2')
         const CACS = cookies.get('CACS')
 
-                console.log('Section1', Section1);
+        const lang = cookies.get('lang')
+        if (lang) {
+            setLang(lang)
+        } else {
+            setLang('en')
+        }
+
+        console.log('Section1', Section1);
         console.log('Section2', Section2);
         
 
@@ -80,7 +87,15 @@ export default function Record() {
             setRF_PTP(RF_PTP_value);
             setRF_PTP_percent(RF_PTP_value / 0.8);
 
-            setSex(sex)
+            if (lang) {
+                if (lang == 'th') {
+                    setSex(sex == 'male' ? 'ชาย' : 'หญิง')
+                } else {
+                    setSex(sex == 'male' ? 'Male' : 'Female')
+                }                
+            } else {
+                setSex(sex)
+            }
             setAge(age)
             setSymptom(symptom)
             setSection1(Section1)
@@ -139,12 +154,21 @@ export default function Record() {
 
     const getRiskLevel = (value) => {
         if (value >= 0 && value <= 5) {
+            if (lang == 'th') {
+                return "ต่ำมาก";
+            }
             return "Very low";
         }; // สีฟ้า
         if (value >= 6 && value <= 10) {
+            if (lang == 'th') {
+                return "ต่ำ";
+            }
             return "Low";
         }; // สีเขียว
         if (value > 10) {
+            if (lang == 'th') {
+                return "ปานกลาง";
+            }
             return "Moderate";
         }; // สีเหลือง
         return "Unknown"; // กรณีไม่มีในช่วง
@@ -260,6 +284,9 @@ export default function Record() {
     console.log('Section1List',Section1List)
     console.log('Section2List',Section2List)
 
+
+    console.log('lang',lang)
+
     // useEffect(() => {
     //     setFinalSection1(Section1List);
     //     setFinalSection2(Section2List);
@@ -305,28 +332,52 @@ export default function Record() {
                     <div className='record-box'>
                         <h2 className='text-lg font-bold text-primary mb-4 text-center'>Risk Factor-weighted Clinical Likelihood</h2>
                         <p className=''>
-                            <span className='font-semibold'>SEX</span> : {sex} 
+                            <span className='font-semibold'>
+                                {
+                                    lang == 'th' ? 'เพศ' : 'Sex'
+                                }
+                            </span> : {sex} 
                             <span className='inline-block px-4'>|</span>
-                            <span className='font-semibold'>AGE</span> : {ageRange[age-1]}
+                            <span className='font-semibold'>
+                                {
+                                    lang == 'th' ? 'อายุ' : 'Age'
+                                }
+                            </span> : {ageRange[age-1]}
                         </p>
                         {
                             symptom == 'option1' && finalSection1 && (
                                 <div className='space-y-1 mt-4 '>
                                     <div className='recordCheckbox'>
                                         <input name='section1[]' type='checkbox' defaultChecked={finalSection1[0] != 0} readOnly />
-                                        <label>Constricting discomfort located retrosternally or in neck, jaw, shoulder or arm</label>
+                                        <label>
+                                            {
+                                                lang == 'th' ? 'เจ็บบริเวณกระดูกคอ, ขากรรไกร, ไหล่ หรือแขน' : 'Constricting discomfort located retrosternally or in neck, jaw, shoulder or arm'
+                                            }
+                                        </label>
                                     </div>
                                     <div className='recordCheckbox'>
                                         <input name='section1[]' type='checkbox' defaultChecked={finalSection1[1] != 0} readOnly />
-                                        <label>Aggravated by physical or emotional stress</label>
+                                        <label>
+                                            {
+                                                lang == 'th' ? 'อาการเจ็บรุนแรงขึ้น เมื่อมีความเครียดและกังวล' : 'Aggravated by physical or emotional stress'
+                                            }
+                                        </label>
                                     </div>
                                     <div className='recordCheckbox'>
                                         <input name='section1[]' type='checkbox' defaultChecked={finalSection1[2] != 0} readOnly />
-                                        <label>Relieved by rest or nitrates within 5 min </label>
+                                        <label>
+                                            {
+                                                lang == 'th' ? 'อาการเจ็บบรรเทาลง เมื่อได้พักร่างกาย 5 นาที' : 'Relieved by rest or nitrates within 5 min '
+                                            }
+                                        </label>
                                     </div>
                                     <div className='recordCheckbox'>
                                         <input name='section1[]' type='checkbox' defaultChecked={finalSection1[0] == 0 && finalSection1[1] == 0 && finalSection1[2] == 0} readOnly />
-                                        <label>None</label>
+                                        <label>
+                                            {
+                                                lang == 'th' ? 'ไม่มีอาการ' : 'None'
+                                            }
+                                        </label>
                                     </div>
                                 </div>
                             )
@@ -336,11 +387,19 @@ export default function Record() {
                                 <div className='space-y-1 mt-4 '>
                                     <div className='recordCheckbox'>
                                         <input name='section1[]' type='checkbox' defaultChecked={finalSection1[0] != 0} readOnly />
-                                        <label>Shortness of breath and/or trouble catching breath aggravated by physical exertion</label>
+                                        <label>
+                                            {
+                                                lang == 'th' ? 'มีอาการใจสั่นและ/หรือหายใจลำบากรุนแรง เมื่อต้องออกแรง' : 'Shortness of breath and/or trouble catching breath aggravated by physical exertion '
+                                            }
+                                        </label>
                                     </div>
                                     <div className='recordCheckbox'>
                                         <input name='section1[]' type='checkbox' defaultChecked={finalSection1[0] == 0} readOnly />
-                                        <label>None</label>
+                                        <label>
+                                            {
+                                                lang == 'th' ? 'ไม่มีอาการ' : 'None'
+                                            }
+                                        </label>
                                     </div>
                                 </div>
                             )
@@ -352,27 +411,51 @@ export default function Record() {
                                 <div className='space-y-1 mt-4 '>
                                     <div className='recordCheckbox'>
                                         <input type='checkbox' defaultChecked={finalSection2[0] != 0} readOnly />
-                                        <label>Family history (1 or more first-degree relatives with early signs of CAD (men less 55 and women less 65 years of age))</label>
+                                        <label>
+                                            {
+                                                lang == 'th' ? 'มีญาติสาย 1 คนขึ้นไป ที่มีประวัติโรคหลอดเลือดหัวใจ' : 'Family history (1 or more first-degree relatives with early signs of CAD (men less 55 and women less 65 years of age))'
+                                            }
+                                        </label>
                                     </div>
                                     <div className='recordCheckbox'>
                                         <input type='checkbox' defaultChecked={finalSection2[1] != 0} readOnly />
-                                        <label>Smoking (as Current or past smoker)</label>
+                                        <label>
+                                            {
+                                                lang == 'th' ? 'สูบบุหรี่' : 'Smoking (as Current or past smoker)'
+                                            }
+                                        </label>
                                     </div>
                                     <div className='recordCheckbox'>
                                         <input type='checkbox' defaultChecked={finalSection2[2] != 0} readOnly />
-                                        <label>Dyslipidaemia</label>
+                                        <label>
+                                            {
+                                                lang == 'th' ? 'ภาวะไขมันในเลือดสูง' : 'Dyslipidaemia'
+                                            }
+                                        </label>
                                     </div>
                                     <div className='recordCheckbox'>
                                         <input type='checkbox' defaultChecked={finalSection2[3] != 0} readOnly />
-                                        <label>Hypertension</label>
+                                        <label>
+                                            {
+                                                lang == 'th' ? 'โรคความดันโลหิตสูง' : 'Hypertension'
+                                            }
+                                        </label>
                                     </div>
                                     <div className='recordCheckbox'>
                                         <input type='checkbox' defaultChecked={finalSection2[4] != 0} readOnly />
-                                        <label>Diabetes</label>
+                                        <label>
+                                            {
+                                                lang == 'th' ? 'โรคเบาหวาน' : 'Diabetes'
+                                            }
+                                        </label>
                                     </div>
                                     <div className='recordCheckbox'>
                                         <input type='checkbox' defaultChecked={finalSection2[0] == 0 && finalSection2[1] == 0 && finalSection2[2] == 0 && finalSection2[3] == 0 && finalSection2[4] == 0} readOnly />
-                                        <label>None of Above</label>
+                                        <label>
+                                            {
+                                                lang == 'th' ? 'ไม่มี' : 'None of Above'
+                                            }
+                                        </label>
                                     </div>
                                 </div>
                             )
@@ -392,7 +475,11 @@ export default function Record() {
                     </div>
 
                     <div className="p-5 bg-primary text-white rounded-xl">
-                        <p className="text-xl font-medium text-center">Clinical likelihood</p>
+                        <p className="text-xl font-medium text-center">
+                            {
+                                lang == 'th' ? 'ความเสี่ยงของคุณอยู่ในระดับ' : 'Clinical likelihood'
+                            }
+                        </p>
                         <p className={RF_PTP < 7 ? "text-3xl font-bold text-center text-[#74b8e4]" : RF_PTP >= 7 && RF_PTP < 17 ? "text-3xl font-bold text-center text-[#45bc8d]" : RF_PTP >= 17 ? "text-3xl font-bold text-center text-[#c7c246]" : "" }>{getRiskLevel(RF_PTP)}</p>
                         <div className="flex flex-row gap-5 items-center justify-center">
                             <div>
@@ -419,7 +506,11 @@ export default function Record() {
                     
 
                     <div className='record-box'>
-                        <h2 className='text-lg font-bold text-primary mb-4'>Consider reclassification of low RF-CL</h2>
+                        <h2 className='text-lg font-bold text-primary mb-4'>
+                            {
+                                lang == 'th' ? 'Consider reclassification of low RF-CL' : 'Consider reclassification of low RF-CL'
+                            }
+                        </h2>
                         <img
                             src="/img/graph2.png"
                             width={939}
@@ -445,8 +536,16 @@ export default function Record() {
                 <div id="recordFooter" className="record-footer hidden"></div>
             </main>
             <div className='text-center mt-10 grid grid-cols-2 gap-3 px-3'>
-                    <button className="btn btn-primary w-full" onClick={save}>SAVE IMG</button>
-                    <button className="btn btn-primary w-full" onClick={generatePdf}>SAVE PDF</button>
+                    <button className="btn btn-primary w-full" onClick={save}>
+                        {
+                            lang == 'th' ? 'บันทึกรูปภาพ' : 'SAVE IMG'
+                        }
+                    </button>
+                    <button className="btn btn-primary w-full" onClick={generatePdf}>
+                        {
+                            lang == 'th' ? 'บันทึกเป็น PDF' : 'SAVE PDF'
+                        }
+                    </button>
             </div>
         </>
     );
