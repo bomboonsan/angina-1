@@ -27,6 +27,10 @@ body {
   font-size: 50% !important;
 }
 
+.record-a4size {
+  @apply aspect-[210/297];
+}
+
 .app-wrapper , .record-footer {
   padding-bottom: 60px;
   background-image: url("/img/bg-b.png");
