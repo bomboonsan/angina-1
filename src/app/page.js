@@ -210,6 +210,7 @@ export default function Home() {
 
     return (
         <>
+            <main className="max-w-[500px] mx-auto bg-white shadow min-h-screen overflow-hidden app-wrapper relative">
             <Header />
             <div className="my-5 p-4">
                 <LangSwitch props={{ sendLang: sendLang }} />
@@ -316,6 +317,7 @@ export default function Home() {
                     <Result props={{ point1 : totalScore , point2 : totalScore2 , text : getResultData() , sex : sex , age : age , lang: lang }} />
                 }
             </div>
+            </main>
         </>
     );
 }

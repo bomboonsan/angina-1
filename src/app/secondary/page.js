@@ -53,6 +53,7 @@ export default function Secondary() {
         setLang(value);
     }
     const sendCacsScore = (value) => {
+        cookies.set('CACS_score' , value);
         setCacsScore(value);
         calculateCacs_cs(value);
     }
@@ -115,6 +116,7 @@ export default function Secondary() {
 
     return (
         <>
+            <main className="max-w-[500px] mx-auto bg-white shadow min-h-screen overflow-hidden app-wrapper relative">
             <Header />
             <div className="my-5 p-4">
                 <LangSwitch props={{ sendLang: sendLang }} />
@@ -148,6 +150,7 @@ export default function Secondary() {
                     </button>
                 </div>
             </div>
+            </main>
         </>
     );
 }

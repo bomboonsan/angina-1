@@ -24,22 +24,11 @@ import domToPdf from 'dom-to-pdf'
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
 
-import { useReactToPrint } from "react-to-print";
-
-export default function Print() {
-
-    const pdfRef = useRef();
+export default function Record() {
 
     const router = useRouter();
     const cookies = useCookies();
-    const [stateSection , setStateSection] = useState({
-        start : true,
-        symptom : false,
-        questionSection_1_1 : false,
-        questionSection_1_2 : false,        
-        questionSection_2 : false,        
-        showResult : false
-    });
+
     const [lang , setLang] = useState('en');
     const [loading , setLoading] = useState(false);
     const [RF_PTP , setRF_PTP] = useState(30);
@@ -55,9 +44,12 @@ export default function Print() {
     const [Section1 , setSection1] = useState('');
     const [Section2 , setSection2] = useState('');
     const [CACS , setCACS] = useState('');
+    
+    const [Adjust , setAdjust] = useState('');
 
     const [finalSection1 , setFinalSection1] = useState(null);
     const [finalSection2 , setFinalSection2] = useState(null);
+    const [finalAdjust , setFinalAdjust] = useState(null);
 
     // data var
     const ageRange = ["30-39", "40-49", "50-59", "60-69", "70-80"];
@@ -69,7 +61,9 @@ export default function Print() {
         const symptom = cookies.get('symptom')
         const Section1 = cookies.get('Section1')
         const Section2 = cookies.get('Section2')
+        const cacs_score = cookies.get('CACS_score')
         const CACS = cookies.get('CACS')
+        const Adjust = cookies.get('Adjust')
 
         const lang = cookies.get('lang')
         if (lang) {
@@ -103,56 +97,22 @@ export default function Print() {
             setSection1(Section1)
             setSection2(Section2)
             setCACS(CACS)
+            setAdjust(Adjust)
+            setCacsScore(Number(cacs_score))
         }
     }, []);
 
-    const sendLang = (value) => {
-        setLang(value);
-    }
-    const sendCacsScore = (value) => {
-        setCacsScore(value);
-        calculateCacs_cs(value);
-    }
-
-    // cacs_cs = 0.0013 + (RF_PTP * 0.2021) + (cacs_1_9*0.0082) + (cacs_10_99*0.0238) + (cacs_100_399*0.1131) + (cacs_400_999*0.2306) + (cacs_1000*0.4040) + (RF_PTP*cacs_1_9*0.1311) + (RF_PTP*cacs_10_99*0.2909) + (RF_PTP*cacs_100_399* 0.4077) + (RF_PTP*cacs_400_999*0.4658) + (RF_PTP*cacs_1000*0.4489)
-
-    const calculateCacs_cs = (value) => {
-        let result = 0;
-        let cacs_1_9 = 0;
-        let cacs_10_99 = 0;
-        let cacs_100_399 = 0;
-        let cacs_400_999 = 0;
-        let cacs_1000 = 0;
-        if (value <= 9) {
-            cacs_1_9 = value;
-            result = 0.0013 + (RF_PTP * 0.2021) + (value*0.0082);
+    useEffect(() => {
+        if (Section1) {
+            setFinalSection1(Section1.split(','));
         }
-        else if (value <= 99) {
-            cacs_10_99 = value;
-            result = 0.0013 + (RF_PTP * 0.2021) + (cacs_10_99*0.0238);
+        if (Section2) {
+            setFinalSection2(Section2.split(','));
         }
-        else if (value <= 399) {
-            cacs_100_399 = value;
-            result = 0.0013 + (RF_PTP * 0.2021) + (cacs_100_399*0.1131);
+        if (Adjust) {
+            setFinalAdjust(Adjust.split(','));
         }
-        else if (value <= 999) {
-            cacs_400_999 = value;
-            result = 0.0013 + (RF_PTP * 0.2021) + (cacs_400_999*0.2306);
-        }
-        else {
-            cacs_1000 = value;
-            result = 0.0013 + (RF_PTP * 0.2021) + (cacs_1000*0.4040);
-        }
-
-        // result = 0.0013 + (RF_PTP * 0.2021) + (cacs_1_9*0.0082) + (cacs_10_99*0.0238) + (cacs_100_399*0.1131) + (cacs_400_999*0.2306) + (cacs_1000*0.4040) + (RF_PTP*cacs_1_9*0.1311) + (RF_PTP*cacs_10_99*0.2909) + (RF_PTP*cacs_100_399* 0.4077) + (RF_PTP*cacs_400_999*0.4658) + (RF_PTP*cacs_1000*0.4489)
-        result = result.toFixed(2);
-
-        setCacs_cs(result);
-
-        const resultPercent_80 = result / 0.8;
-        setCacs_cs_percent(resultPercent_80);
-
-    }
+    }, [Section1, Section2, Adjust]);
 
     const getRiskLevel = (value) => {
         if (value >= 0 && value <= 6) {
@@ -176,124 +136,13 @@ export default function Print() {
         return "Unknown"; // กรณีไม่มีในช่วง
     };
 
-
-    const captureDivAsImage = (time) => {
-        const element = document.getElementById('record');       
-        const recordFooter = document.getElementById('recordFooter');        
-        const renderForImage = document.getElementById('renderForImage');
-        renderForImage.classList.remove('hidden');
-        recordFooter.classList.remove('hidden');
-
-        element.classList.add('record-textresize');
- 
-        if (element) {
-            domtoimage.toPng(element)
-            .then((dataUrl) => {
-                const link = document.createElement('a');
-                link.href = dataUrl;
-                link.download = `recorded-1-${time}.png`;
-                link.click();
-            })
-            .finally(() => {
-                element.classList.remove('record-textresize');
-                recordFooter.classList.add('hidden');
-                renderForImage.classList.add('hidden');
-            })
-            .catch((error) => {
-                element.classList.remove('record-textresize');
-                recordFooter.classList.add('hidden');
-                renderForImage.classList.add('hidden');
-                console.error('Error capturing image:', error);
-            });
-        }
-    };
-
-    const save = () => {
-        const time = new Date().getTime();
-        captureDivAsImage(time);
-    }
-
-    const captureDivAsPdf = (time) => {
-        
-        const element = document.getElementById('record');
-        const options = {
-            filename: `recorded-1-${time}.pdf`,
-        };
-        if (element) {
-            domToPdf(element, options, function(pdf) {
-                console.log('done');
-            });
-        }
-    };
-
-    const saveAsPdf = () => {
-        const time = new Date().getTime();
-        captureDivAsPdf(time);
-    }
-
-    const generatePdf = () => {
-
-        const element = document.getElementById('record');
-
-        const recordFooter = document.getElementById('recordFooter');
-        recordFooter.classList.remove('hidden');
-
-        element.classList.add('record-textresize');
-
-
-        // const element = pdfRef.current; // อ้างอิง DOM ที่ต้องการแปลงเป็น PDF
-        const originalWidth = 210; // กว้างของ A4
-        const originalHeight = 297; // สูงของ A4
-
-
-        // const pdf = new jsPDF("p", "mm", "a4"); // สร้างไฟล์ PDF
-        const pdf = new jsPDF({
-            orientation: "p", // แนวตั้ง (portrait)
-            unit: "mm",
-            format: [originalWidth, originalHeight], // ใช้ขนาดที่กำหนดเอง
-        });
-    
-        domtoimage.toPng(element) // แปลง DOM เป็นรูปภาพ PNG
-          .then((imgData) => {
-            const pdfWidth = pdf.internal.pageSize.getWidth(); // กว้างของ PDF
-            const pdfHeight = (element.offsetHeight * pdfWidth) / element.offsetWidth; // คำนวณความสูงให้พอดี
-
-            const time = new Date().getTime();
-    
-            pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight); // เพิ่มรูปภาพลงใน PDF
-            pdf.save(`recorded-1-${time}.pdf`); // บันทึกไฟล์ PDF
-          })
-          .finally(() => {
-            
-            element.classList.remove('record-textresize');
-            recordFooter.classList.add('hidden');
-          })
-          .catch((error) => {
-            console.error("เกิดข้อผิดพลาดขณะสร้าง PDF:", error);
-          });
-
-    };
+    console.log('cacsScore', cacsScore)
 
 
     const generatePdf2 = () => {
 
-        const element = document.getElementById('record');
+        const element = document.getElementById('record1');
         const element2 = document.getElementById('record2');
-        const recordFooter = document.getElementById('recordFooter');
-
-        const record2Header = document.getElementById('record2Header');
-        const record2Footer = document.getElementById('record2Footer');
-
-
-        element.classList.add('record-a4size');
-        element2.classList.add('record-a4size');
-
-        recordFooter.classList.remove('hidden');
-        record2Header.classList.remove('hidden');
-        record2Footer.classList.remove('hidden');
-
-        element.classList.add('record-textresize');
-        element2.classList.add('record-textresize');
 
 
         // const element = pdfRef.current; // อ้างอิง DOM ที่ต้องการแปลงเป็น PDF
@@ -324,23 +173,10 @@ export default function Print() {
             pdf.save(`recorded-1-${time}.pdf`); // บันทึกไฟล์ PDF
           })
         .finally(() => {
-            element.classList.remove('record-textresize');
-            element2.classList.remove('record-textresize');
-            element.classList.remove('record-a4size');
-            element2.classList.remove('record-a4size');
-            recordFooter.classList.add('hidden');
-            record2Header.classList.add('hidden');
-            record2Footer.classList.add('hidden');
+            router.push('/record');
         })
         .catch((error) => {
-            console.error("เกิดข้อผิดพลาดขณะสร้าง PDF:", error);
-            element.classList.remove('record-textresize');
-            element2.classList.remove('record-textresize');
-            element.classList.remove('record-a4size');
-            element2.classList.remove('record-a4size');
-            recordFooter.classList.add('hidden');
-            record2Header.classList.add('hidden');
-            record2Footer.classList.add('hidden');
+            console.error(error);
         });        
 
         const time = new Date().getTime();
@@ -350,40 +186,18 @@ export default function Print() {
 
     };
 
-    console.log('symptom', symptom);
-
-    console.log('Section1',Section1)
-    console.log('Section2',Section2)
-    const Section1List = Section1.split(',');
-    const Section2List = Section2.split(',');
-    console.log('Section1List',Section1List)
-    console.log('Section2List',Section2List)
-
-
-    console.log('lang',lang)
-
-    // useEffect(() => {
-    //     setFinalSection1(Section1List);
-    //     setFinalSection2(Section2List);
-    // }, [Section1]);
-
     useEffect(() => {
-        if (Section1) {
-            setFinalSection1(Section1.split(','));
-        }
-        if (Section2) {
-            setFinalSection2(Section2.split(','));
-        }
-    }, [Section1, Section2]);
+        setTimeout(() => { 
+            generatePdf2();
+        }, 1000);
+    }, []);
 
-    if(!finalSection1)
-    {
-        return
-    }
+
 
     return (
         <>  
-            <main ref={pdfRef} id='record' className="my-0 p-2 py-0 bg-white mx-auto max-w-screen-md relative">
+        <div className="max-w-screen-md mx-auto min-h-screen overflow-hidden app-wrapper-print   relative ">
+            <section id='record1' className="my-0 p-2 py-0 bg-white shadow mx-auto relative max-w-screen-md aspect-[210/297] overflow-hidden">
                 <div className="relative z-0">
                     <div className="absolute -top-[25%] -left-2 w-32 h-32 z-0">
                         <img
@@ -406,135 +220,170 @@ export default function Print() {
                 <div className='space-y-4'>
                     <div className='record-box'>
                         <h2 className='text-lg font-bold text-primary mb-4 text-center'>Risk Factor-weighted Clinical Likelihood</h2>
-                        <p className=''>
-                            <span className='font-semibold'>
+                        
+                        <section className="flex gap-10">
+                            <div>
+                                <p className=''>
+                                    <span className='font-semibold'>
+                                        Sex
+                                    </span> : Male
+                                    <span className='inline-block px-4'>|</span>
+                                    <span className='font-semibold'>
+                                        Age
+                                    </span> : 40-49
+                                </p>
+                            </div>
+                            <div className="block">
+                                <div className="flex items-center gap-5">
+                                    <p>
+                                        <span className='font-semibold'>Name : </span>.......................................................
+                                    </p>
+                                    <p>
+                                        <span className='font-semibold'>HN : </span>...................
+                                    </p>
+                                </div>
+                            </div>
+                        </section>
+                        <hr className='mt-3' />
+                        <section className="grid grid-cols-2 gap-4">
+
+                            <div className='space-y-1 mt-4 text-sm'>
+                                <div>
+                                    <span className='mb-2 border border-secondary shadow-md font-semibold text-lg w-[150px] inline-flex items-center justify-center py-0.5 px-5 rounded-3xl bg-primary text-white'>
+                                        {
+                                            symptom == 'option1' && finalSection1 ? (
+                                                <>Chest pain</>
+                                            ) : (
+                                                <>Dyspnoea</>
+                                            )
+                                        }
+                                    </span>
+                                </div>
                                 {
-                                    lang == 'th' ? 'เพศ' : 'Sex'
+                                    symptom == 'option1' && finalSection1 && (
+                                        <div className='space-y-1 mt-4 '>
+                                            <div className='recordCheckbox'>
+                                                <input name='section1[]' type='checkbox' defaultChecked={finalSection1[0] != 0} readOnly />
+                                                <label>
+                                                    {
+                                                        lang == 'th' ? 'เจ็บบริเวณกระดูกคอ, ขากรรไกร, ไหล่ หรือแขน' : 'Constricting discomfort located retrosternally or in neck, jaw, shoulder or arm'
+                                                    }
+                                                </label>
+                                            </div>
+                                            <div className='recordCheckbox'>
+                                                <input name='section1[]' type='checkbox' defaultChecked={finalSection1[1] != 0} readOnly />
+                                                <label>
+                                                    {
+                                                        lang == 'th' ? 'อาการเจ็บรุนแรงขึ้น เมื่อมีความเครียดและกังวล' : 'Aggravated by physical or emotional stress'
+                                                    }
+                                                </label>
+                                            </div>
+                                            <div className='recordCheckbox'>
+                                                <input name='section1[]' type='checkbox' defaultChecked={finalSection1[2] != 0} readOnly />
+                                                <label>
+                                                    {
+                                                        lang == 'th' ? 'อาการเจ็บบรรเทาลง เมื่อได้พักร่างกาย 5 นาที' : 'Relieved by rest or nitrates within 5 min '
+                                                    }
+                                                </label>
+                                            </div>
+                                            <div className='recordCheckbox'>
+                                                <input name='section1[]' type='checkbox' defaultChecked={finalSection1[0] == 0 && finalSection1[1] == 0 && finalSection1[2] == 0} readOnly />
+                                                <label>
+                                                    {
+                                                        lang == 'th' ? 'ไม่มีอาการ' : 'None'
+                                                    }
+                                                </label>
+                                            </div>
+                                        </div>
+                                    )
                                 }
-                            </span> : {sex} 
-                            <span className='inline-block px-4'>|</span>
-                            <span className='font-semibold'>
                                 {
-                                    lang == 'th' ? 'อายุ' : 'Age'
+                                    symptom == 'option2' && finalSection1 && (
+                                        <div className='space-y-1 mt-4 '>
+                                            <div className='recordCheckbox'>
+                                                <input name='section1[]' type='checkbox' defaultChecked={finalSection1[0] != 0} readOnly />
+                                                <label>
+                                                    {
+                                                        lang == 'th' ? 'มีอาการใจสั่นและ/หรือหายใจลำบากรุนแรง เมื่อต้องออกแรง' : 'Shortness of breath and/or trouble catching breath aggravated by physical exertion '
+                                                    }
+                                                </label>
+                                            </div>
+                                            <div className='recordCheckbox'>
+                                                <input name='section1[]' type='checkbox' defaultChecked={finalSection1[0] == 0} readOnly />
+                                                <label>
+                                                    {
+                                                        lang == 'th' ? 'ไม่มีอาการ' : 'None'
+                                                    }
+                                                </label>
+                                            </div>
+                                        </div>
+                                    )
                                 }
-                            </span> : {ageRange[age-1]}
-                        </p>
-                        {
-                            symptom == 'option1' && finalSection1 && (
-                                <div className='space-y-1 mt-4 '>
-                                    <div className='recordCheckbox'>
-                                        <input name='section1[]' type='checkbox' defaultChecked={finalSection1[0] != 0} readOnly />
-                                        <label>
-                                            {
-                                                lang == 'th' ? 'เจ็บบริเวณกระดูกคอ, ขากรรไกร, ไหล่ หรือแขน' : 'Constricting discomfort located retrosternally or in neck, jaw, shoulder or arm'
-                                            }
-                                        </label>
-                                    </div>
-                                    <div className='recordCheckbox'>
-                                        <input name='section1[]' type='checkbox' defaultChecked={finalSection1[1] != 0} readOnly />
-                                        <label>
-                                            {
-                                                lang == 'th' ? 'อาการเจ็บรุนแรงขึ้น เมื่อมีความเครียดและกังวล' : 'Aggravated by physical or emotional stress'
-                                            }
-                                        </label>
-                                    </div>
-                                    <div className='recordCheckbox'>
-                                        <input name='section1[]' type='checkbox' defaultChecked={finalSection1[2] != 0} readOnly />
-                                        <label>
-                                            {
-                                                lang == 'th' ? 'อาการเจ็บบรรเทาลง เมื่อได้พักร่างกาย 5 นาที' : 'Relieved by rest or nitrates within 5 min '
-                                            }
-                                        </label>
-                                    </div>
-                                    <div className='recordCheckbox'>
-                                        <input name='section1[]' type='checkbox' defaultChecked={finalSection1[0] == 0 && finalSection1[1] == 0 && finalSection1[2] == 0} readOnly />
-                                        <label>
-                                            {
-                                                lang == 'th' ? 'ไม่มีอาการ' : 'None'
-                                            }
-                                        </label>
-                                    </div>
+                            </div>
+                            {/* <hr className='my-3' /> */}
+                            <div className='space-y-1 mt-4 text-sm'>
+                                <div>
+                                    <span className='mb-2 border border-secondary shadow-md font-semibold text-lg w-[250px] inline-flex items-center justify-center py-0.5 px-5 rounded-3xl bg-primary text-white'>
+                                    Risk Factor for CAD
+                                    </span>
                                 </div>
-                            )
-                        }
-                        {
-                            symptom == 'option2' && finalSection1 && (
-                                <div className='space-y-1 mt-4 '>
-                                    <div className='recordCheckbox'>
-                                        <input name='section1[]' type='checkbox' defaultChecked={finalSection1[0] != 0} readOnly />
-                                        <label>
-                                            {
-                                                lang == 'th' ? 'มีอาการใจสั่นและ/หรือหายใจลำบากรุนแรง เมื่อต้องออกแรง' : 'Shortness of breath and/or trouble catching breath aggravated by physical exertion '
-                                            }
-                                        </label>
-                                    </div>
-                                    <div className='recordCheckbox'>
-                                        <input name='section1[]' type='checkbox' defaultChecked={finalSection1[0] == 0} readOnly />
-                                        <label>
-                                            {
-                                                lang == 'th' ? 'ไม่มีอาการ' : 'None'
-                                            }
-                                        </label>
-                                    </div>
+                                {
+                                    finalSection2 && (
+                                <>
+                                <div className='recordCheckbox'>
+                                    <input type='checkbox' defaultChecked={finalSection2[0] != 0} readOnly />
+                                    <label>
+                                        {
+                                            lang == 'th' ? 'มีญาติสาย 1 คนขึ้นไป ที่มีประวัติโรคหลอดเลือดหัวใจ' : 'Family history (1 or more first-degree relatives with early signs of CAD (men less 55 and women less 65 years of age))'
+                                        }
+                                    </label>
                                 </div>
-                            )
-                        }
-                        {/* Section2 */}
-                        <hr className='my-3' />
-                        {
-                            finalSection2 && (
-                                <div className='space-y-1 mt-4 '>
-                                    <div className='recordCheckbox'>
-                                        <input type='checkbox' defaultChecked={finalSection2[0] != 0} readOnly />
-                                        <label>
-                                            {
-                                                lang == 'th' ? 'มีญาติสาย 1 คนขึ้นไป ที่มีประวัติโรคหลอดเลือดหัวใจ' : 'Family history (1 or more first-degree relatives with early signs of CAD (men less 55 and women less 65 years of age))'
-                                            }
-                                        </label>
-                                    </div>
-                                    <div className='recordCheckbox'>
-                                        <input type='checkbox' defaultChecked={finalSection2[1] != 0} readOnly />
-                                        <label>
-                                            {
-                                                lang == 'th' ? 'สูบบุหรี่' : 'Smoking (as Current or past smoker)'
-                                            }
-                                        </label>
-                                    </div>
-                                    <div className='recordCheckbox'>
-                                        <input type='checkbox' defaultChecked={finalSection2[2] != 0} readOnly />
-                                        <label>
-                                            {
-                                                lang == 'th' ? 'ภาวะไขมันในเลือดสูง' : 'Dyslipidaemia'
-                                            }
-                                        </label>
-                                    </div>
-                                    <div className='recordCheckbox'>
-                                        <input type='checkbox' defaultChecked={finalSection2[3] != 0} readOnly />
-                                        <label>
-                                            {
-                                                lang == 'th' ? 'โรคความดันโลหิตสูง' : 'Hypertension'
-                                            }
-                                        </label>
-                                    </div>
-                                    <div className='recordCheckbox'>
-                                        <input type='checkbox' defaultChecked={finalSection2[4] != 0} readOnly />
-                                        <label>
-                                            {
-                                                lang == 'th' ? 'โรคเบาหวาน' : 'Diabetes'
-                                            }
-                                        </label>
-                                    </div>
-                                    <div className='recordCheckbox'>
-                                        <input type='checkbox' defaultChecked={finalSection2[0] == 0 && finalSection2[1] == 0 && finalSection2[2] == 0 && finalSection2[3] == 0 && finalSection2[4] == 0} readOnly />
-                                        <label>
-                                            {
-                                                lang == 'th' ? 'ไม่มี' : 'None of Above'
-                                            }
-                                        </label>
-                                    </div>
+                                <div className='recordCheckbox'>
+                                    <input type='checkbox' defaultChecked={finalSection2[1] != 0} readOnly />
+                                    <label>
+                                        {
+                                            lang == 'th' ? 'สูบบุหรี่' : 'Smoking (as Current or past smoker)'
+                                        }
+                                    </label>
                                 </div>
-                            )
-                        }
+                                <div className='recordCheckbox'>
+                                    <input type='checkbox' defaultChecked={finalSection2[2] != 0} readOnly />
+                                    <label>
+                                        {
+                                            lang == 'th' ? 'ภาวะไขมันในเลือดสูง' : 'Dyslipidaemia'
+                                        }
+                                    </label>
+                                </div>
+                                <div className='recordCheckbox'>
+                                    <input type='checkbox' defaultChecked={finalSection2[3] != 0} readOnly />
+                                    <label>
+                                        {
+                                            lang == 'th' ? 'โรคความดันโลหิตสูง' : 'Hypertension'
+                                        }
+                                    </label>
+                                </div>
+                                <div className='recordCheckbox'>
+                                    <input type='checkbox' defaultChecked={finalSection2[4] != 0} readOnly />
+                                    <label>
+                                        {
+                                            lang == 'th' ? 'โรคเบาหวาน' : 'Diabetes'
+                                        }
+                                    </label>
+                                </div>
+                                <div className='recordCheckbox'>
+                                    <input type='checkbox' defaultChecked={finalSection2[0] == 0 && finalSection2[1] == 0 && finalSection2[2] == 0 && finalSection2[3] == 0 && finalSection2[4] == 0} readOnly />
+                                    <label>
+                                        {
+                                            lang == 'th' ? 'ไม่มี' : 'None of Above'
+                                        }
+                                    </label>
+                                </div>
+                                </>
+                                )
+                                }
+                            </div>
+
+                        </section>
                         
 
                     </div>
@@ -547,72 +396,50 @@ export default function Print() {
                             height={400}
                             className="block aspect-[1097/388] w-full"
                         />
-                    </div>                 
+                    </div>
 
-                    <div className="hidden" id="renderForImage">
-
-                        <div className="p-5 bg-primary text-white rounded-xl">
-                            <p className="text-xl font-medium text-center">
-                                {
-                                    lang == 'th' ? 'ความเสี่ยงของคุณอยู่ในระดับ' : 'Clinical likelihood'
-                                }
-                            </p>
-                            <p className={RF_PTP < 7 ? "text-3xl font-bold text-center text-[#74b8e4]" : RF_PTP >= 7 && RF_PTP < 17 ? "text-3xl font-bold text-center text-[#45bc8d]" : RF_PTP >= 17 ? "text-3xl font-bold text-center text-[#c7c246]" : "" }>{getRiskLevel(RF_PTP)}</p>
-                            <div className="flex flex-row gap-5 items-center justify-center">
-                                <div>
-                                <img 
-                                    src="/img/hearth.png"
-                                    alt="hearth"
-                                    width={400}
-                                    height={400}
-                                    className="h-24 w-auto block"
-                                />
-                                </div>
-                                <div className="flex-initial">                                                                           
-                                    <div className="text-center">
-                                        <span className={RF_PTP < 7 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#74b8e4] text-white w-24 h-24 rounded-full" : RF_PTP >= 7 && RF_PTP < 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#45bc8d] text-white w-24 h-24 rounded-full" : RF_PTP >= 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#c7c246] text-white w-24 h-24 rounded-full" : "" }>
-                                        {/* <span className='inline-flex aspect-square items-center justify-center text-3xl bg-[#74b8e4] text-white w-24 h-24 rounded-full'> */}
-                                            {RF_PTP} <span className='text-base'>%</span>
-                                        </span>
-            
+                    <div className="p-5 py-10 bg-primary text-white rounded-xl">
+                        <div className="flex flex-row gap-5 items-center justify-center">
+                            <div>
+                                <p className="text-xl font-medium text-center">
+                                Clinical likelihood
+                                </p>
+                                <p className={RF_PTP < 7 ? "text-3xl font-bold text-center text-[#74b8e4]" : RF_PTP >= 7 && RF_PTP < 17 ? "text-3xl font-bold text-center text-[#45bc8d]" : RF_PTP >= 17 ? "text-3xl font-bold text-center text-[#c7c246]" : "" }>{getRiskLevel(RF_PTP)}</p>
+                            </div>
+                            <div>
+                                <div className="flex flex-row gap-5 items-center justify-center">
+                                    <div>
+                                    <img 
+                                        src="/img/hearth.png"
+                                        alt="hearth"
+                                        width={400}
+                                        height={400}
+                                        className="h-24 w-auto block"
+                                    />
+                                    </div>
+                                    <div className="flex-initial">                                                                           
+                                        <div className="text-center">
+                                            <span className={RF_PTP < 7 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#74b8e4] text-white w-24 h-24 rounded-full" : RF_PTP >= 7 && RF_PTP < 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#45bc8d] text-white w-24 h-24 rounded-full" : RF_PTP >= 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#c7c246] text-white w-24 h-24 rounded-full" : "" }>
+                                                {RF_PTP} <span className='text-base'>%</span>
+                                            </span>
+                
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        
-
-                        <div className='record-box'>
-                            <h2 className='text-lg font-bold text-primary mb-4'>
-                                {
-                                    lang == 'th' ? 'Consider reclassification of low RF-CL' : 'Consider reclassification of low RF-CL'
-                                }
-                            </h2>
-                            <img
-                                src="/img/graph2.png"
-                                width={939}
-                                height={355}
-                                alt="Picture of the author"
-                            />
-
-                            <div className='mt-4'>
-                                <p>
-                                    <span className='font-semibold inline-block w-[80px]'>CACS CL</span>  <span className="">:</span> <span className="ml-4">{CACS} %</span>
-                                </p>
-                                <p>
-                                    <span className='font-semibold inline-block w-[80px]'>RF_PTP</span> <span className="">:</span> <span className="ml-4">{RF_PTP} %</span>
-                                </p>
-                            </div>
-
-                        </div>
-
                     </div>
 
+        
                 </div>
-                <div id="recordFooter" className="record-footer hidden"></div>
-            </main>
-            <main id='record2' className="my-0 p-2 py-0 bg-white mx-auto max-w-screen-md relative">
-                <div id="record2Header" className="relative z-0 hidden">
+            </section>
+
+            <div id="divider" className="my-20">
+
+            </div>
+
+            <section id='record2' className="my-0 p-2 py-0 bg-white mx-auto shadow relative max-w-screen-md aspect-[210/297] overflow-hidden">
+                <div className="relative z-0">
                     <div className="absolute -top-[25%] -left-2 w-32 h-32 z-0">
                         <img
                             src="/img/bg-l.png"
@@ -630,81 +457,193 @@ export default function Print() {
                     </div>
                     <div className="w-4/5 h-[5px] bg-gradient-to-r from-[#fbf7ec] to-[#f7f0df] content-[''] ml-auto rounded-full"></div>
                 </div>
-                <div className='space-y-4'>
 
-                    <div className="p-5 bg-primary text-white rounded-xl">
-                        <p className="text-xl font-medium text-center">
+
+                <div className='space-y-4'>
+                    <div className='record-box'>
+                        <h2 className='text-lg font-bold text-primary mb-4 text-center'>Risk Factor-weighted Clinical Likelihood</h2>
+                        
+
+                    </div>          
+
+                    <div className='record-box relative z-10'>
+                        <h2 className='text-lg font-bold text-primary mb-4 hidden'>
                             {
-                                lang == 'th' ? 'ความเสี่ยงของคุณอยู่ในระดับ' : 'Clinical likelihood'
+                                lang == 'th' ? 'Consider reclassification of low RF-CL' : 'Adjust clinical likelihood based on abnormal clinical findings'
                             }
-                        </p>
-                        <p className={RF_PTP < 7 ? "text-3xl font-bold text-center text-[#74b8e4]" : RF_PTP >= 7 && RF_PTP < 17 ? "text-3xl font-bold text-center text-[#45bc8d]" : RF_PTP >= 17 ? "text-3xl font-bold text-center text-[#c7c246]" : "" }>{getRiskLevel(RF_PTP)}</p>
-                        <div className="flex flex-row gap-5 items-center justify-center">
-                            <div>
-                            <img 
-                                src="/img/hearth.png"
-                                alt="hearth"
-                                width={400}
-                                height={400}
-                                className="h-24 w-auto block"
+                        </h2>
+                        <div>
+                            <span className='mb-7 border border-secondary shadow-md font-semibold text-lg flex items-center justify-center py-1.5 px-5 rounded-3xl bg-primary text-white'>
+                                Adjust clinical likelihood based on abnormal clinical findings
+                            </span>
+                        </div>
+                        {
+                            finalAdjust && (
+                                <>
+                                
+                                    <div className="mb-3">
+                                        {/* <img src="/img/test-mockup-01.jpg" alt="graph2" width={939} height={355} className="block my-8" /> */}
+                                        <div className='recordCheckbox'>
+                                            <input type='checkbox' defaultChecked={finalAdjust[0] != 0} readOnly />
+                                            <label>
+                                                Resting ECG changes (Q-wave or ST-segment/T-wave changes)
+                                            </label>
+                                        </div>
+                                        <div className='recordCheckbox'>
+                                            <input type='checkbox' defaultChecked={finalAdjust[1] != 0} readOnly />
+                                            <label>
+                                                Exercise ECG with abnormal findings
+                                            </label>
+                                        </div>
+                                        <div className='recordCheckbox'>
+                                            <input type='checkbox' defaultChecked={finalAdjust[2] != 0} readOnly />
+                                            <label>
+                                                LV dysfunction (severe or segmental)
+                                            </label>
+                                        </div>
+                                        <div className='recordCheckbox'>
+                                            <input type='checkbox' defaultChecked={finalAdjust[3] != 0} readOnly />
+                                            <label>
+                                                Ventricular arrhythmia
+                                            </label>
+                                        </div>
+                                        <div className='recordCheckbox'>
+                                            <input type='checkbox' defaultChecked={finalAdjust[4] != 0} readOnly />
+                                            <label>
+                                                Peripheral artery disease
+                                            </label>
+                                        </div>
+                                        <div className='recordCheckbox'>
+                                            <input type='checkbox' defaultChecked={finalAdjust[5] != 0} readOnly />
+                                            <label>
+                                                Coronary calcification on pre-existing chest CT
+                                            </label>
+                                        </div>
+                                        <div className='recordCheckbox'>
+                                            <input type='checkbox' defaultChecked={finalAdjust[6] != 0} readOnly />
+                                            <label>
+                                                None
+                                            </label>
+                                        </div>
+
+                                    </div>
+
+                                </>
+                            )
+                        }
+                        <div className='relative my-4 mx-auto w-2/3'>
+                            <img
+                                className="block "
+                                src="/img/graph2.png"
+                                width={939}
+                                height={355}
+                                alt="Picture of the author"
                             />
+                            {
+                                cacsScore == 0 && (
+                                    <div className='absolute -translate-x-1/2 -translate-y-1/2 top-[43%] left-[92%] w-[16%] h-auto aspect-[12/2] bg-red-500/50 rounded-3xl'></div>
+                                )
+                            }
+                            {
+                                cacsScore < 10 && cacsScore > 0 && (
+                                    <div className='absolute -translate-x-1/2 -translate-y-1/2 top-[36%] left-[92%] w-[16%] h-auto aspect-[12/2] bg-red-500/50 rounded-3xl'></div>
+                                )
+                            }
+                            {
+                                cacsScore < 99 && cacsScore > 10 && (
+                                    <div className='absolute -translate-x-1/2 -translate-y-1/2 top-[29%] left-[92%] w-[16%] h-auto aspect-[12/2] bg-red-500/50 rounded-3xl'></div>
+                                )
+                            }
+                            {
+                                cacsScore < 400 && cacsScore > 99 && (
+                                    <div className='absolute -translate-x-1/2 -translate-y-1/2 top-[22%] left-[92%] w-[16%] h-auto aspect-[12/2] bg-red-500/50 rounded-3xl'></div>
+                                )
+                            }
+                            {
+                                cacsScore < 1000 && cacsScore > 400 && (
+                                    <div className='absolute -translate-x-1/2 -translate-y-1/2 top-[15%] left-[92%] w-[16%] h-auto aspect-[12/2] bg-red-500/50 rounded-3xl'></div>
+                                )
+                            }
+                            {
+                                cacsScore > 1000 && (
+                                    <div className='absolute -translate-x-1/2 -translate-y-1/2 top-[8%] left-[92%] w-[16%] h-auto aspect-[12/2] bg-red-500/50 rounded-3xl'></div>
+                                )
+                            }
+                        </div>
+                        <div className="mt-4 space-y-2">
+                            <div className="p-0 py-10 bg-primary text-white rounded-xl relative">
+                                <div className="absolute -top-[10px] right-[5px] px-3 py-1 bg-yellow-300 rounded-lg shadow-md shadow-black/70 text-primary text-sm">
+                                    <span className="font-semibold">Increase</span>
+                                </div>
+                                <div className="flex flex-row gap-5 items-center justify-center">
+                                    <div>
+                                        <p className="text-xl font-medium text-center">
+                                        CACS CL
+                                        </p>
+                                        <p className={RF_PTP < 7 ? "text-3xl font-bold text-center text-[#74b8e4]" : RF_PTP >= 7 && RF_PTP < 17 ? "text-3xl font-bold text-center text-[#45bc8d]" : RF_PTP >= 17 ? "text-3xl font-bold text-center text-[#c7c246]" : "" }>{getRiskLevel(RF_PTP)}</p>
+                                    </div>
+                                    <div>
+                                        <div className="flex flex-row gap-5 items-center justify-center">
+                                            <div>
+                                            <img 
+                                                src="/img/hearth.png"
+                                                alt="hearth"
+                                                width={400}
+                                                height={400}
+                                                className="h-24 w-auto block"
+                                            />
+                                            </div>
+                                            <div className="flex-initial">                                                                           
+                                                <div className="text-center">
+                                                    <span className={RF_PTP < 7 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#74b8e4] text-white w-24 h-24 rounded-full" : RF_PTP >= 7 && RF_PTP < 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#45bc8d] text-white w-24 h-24 rounded-full" : RF_PTP >= 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#c7c246] text-white w-24 h-24 rounded-full" : "" }>
+                                                        {RF_PTP} <span className='text-base'>%</span>
+                                                    </span>
+                        
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="flex-initial">                                                                           
-                                <div className="text-center">
-                                    <span className={RF_PTP < 7 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#74b8e4] text-white w-24 h-24 rounded-full" : RF_PTP >= 7 && RF_PTP < 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#45bc8d] text-white w-24 h-24 rounded-full" : RF_PTP >= 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#c7c246] text-white w-24 h-24 rounded-full" : "" }>
-                                    {/* <span className='inline-flex aspect-square items-center justify-center text-3xl bg-[#74b8e4] text-white w-24 h-24 rounded-full'> */}
-                                        {RF_PTP} <span className='text-base'>%</span>
-                                    </span>
-        
+
+                            <div className="p-0 py-10 bg-primary text-white rounded-xl">
+                                <div className="flex flex-row gap-5 items-center justify-center">
+                                    <div>
+                                        <p className="text-xl font-medium text-center">
+                                        RF_PTP
+                                        </p>
+                                        <p className={RF_PTP < 7 ? "text-3xl font-bold text-center text-[#74b8e4]" : RF_PTP >= 7 && RF_PTP < 17 ? "text-3xl font-bold text-center text-[#45bc8d]" : RF_PTP >= 17 ? "text-3xl font-bold text-center text-[#c7c246]" : "" }>{getRiskLevel(RF_PTP)}</p>
+                                    </div>
+                                    <div>
+                                        <div className="flex flex-row gap-5 items-center justify-center">
+                                            <div>
+                                            <img 
+                                                src="/img/hearth.png"
+                                                alt="hearth"
+                                                width={400}
+                                                height={400}
+                                                className="h-24 w-auto block"
+                                            />
+                                            </div>
+                                            <div className="flex-initial">                                                                           
+                                                <div className="text-center">
+                                                    <span className={RF_PTP < 7 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#74b8e4] text-white w-24 h-24 rounded-full" : RF_PTP >= 7 && RF_PTP < 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#45bc8d] text-white w-24 h-24 rounded-full" : RF_PTP >= 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#c7c246] text-white w-24 h-24 rounded-full" : "" }>
+                                                        {RF_PTP} <span className='text-base'>%</span>
+                                                    </span>
+                        
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    
-
-                    <div className='record-box'>
-                        <h2 className='text-lg font-bold text-primary mb-4'>
-                            {
-                                lang == 'th' ? 'Consider reclassification of low RF-CL' : 'Consider reclassification of low RF-CL'
-                            }
-                        </h2>
-                        <img
-                            src="/img/graph2.png"
-                            width={939}
-                            height={355}
-                            alt="Picture of the author"
-                        />
-
-                        <div className='mt-4'>
-                            <p>
-                                <span className='font-semibold inline-block w-[80px]'>CACS CL</span>  <span className="">:</span> <span className="ml-4">{CACS} %</span>
-                            </p>
-                            <p>
-                                <span className='font-semibold inline-block w-[80px]'>RF_PTP</span> <span className="">:</span> <span className="ml-4">{RF_PTP} %</span>
-                            </p>
-                        </div>
 
                     </div>
-
-
-
 
                 </div>
-                <div id="record2Footer" className="record-footer hidden"></div>
-            </main>
-            <div className='text-center mt-10 grid grid-cols-2 gap-3 px-3'>
-                    <button className="btn btn-primary w-full" onClick={save}>
-                        {
-                            lang == 'th' ? 'บันทึกรูปภาพ' : 'SAVE IMG'
-                        }
-                    </button>
-                    <button className="btn btn-primary w-full" onClick={generatePdf2}>
-                        {
-                            lang == 'th' ? 'บันทึกเป็น PDF' : 'SAVE PDF'
-                        }
-                    </button>
-            </div>
+            </section>
+        </div>
         </>
     );
 }

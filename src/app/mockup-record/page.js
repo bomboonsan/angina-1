@@ -139,39 +139,11 @@ export default function Record() {
     console.log('cacsScore', cacsScore)
 
 
-    const captureDivAsImage = (time) => {
-        const element = document.getElementById('record');
-        const hiddenForImage = document.getElementById('hiddenForImage');
-        hiddenForImage.classList.add('hidden');
-        
-        if (element) {
-            domtoimage.toPng(element)
-            .then((dataUrl) => {
-                const link = document.createElement('a');
-                link.href = dataUrl;
-                link.download = `recorded-1-${time}.png`;
-                link.click();
-            })
-            .finally(() => {
-                hiddenForImage.classList.remove('hidden');                
-            })
-            .catch((error) => {
-                console.error('Error capturing image:', error);
-            });
-        }
-    };
-
-    const save = () => {
-        const time = new Date().getTime();
-        captureDivAsImage(time);
-    }
-
-
 
     return (
         <>  
-        <div className="max-w-[700px] mx-auto bg-white shadow min-h-screen overflow-hidden relative">
-            <main id='record' className="my-0 p-2 py-0 bg-white mx-auto max-w-screen-md relative app-wrapper">
+        <div className="max-w-[700px] mx-auto bg-white shadow min-h-screen overflow-hidden app-wrapper relative">
+            <main id='record' className="my-0 p-2 py-0 bg-white mx-auto max-w-screen-md relative">
                 <div className="relative z-0">
                     <div className="absolute -top-[25%] -left-2 w-32 h-32 z-0">
                         <img
@@ -294,6 +266,7 @@ export default function Record() {
                                     )
                                 }
                             </div>
+                            {/* <hr className='my-3' /> */}
                             <div className='space-y-1 mt-4 text-sm'>
                                 <div>
                                     <span className='mb-2 border border-secondary shadow-md font-semibold text-lg w-[250px] inline-flex items-center justify-center py-0.5 px-5 rounded-3xl bg-primary text-white'>
@@ -416,6 +389,7 @@ export default function Record() {
                                 <>
                                 
                                     <div className="mb-3">
+                                        {/* <img src="/img/test-mockup-01.jpg" alt="graph2" width={939} height={355} className="block my-8" /> */}
                                         <div className='recordCheckbox'>
                                             <input type='checkbox' defaultChecked={finalAdjust[0] != 0} readOnly />
                                             <label>
@@ -470,6 +444,11 @@ export default function Record() {
                                 lang == 'th' ? 'Consider reclassification of low RF-CL' : 'Adjust clinical likelihood based on abnormal clinical findings'
                             }
                         </h2>
+                        {/* <div>
+                            <span className='mb-7 border border-secondary shadow-md font-semibold text-lg flex items-center justify-center py-1.5 px-5 rounded-3xl bg-primary text-white'>
+                                Adjust clinical likelihood based on abnormal clinical findings
+                            </span>
+                        </div> */}
                         <div className='relative'>
                             <img
                                 className="block my-8"
@@ -509,6 +488,20 @@ export default function Record() {
                                 )
                             }
                         </div>
+                        {/* <div className='mt-4 grid grid-cols-2 gap-4'>
+                            <div className='p-4 shadow-md rounded-lg border border-neutral-100 bg-white text-primary'>
+                                <p className='text-center'>
+                                    <span className='font-semibold text-center block text-secondary'>CACS CL</span>  
+                                    <span className="ml-4 text-4xl font-bold">{CACS} %</span>
+                                </p>
+                            </div>
+                            <div className='p-4 shadow-md rounded-lg border border-neutral-100 bg-white text-primary'>
+                                <p className='text-center'>
+                                    <span className='font-semibold text-center block text-secondary'>RF_PTP</span> 
+                                    <span className="ml-4 text-4xl font-bold">{RF_PTP} %</span>
+                                </p>
+                            </div>
+                        </div> */}
                         <div className="mt-4 space-y-5">
                             <div className="p-5 py-10 bg-primary text-white rounded-xl relative">
                                 <div className="absolute -top-[10px] right-[5px] px-3 py-1 bg-yellow-300 rounded-lg shadow-md shadow-black/70 text-primary text-sm">
@@ -582,13 +575,13 @@ export default function Record() {
                     </div>
 
 
-                    <div id='hiddenForImage' className='text-center mt-10 grid grid-cols-2 gap-3 px-3'>
-                        <button className="btn btn-primary w-full" onClick={save}>
+                    <div className='text-center mt-10 grid grid-cols-2 gap-3 px-3'>
+                        <button className="btn btn-primary w-full">
                             {
                                 lang == 'th' ? 'บันทึกรูปภาพ' : 'SAVE IMG'
                             }
                         </button>
-                        <button className="btn btn-primary w-full" onClick={() => router.push('/print')}>
+                        <button className="btn btn-primary w-full">
                             {
                                 lang == 'th' ? 'บันทึกเป็น PDF' : 'SAVE PDF'
                             }

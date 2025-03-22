@@ -139,39 +139,11 @@ export default function Record() {
     console.log('cacsScore', cacsScore)
 
 
-    const captureDivAsImage = (time) => {
-        const element = document.getElementById('record');
-        const hiddenForImage = document.getElementById('hiddenForImage');
-        hiddenForImage.classList.add('hidden');
-        
-        if (element) {
-            domtoimage.toPng(element)
-            .then((dataUrl) => {
-                const link = document.createElement('a');
-                link.href = dataUrl;
-                link.download = `recorded-1-${time}.png`;
-                link.click();
-            })
-            .finally(() => {
-                hiddenForImage.classList.remove('hidden');                
-            })
-            .catch((error) => {
-                console.error('Error capturing image:', error);
-            });
-        }
-    };
-
-    const save = () => {
-        const time = new Date().getTime();
-        captureDivAsImage(time);
-    }
-
-
 
     return (
         <>  
-        <div className="max-w-[700px] mx-auto bg-white shadow min-h-screen overflow-hidden relative">
-            <main id='record' className="my-0 p-2 py-0 bg-white mx-auto max-w-screen-md relative app-wrapper">
+        <div className="max-w-screen-md mx-auto min-h-screen overflow-hidden app-wrapper-print   relative ">
+            <section id='record1' className="my-0 p-2 py-0 bg-white shadow mx-auto relative max-w-screen-md aspect-[210/297] overflow-hidden">
                 <div className="relative z-0">
                     <div className="absolute -top-[25%] -left-2 w-32 h-32 z-0">
                         <img
@@ -207,13 +179,13 @@ export default function Record() {
                                     </span> : 40-49
                                 </p>
                             </div>
-                            <div className="hidden">
+                            <div className="block">
                                 <div className="flex items-center gap-5">
                                     <p>
-                                        <span className='font-semibold'>Name : </span>..........................................
+                                        <span className='font-semibold'>Name : </span>.......................................................
                                     </p>
                                     <p>
-                                        <span className='font-semibold'>HN : </span>................
+                                        <span className='font-semibold'>HN : </span>...................
                                     </p>
                                 </div>
                             </div>
@@ -294,6 +266,7 @@ export default function Record() {
                                     )
                                 }
                             </div>
+                            {/* <hr className='my-3' /> */}
                             <div className='space-y-1 mt-4 text-sm'>
                                 <div>
                                     <span className='mb-2 border border-secondary shadow-md font-semibold text-lg w-[250px] inline-flex items-center justify-center py-0.5 px-5 rounded-3xl bg-primary text-white'>
@@ -403,10 +376,53 @@ export default function Record() {
                         </div>
                     </div>
 
-                    
+        
+                </div>
+            </section>
 
+            <div id="divider" className="my-20">
+
+            </div>
+
+            <section id='record2' className="my-0 p-2 py-0 bg-white mx-auto shadow relative max-w-screen-md aspect-[210/297] overflow-hidden">
+                <div className="relative z-0">
+                    <div className="absolute -top-[25%] -left-2 w-32 h-32 z-0">
+                        <img
+                            src="/img/bg-l.png"
+                            alt="AC"
+                            className="w-full h-auto ml-auto block"
+                        />
+                    </div>
+                    <div className="py-3 px-5">
+                        <h1 className="text-[3vw] sm:text-lg font-semibold text-right leading-3 text-primary">
+                            <span className="text-[2.3vw] sm:text-[0.9rem]">Risk Factor-weighted Clinical Likelihood model(RF-CL)</span>
+                            <br/>
+                            <span className="text-[2.5vw] sm:text-[0.9rem] text-[#c8a33a]">for Chronic Coronary Syndrome (2024 ESC)</span>
+                        </h1>
+                        
+                    </div>
+                    <div className="w-4/5 h-[5px] bg-gradient-to-r from-[#fbf7ec] to-[#f7f0df] content-[''] ml-auto rounded-full"></div>
+                </div>
+
+
+                <div className='space-y-4'>
                     <div className='record-box'>
-                        <div className="mt-3">
+                        <h2 className='text-lg font-bold text-primary mb-4 text-center'>Risk Factor-weighted Clinical Likelihood</h2>
+                        
+
+                    </div>
+
+                    {/* <div className="relative z-0">
+                        <img src="/img/test-mockup-01.jpg" alt="graph2" width={939} height={355} className="block mx-auto -mb-8 w-2/3" />
+                    </div> */}             
+
+                    <div className='record-box relative z-10'>
+                        <h2 className='text-lg font-bold text-primary mb-4 hidden'>
+                            {
+                                lang == 'th' ? 'Consider reclassification of low RF-CL' : 'Adjust clinical likelihood based on abnormal clinical findings'
+                            }
+                        </h2>
+                        <div>
                             <span className='mb-7 border border-secondary shadow-md font-semibold text-lg flex items-center justify-center py-1.5 px-5 rounded-3xl bg-primary text-white'>
                                 Adjust clinical likelihood based on abnormal clinical findings
                             </span>
@@ -416,6 +432,7 @@ export default function Record() {
                                 <>
                                 
                                     <div className="mb-3">
+                                        {/* <img src="/img/test-mockup-01.jpg" alt="graph2" width={939} height={355} className="block my-8" /> */}
                                         <div className='recordCheckbox'>
                                             <input type='checkbox' defaultChecked={finalAdjust[0] != 0} readOnly />
                                             <label>
@@ -464,15 +481,9 @@ export default function Record() {
                                 </>
                             )
                         }
-
-                        <h2 className='text-lg font-bold text-primary mb-4 hidden'>
-                            {
-                                lang == 'th' ? 'Consider reclassification of low RF-CL' : 'Adjust clinical likelihood based on abnormal clinical findings'
-                            }
-                        </h2>
-                        <div className='relative'>
+                        <div className='relative my-4 mx-auto w-2/3'>
                             <img
-                                className="block my-8"
+                                className="block "
                                 src="/img/graph2.png"
                                 width={939}
                                 height={355}
@@ -509,17 +520,31 @@ export default function Record() {
                                 )
                             }
                         </div>
-                        <div className="mt-4 space-y-5">
-                            <div className="p-5 py-10 bg-primary text-white rounded-xl relative">
+                        {/* <div className='mt-4 grid grid-cols-2 gap-4'>
+                            <div className='p-4 shadow-md rounded-lg border border-neutral-100 bg-white text-primary'>
+                                <p className='text-center'>
+                                    <span className='font-semibold text-center block text-secondary'>CACS CL</span>  
+                                    <span className="ml-4 text-4xl font-bold">{CACS} %</span>
+                                </p>
+                            </div>
+                            <div className='p-4 shadow-md rounded-lg border border-neutral-100 bg-white text-primary'>
+                                <p className='text-center'>
+                                    <span className='font-semibold text-center block text-secondary'>RF_PTP</span> 
+                                    <span className="ml-4 text-4xl font-bold">{RF_PTP} %</span>
+                                </p>
+                            </div>
+                        </div> */}
+                        <div className="mt-4 space-y-2">
+                            <div className="p-0 py-10 bg-primary text-white rounded-xl relative">
                                 <div className="absolute -top-[10px] right-[5px] px-3 py-1 bg-yellow-300 rounded-lg shadow-md shadow-black/70 text-primary text-sm">
                                     <span className="font-semibold">Increase</span>
                                 </div>
                                 <div className="flex flex-row gap-5 items-center justify-center">
-                                    <div className="min-w-[170px]">
+                                    <div>
                                         <p className="text-xl font-medium text-center">
                                         CACS CL
                                         </p>
-                                        <p className={CACS < 7 ? "text-3xl font-bold text-center text-[#74b8e4]" : CACS >= 7 && CACS < 17 ? "text-3xl font-bold text-center text-[#45bc8d]" : CACS >= 17 ? "text-3xl font-bold text-center text-[#c7c246]" : "" }>{getRiskLevel(CACS)}</p>
+                                        <p className={RF_PTP < 7 ? "text-3xl font-bold text-center text-[#74b8e4]" : RF_PTP >= 7 && RF_PTP < 17 ? "text-3xl font-bold text-center text-[#45bc8d]" : RF_PTP >= 17 ? "text-3xl font-bold text-center text-[#c7c246]" : "" }>{getRiskLevel(RF_PTP)}</p>
                                     </div>
                                     <div>
                                         <div className="flex flex-row gap-5 items-center justify-center">
@@ -534,8 +559,8 @@ export default function Record() {
                                             </div>
                                             <div className="flex-initial">                                                                           
                                                 <div className="text-center">
-                                                    <span className={CACS < 7 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#74b8e4] text-white w-24 h-24 rounded-full" : CACS >= 7 && CACS < 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#45bc8d] text-white w-24 h-24 rounded-full" : CACS >= 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#c7c246] text-white w-24 h-24 rounded-full" : "" }>
-                                                        {CACS} <span className='text-base'>%</span>
+                                                    <span className={RF_PTP < 7 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#74b8e4] text-white w-24 h-24 rounded-full" : RF_PTP >= 7 && RF_PTP < 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#45bc8d] text-white w-24 h-24 rounded-full" : RF_PTP >= 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#c7c246] text-white w-24 h-24 rounded-full" : "" }>
+                                                        {RF_PTP} <span className='text-base'>%</span>
                                                     </span>
                         
                                                 </div>
@@ -545,9 +570,9 @@ export default function Record() {
                                 </div>
                             </div>
 
-                            <div className="p-5 py-10 bg-primary text-white rounded-xl">
+                            <div className="p-0 py-10 bg-primary text-white rounded-xl">
                                 <div className="flex flex-row gap-5 items-center justify-center">
-                                    <div className="min-w-[170px]">
+                                    <div>
                                         <p className="text-xl font-medium text-center">
                                         RF_PTP
                                         </p>
@@ -578,25 +603,10 @@ export default function Record() {
                             </div>
                         </div>
 
-
-                    </div>
-
-
-                    <div id='hiddenForImage' className='text-center mt-10 grid grid-cols-2 gap-3 px-3'>
-                        <button className="btn btn-primary w-full" onClick={save}>
-                            {
-                                lang == 'th' ? 'บันทึกรูปภาพ' : 'SAVE IMG'
-                            }
-                        </button>
-                        <button className="btn btn-primary w-full" onClick={() => router.push('/print')}>
-                            {
-                                lang == 'th' ? 'บันทึกเป็น PDF' : 'SAVE PDF'
-                            }
-                        </button>
                     </div>
 
                 </div>
-            </main>
+            </section>
         </div>
         </>
     );
