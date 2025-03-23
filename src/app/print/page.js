@@ -548,7 +548,7 @@ export default function Record() {
                                 CACS-weighted clinical likelihood
                             </span>
                         </div>
-                        <div className='relative -mt-5 mb-4 mx-auto w-[80%]'>
+                        <div className='relative my-3 mx-auto w-[70%]'>
                             <img
                                 className="block "
                                 src="/img/graph2.png"
