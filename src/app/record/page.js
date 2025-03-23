@@ -223,12 +223,12 @@ export default function Record() {
 
                             <div className='space-y-1 mt-4 text-sm'>
                                 <div>
-                                    <span className='mb-2 border border-secondary shadow-md font-semibold text-lg w-[150px] inline-flex items-center justify-center py-0.5 px-5 rounded-3xl bg-primary text-white'>
+                                    <span className='mb-2 border border-secondary shadow-md font-semibold text-base w-[250px] inline-flex items-center justify-center py-0.5 px-5 rounded-3xl bg-primary text-white'>
                                         {
                                             symptom == 'option1' && finalSection1 ? (
-                                                <>Chest pain</>
+                                                <>Chest pain characteristics</>
                                             ) : (
-                                                <>Dyspnoea</>
+                                                <>Dyspnoea characteristics</>
                                             )
                                         }
                                     </span>
@@ -296,7 +296,7 @@ export default function Record() {
                             </div>
                             <div className='space-y-1 mt-4 text-sm'>
                                 <div>
-                                    <span className='mb-2 border border-secondary shadow-md font-semibold text-lg w-[250px] inline-flex items-center justify-center py-0.5 px-5 rounded-3xl bg-primary text-white'>
+                                    <span className='mb-2 border border-secondary shadow-md font-semibold text-base w-[250px] inline-flex items-center justify-center py-0.5 px-5 rounded-3xl bg-primary text-white'>
                                     Risk Factor for CAD
                                     </span>
                                 </div>
@@ -377,7 +377,7 @@ export default function Record() {
                                 <p className="text-xl font-medium text-center">
                                 Clinical likelihood
                                 </p>
-                                <p className={RF_PTP < 7 ? "text-3xl font-bold text-center text-[#74b8e4]" : RF_PTP >= 7 && RF_PTP < 17 ? "text-3xl font-bold text-center text-[#45bc8d]" : RF_PTP >= 17 ? "text-3xl font-bold text-center text-[#c7c246]" : "" }>{getRiskLevel(RF_PTP)}</p>
+                                <p className={RF_PTP < 7 ? "text-3xl font-bold text-center text-[#74b8e4]" : RF_PTP >= 7 && RF_PTP < 17 ? "text-3xl font-bold text-center text-[#45bc8d]" : RF_PTP >= 17 ? "text-3xl font-bold text-center text-[#fbef20]" : "" }>{getRiskLevel(RF_PTP)}</p>
                             </div>
                             <div>
                                 <div className="flex flex-row gap-5 items-center justify-center">
@@ -392,7 +392,7 @@ export default function Record() {
                                     </div>
                                     <div className="flex-initial">                                                                           
                                         <div className="text-center">
-                                            <span className={RF_PTP < 7 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#74b8e4] text-white w-24 h-24 rounded-full" : RF_PTP >= 7 && RF_PTP < 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#45bc8d] text-white w-24 h-24 rounded-full" : RF_PTP >= 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#c7c246] text-white w-24 h-24 rounded-full" : "" }>
+                                            <span className={RF_PTP < 7 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#74b8e4] text-white w-24 h-24 rounded-full" : RF_PTP >= 7 && RF_PTP < 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#45bc8d] text-white w-24 h-24 rounded-full" : RF_PTP >= 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#fbef20] text-white w-24 h-24 rounded-full" : "" }>
                                                 {RF_PTP} <span className='text-base'>%</span>
                                             </span>
                 
@@ -408,14 +408,17 @@ export default function Record() {
                     <div className='record-box'>
                         <div className="mt-3">
                             <span className='mb-7 border border-secondary shadow-md font-semibold text-lg flex items-center justify-center py-1.5 px-5 rounded-3xl bg-primary text-white'>
-                                Adjust clinical likelihood based on abnormal clinical findings
+                            Abnormal clinical findings
                             </span>
                         </div>
                         {
                             finalAdjust && (
                                 <>
                                 
-                                    <div className="mb-3">
+                                <section className='grid grid-cols-12'>
+                                
+                                    <div className="mb-3 col-span-8">
+                                        {/* <img src="/img/test-mockup-01.jpg" alt="graph2" width={939} height={355} className="block my-8" /> */}
                                         <div className='recordCheckbox'>
                                             <input type='checkbox' defaultChecked={finalAdjust[0] != 0} readOnly />
                                             <label>
@@ -461,15 +464,27 @@ export default function Record() {
 
                                     </div>
 
+                                    <div className="mb-3 col-span-4 p-3 bg-gray-200 flex justify-center items-center rounded-3xl">
+                                        <p className="text-lg font-bold text-center">
+                                            {
+                                                finalAdjust[6] != 0 ? 'Increase' : 'Decrease'
+                                            }
+                                            <br />
+                                            Clinical Likelihood
+                                        </p>
+                                    </div>
+
+                                </section>
+
                                 </>
                             )
                         }
 
-                        <h2 className='text-lg font-bold text-primary mb-4 hidden'>
-                            {
-                                lang == 'th' ? 'Consider reclassification of low RF-CL' : 'Adjust clinical likelihood based on abnormal clinical findings'
-                            }
-                        </h2>
+                        <div className="mt-3">
+                            <span className='mb-7 border border-secondary shadow-md font-semibold text-lg flex items-center justify-center py-1.5 px-5 rounded-3xl bg-primary text-white'>
+                                CACS-weighted clinical likelihood
+                            </span>
+                        </div>
                         <div className='relative'>
                             <img
                                 className="block my-8"
@@ -509,73 +524,90 @@ export default function Record() {
                                 )
                             }
                         </div>
+                        <div className="relative z-0 mx-auto w-fit">
+                            <label className="input input-bordered shadow-md flex items-center gap-2">
+                                <span className="text-primary font-bold">
+                                CACS SCORE
+                                </span> 
+                                <input 
+                                    type="number" 
+                                    className="grow text-center text-xl font-bold text-primary"
+                                    value={cacsScore} 
+                                />
+                            </label>
+                        </div>
                         <div className="mt-4 space-y-5">
                             <div className="p-5 py-10 bg-primary text-white rounded-xl relative">
-                                <div className="absolute -top-[10px] right-[5px] px-3 py-1 bg-yellow-300 rounded-lg shadow-md shadow-black/70 text-primary text-sm">
+                                {/* <div className="absolute -top-[10px] right-[5px] px-3 py-1 bg-yellow-300 rounded-lg shadow-md shadow-black/70 text-primary text-sm">
                                     <span className="font-semibold">Increase</span>
-                                </div>
-                                <div className="flex flex-row gap-5 items-center justify-center">
-                                    <div className="min-w-[170px]">
-                                        <p className="text-xl font-medium text-center">
-                                        CACS CL
-                                        </p>
-                                        <p className={CACS < 7 ? "text-3xl font-bold text-center text-[#74b8e4]" : CACS >= 7 && CACS < 17 ? "text-3xl font-bold text-center text-[#45bc8d]" : CACS >= 17 ? "text-3xl font-bold text-center text-[#c7c246]" : "" }>{getRiskLevel(CACS)}</p>
-                                    </div>
-                                    <div>
-                                        <div className="flex flex-row gap-5 items-center justify-center">
-                                            <div>
-                                            <img 
-                                                src="/img/hearth.png"
-                                                alt="hearth"
-                                                width={400}
-                                                height={400}
-                                                className="h-24 w-auto block"
-                                            />
-                                            </div>
-                                            <div className="flex-initial">                                                                           
-                                                <div className="text-center">
-                                                    <span className={CACS < 7 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#74b8e4] text-white w-24 h-24 rounded-full" : CACS >= 7 && CACS < 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#45bc8d] text-white w-24 h-24 rounded-full" : CACS >= 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#c7c246] text-white w-24 h-24 rounded-full" : "" }>
-                                                        {CACS} <span className='text-base'>%</span>
-                                                    </span>
-                        
+                                </div> */}
+                                <div className="grid grid-cols-5 gap-5 items-center">
+                                
+                                    <section className="flex flex-col gap-5 items-center justify-center col-span-2">
+                                        <div className="min-w-[170px]">
+                                            <p className="text-xl font-medium text-center">
+                                            RF_PTP
+                                            </p>
+                                            <p className={RF_PTP < 7 ? "text-3xl font-bold text-center text-[#74b8e4]" : RF_PTP >= 7 && RF_PTP < 17 ? "text-3xl font-bold text-center text-[#45bc8d]" : RF_PTP >= 17 ? "text-3xl font-bold text-center text-[#fbef20]" : "" }>{getRiskLevel(RF_PTP)}</p>
+                                        </div>
+                                        <div>
+                                            <div className="flex flex-row gap-5 items-center justify-center">
+                                                <div>
+                                                <img 
+                                                    src="/img/hearth.png"
+                                                    alt="hearth"
+                                                    width={400}
+                                                    height={400}
+                                                    className="h-24 w-auto block"
+                                                />
+                                                </div>
+                                                <div className="flex-initial">                                                                           
+                                                    <div className="text-center">
+                                                        <span className={RF_PTP < 7 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#74b8e4] text-white w-24 h-24 rounded-full" : RF_PTP >= 7 && RF_PTP < 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#45bc8d] text-white w-24 h-24 rounded-full" : RF_PTP >= 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#fbef20] text-white w-24 h-24 rounded-full" : "" }>
+                                                            {RF_PTP} <span className='text-base'>%</span>
+                                                        </span>
+                            
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
+                                    </section>
+                                    <div className="flex items-center justify-center">
+                                        <svg className="size-14" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#fff" viewBox="0 0 256 256"><path d="M237.66,122.34l-96-96A8,8,0,0,0,128,32V72H48A16,16,0,0,0,32,88v80a16,16,0,0,0,16,16h80v40a8,8,0,0,0,13.66,5.66l96-96A8,8,0,0,0,237.66,122.34ZM144,204.69V176a8,8,0,0,0-8-8H48V88h88a8,8,0,0,0,8-8V51.31L220.69,128Z"></path></svg>
                                     </div>
+                                    <section className="flex flex-col gap-5 items-center justify-center col-span-2">
+                                        <div className="min-w-[170px]">
+                                            <p className="text-xl font-medium text-center">
+                                            CACS CL
+                                            </p>
+                                            <p className={CACS < 7 ? "text-3xl font-bold text-center text-[#74b8e4]" : CACS >= 7 && CACS < 17 ? "text-3xl font-bold text-center text-[#45bc8d]" : CACS >= 17 ? "text-3xl font-bold text-center text-[#fbef20]" : "" }>{getRiskLevel(CACS)}</p>
+                                        </div>
+                                        <div>
+                                            <div className="flex flex-row gap-5 items-center justify-center">
+                                                <div>
+                                                <img 
+                                                    src="/img/hearth.png"
+                                                    alt="hearth"
+                                                    width={400}
+                                                    height={400}
+                                                    className="h-24 w-auto block"
+                                                />
+                                                </div>
+                                                <div className="flex-initial">                                                                           
+                                                    <div className="text-center">
+                                                        <span className={CACS < 7 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#74b8e4] text-white w-24 h-24 rounded-full" : CACS >= 7 && CACS < 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#45bc8d] text-white w-24 h-24 rounded-full" : CACS >= 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#fbef20] text-white w-24 h-24 rounded-full" : "" }>
+                                                            {CACS} <span className='text-base'>%</span>
+                                                        </span>
+                            
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+
                                 </div>
                             </div>
 
-                            <div className="p-5 py-10 bg-primary text-white rounded-xl">
-                                <div className="flex flex-row gap-5 items-center justify-center">
-                                    <div className="min-w-[170px]">
-                                        <p className="text-xl font-medium text-center">
-                                        RF_PTP
-                                        </p>
-                                        <p className={RF_PTP < 7 ? "text-3xl font-bold text-center text-[#74b8e4]" : RF_PTP >= 7 && RF_PTP < 17 ? "text-3xl font-bold text-center text-[#45bc8d]" : RF_PTP >= 17 ? "text-3xl font-bold text-center text-[#c7c246]" : "" }>{getRiskLevel(RF_PTP)}</p>
-                                    </div>
-                                    <div>
-                                        <div className="flex flex-row gap-5 items-center justify-center">
-                                            <div>
-                                            <img 
-                                                src="/img/hearth.png"
-                                                alt="hearth"
-                                                width={400}
-                                                height={400}
-                                                className="h-24 w-auto block"
-                                            />
-                                            </div>
-                                            <div className="flex-initial">                                                                           
-                                                <div className="text-center">
-                                                    <span className={RF_PTP < 7 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#74b8e4] text-white w-24 h-24 rounded-full" : RF_PTP >= 7 && RF_PTP < 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#45bc8d] text-white w-24 h-24 rounded-full" : RF_PTP >= 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#c7c246] text-white w-24 h-24 rounded-full" : "" }>
-                                                        {RF_PTP} <span className='text-base'>%</span>
-                                                    </span>
-                        
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
 
 
