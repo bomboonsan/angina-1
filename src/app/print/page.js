@@ -279,7 +279,7 @@ export default function Record() {
 
                             <div className='space-y-1 mt-4 text-sm'>
                                 <div>
-                                    <span className='mb-2 border border-secondary shadow-md font-semibold text-[0.65rem] lg:text-base lg:w-[250px] inline-flex items-center justify-center py-0.5 px-3 lg:px-5 rounded-3xl bg-primary text-white'>
+                                    <span className='mb-2 border border-secondary shadow-md font-semibold text-[0.6rem] lg:text-base lg:w-[250px] inline-flex items-center justify-center py-0.5 px-3 lg:px-5 rounded-3xl bg-primary text-white'>
                                         {
                                             symptom == 'option1' && finalSection1 ? (
                                                 <>Chest pain characteristics</>
@@ -353,7 +353,7 @@ export default function Record() {
                             {/* <hr className='my-3' /> */}
                             <div className='lg:space-y-1 mt-4 lg:mt-4 text-[0.65rem] lg:text-base'>
                                 <div>
-                                    <span className='mb-3 lg:mb-2 border border-secondary shadow-md font-semibold text-[0.65rem] lg:text-base lg:w-[250px] inline-flex items-center justify-center py-1 lg:py-0.5 px-3 lg:px-5 rounded-3xl bg-primary text-white'>
+                                    <span className='mb-3 lg:mb-2 border border-secondary shadow-md font-semibold text-[0.6rem] lg:text-base lg:w-[250px] inline-flex items-center justify-center py-1 lg:py-0.5 px-3 lg:px-5 rounded-3xl bg-primary text-white'>
                                     Risk Factor for CAD
                                     </span>
                                 </div>
