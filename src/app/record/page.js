@@ -166,6 +166,8 @@ export default function Record() {
         captureDivAsImage(time);
     }
 
+    console.log('finalAdjust', finalAdjust)
+
 
 
     return (
@@ -199,12 +201,16 @@ export default function Record() {
                             <div>
                                 <p className=''>
                                     <span className='font-semibold'>
-                                        Sex
-                                    </span> : Male
+                                        {
+                                            lang == 'th' ? 'เพศ' : 'Sex'
+                                        }
+                                    </span> : {sex} 
                                     <span className='inline-block px-4'>|</span>
                                     <span className='font-semibold'>
-                                        Age
-                                    </span> : 40-49
+                                        {
+                                            lang == 'th' ? 'อายุ' : 'Age'
+                                        }
+                                    </span> : {ageRange[age-1]}
                                 </p>
                             </div>
                             <div className="hidden">
@@ -223,7 +229,7 @@ export default function Record() {
 
                             <div className='space-y-1 mt-4 text-sm'>
                                 <div>
-                                    <span className='mb-2 border border-secondary shadow-md font-semibold text-base w-[250px] inline-flex items-center justify-center py-0.5 px-5 rounded-3xl bg-primary text-white'>
+                                    <span className='mb-2 border border-secondary shadow-md font-semibold text-[0.7rem] lg:text-base lg:w-[250px] inline-flex items-center justify-center py-0.5 px-5 rounded-3xl bg-primary text-white'>
                                         {
                                             symptom == 'option1' && finalSection1 ? (
                                                 <>Chest pain characteristics</>
@@ -296,7 +302,7 @@ export default function Record() {
                             </div>
                             <div className='space-y-1 mt-4 text-sm'>
                                 <div>
-                                    <span className='mb-2 border border-secondary shadow-md font-semibold text-base w-[250px] inline-flex items-center justify-center py-0.5 px-5 rounded-3xl bg-primary text-white'>
+                                    <span className='mb-2 border border-secondary shadow-md font-semibold text-[0.7rem] lg:text-base lg:w-[250px] inline-flex items-center justify-center py-0.5 px-5 rounded-3xl bg-primary text-white'>
                                     Risk Factor for CAD
                                     </span>
                                 </div>
@@ -371,13 +377,13 @@ export default function Record() {
                         />
                     </div>
 
-                    <div className="p-5 py-10 bg-primary text-white rounded-xl">
+                    <div className="p-2 lg:p-5 py-4 lg:py-10 bg-primary text-white rounded-xl">
                         <div className="flex flex-row gap-5 items-center justify-center">
                             <div>
-                                <p className="text-xl font-medium text-center">
+                                <p className="text-[1rem] lg:text-xl font-medium text-center">
                                 Clinical likelihood
                                 </p>
-                                <p className={RF_PTP < 7 ? "text-3xl font-bold text-center text-[#74b8e4]" : RF_PTP >= 7 && RF_PTP < 17 ? "text-3xl font-bold text-center text-[#45bc8d]" : RF_PTP >= 17 ? "text-3xl font-bold text-center text-[#fbef20]" : "" }>{getRiskLevel(RF_PTP)}</p>
+                                <p className={RF_PTP < 7 ? "text-[1.2rem] lg:text-3xl font-bold text-center text-[#74b8e4]" : RF_PTP >= 7 && RF_PTP < 17 ? "text-3xl font-bold text-center text-[#45bc8d]" : RF_PTP >= 17 ? "text-3xl font-bold text-center text-[#fbef20]" : "" }>{getRiskLevel(RF_PTP)}</p>
                             </div>
                             <div>
                                 <div className="flex flex-row gap-5 items-center justify-center">
@@ -387,12 +393,12 @@ export default function Record() {
                                         alt="hearth"
                                         width={400}
                                         height={400}
-                                        className="h-24 w-auto block"
+                                        className="h-14 lg:h-24 w-auto block"
                                     />
                                     </div>
                                     <div className="flex-initial">                                                                           
                                         <div className="text-center">
-                                            <span className={RF_PTP < 7 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#74b8e4] text-white w-24 h-24 rounded-full" : RF_PTP >= 7 && RF_PTP < 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#45bc8d] text-white w-24 h-24 rounded-full" : RF_PTP >= 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#fbef20] text-white w-24 h-24 rounded-full" : "" }>
+                                            <span className={RF_PTP < 7 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#74b8e4] text-white size-14 lg:size-24 rounded-full" : RF_PTP >= 7 && RF_PTP < 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#45bc8d] text-white w-24 h-24 rounded-full" : RF_PTP >= 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#fbef20] text-white w-24 h-24 rounded-full" : "" }>
                                                 {RF_PTP} <span className='text-base'>%</span>
                                             </span>
                 
@@ -407,7 +413,7 @@ export default function Record() {
 
                     <div className='record-box'>
                         <div className="mt-3">
-                            <span className='mb-7 border border-secondary shadow-md font-semibold text-lg flex items-center justify-center py-1.5 px-5 rounded-3xl bg-primary text-white'>
+                            <span className='mb-7 border border-secondary shadow-md font-semibold text-[0.7rem] lg:text-lg flex items-center justify-center py-1.5 px-5 rounded-3xl bg-primary text-white'>
                             Abnormal clinical findings
                             </span>
                         </div>
@@ -456,7 +462,7 @@ export default function Record() {
                                             </label>
                                         </div>
                                         <div className='recordCheckbox'>
-                                            <input type='checkbox' defaultChecked={finalAdjust[6] != 0} readOnly />
+                                            <input type='checkbox' defaultChecked={finalAdjust[0] == 0 && finalAdjust[1] == 0 && finalAdjust[2] == 0 && finalAdjust[3] == 0 && finalAdjust[4] == 0 && finalAdjust[5] == 0} readOnly />
                                             <label>
                                                 None
                                             </label>
@@ -464,14 +470,16 @@ export default function Record() {
 
                                     </div>
 
-                                    <div className="mb-3 col-span-4 p-3 bg-gray-200 flex justify-center items-center rounded-3xl">
-                                        <p className="text-lg font-bold text-center">
-                                            {
-                                                finalAdjust[6] != 0 ? 'Increase' : 'Decrease'
-                                            }
-                                            <br />
-                                            Clinical Likelihood
-                                        </p>
+                                    <div className="col-span-4">
+                                        <div className="aspect-square h-auto w-full mb-3 p-3 bg-gray-200 flex justify-center items-center rounded-3xl">
+                                            <p className="text-[0.7rem] lg:text-lg font-bold text-center">
+                                                {
+                                                    finalAdjust[0] == 0 && finalAdjust[1] == 0 && finalAdjust[2] == 0 && finalAdjust[3] == 0 && finalAdjust[4] == 0 && finalAdjust[5] == 0 ? 'Decrease' : 'Increase'
+                                                }
+                                                <br />
+                                                Clinical Likelihood
+                                            </p>
+                                        </div>
                                     </div>
 
                                 </section>
@@ -481,7 +489,7 @@ export default function Record() {
                         }
 
                         <div className="mt-3">
-                            <span className='mb-7 border border-secondary shadow-md font-semibold text-lg flex items-center justify-center py-1.5 px-5 rounded-3xl bg-primary text-white'>
+                            <span className='mb-7 border border-secondary shadow-md font-semibold text-[0.7rem] lg:text-lg flex items-center justify-center py-1.5 px-5 rounded-3xl bg-primary text-white'>
                                 CACS-weighted clinical likelihood
                             </span>
                         </div>
@@ -545,10 +553,10 @@ export default function Record() {
                                 
                                     <section className="flex flex-col gap-5 items-center justify-center col-span-2">
                                         <div className="min-w-[170px]">
-                                            <p className="text-xl font-medium text-center">
+                                            <p className="text-[1rem] lg:text-xl font-medium text-center">
                                             RF_PTP
                                             </p>
-                                            <p className={RF_PTP < 7 ? "text-3xl font-bold text-center text-[#74b8e4]" : RF_PTP >= 7 && RF_PTP < 17 ? "text-3xl font-bold text-center text-[#45bc8d]" : RF_PTP >= 17 ? "text-3xl font-bold text-center text-[#fbef20]" : "" }>{getRiskLevel(RF_PTP)}</p>
+                                            <p className={RF_PTP < 7 ? "text-[1.2rem] lg:text-3xl font-bold text-center text-[#74b8e4]" : RF_PTP >= 7 && RF_PTP < 17 ? "text-[1rem] lg:text-3xl font-bold text-center text-[#45bc8d]" : RF_PTP >= 17 ? "text-[1rem] lg:text-3xl font-bold text-center text-[#fbef20]" : "" }>{getRiskLevel(RF_PTP)}</p>
                                         </div>
                                         <div>
                                             <div className="flex flex-row gap-5 items-center justify-center">
@@ -558,12 +566,12 @@ export default function Record() {
                                                     alt="hearth"
                                                     width={400}
                                                     height={400}
-                                                    className="h-24 w-auto block"
+                                                    className="h-14 lg:h-24 w-auto block"
                                                 />
                                                 </div>
                                                 <div className="flex-initial">                                                                           
                                                     <div className="text-center">
-                                                        <span className={RF_PTP < 7 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#74b8e4] text-white w-24 h-24 rounded-full" : RF_PTP >= 7 && RF_PTP < 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#45bc8d] text-white w-24 h-24 rounded-full" : RF_PTP >= 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#fbef20] text-white w-24 h-24 rounded-full" : "" }>
+                                                        <span className={RF_PTP < 7 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#74b8e4] text-white size-14 lg:size-24 rounded-full" : RF_PTP >= 7 && RF_PTP < 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#45bc8d] text-white w-24 h-24 rounded-full" : RF_PTP >= 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#fbef20] text-white w-24 h-24 rounded-full" : "" }>
                                                             {RF_PTP} <span className='text-base'>%</span>
                                                         </span>
                             
@@ -577,10 +585,10 @@ export default function Record() {
                                     </div>
                                     <section className="flex flex-col gap-5 items-center justify-center col-span-2">
                                         <div className="min-w-[170px]">
-                                            <p className="text-xl font-medium text-center">
+                                            <p className="text-[1rem] lg:text-xl font-medium text-center">
                                             CACS CL
                                             </p>
-                                            <p className={CACS < 7 ? "text-3xl font-bold text-center text-[#74b8e4]" : CACS >= 7 && CACS < 17 ? "text-3xl font-bold text-center text-[#45bc8d]" : CACS >= 17 ? "text-3xl font-bold text-center text-[#fbef20]" : "" }>{getRiskLevel(CACS)}</p>
+                                            <p className={CACS < 7 ? "text-[1.2rem] lg:text-3xl font-bold text-center text-[#74b8e4]" : CACS >= 7 && CACS < 17 ? "text-3xl font-bold text-center text-[#45bc8d]" : CACS >= 17 ? "text-3xl font-bold text-center text-[#fbef20]" : "" }>{getRiskLevel(CACS)}</p>
                                         </div>
                                         <div>
                                             <div className="flex flex-row gap-5 items-center justify-center">
@@ -590,15 +598,14 @@ export default function Record() {
                                                     alt="hearth"
                                                     width={400}
                                                     height={400}
-                                                    className="h-24 w-auto block"
+                                                    className="h-14 lg:h-24 w-auto block"
                                                 />
                                                 </div>
                                                 <div className="flex-initial">                                                                           
                                                     <div className="text-center">
-                                                        <span className={CACS < 7 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#74b8e4] text-white w-24 h-24 rounded-full" : CACS >= 7 && CACS < 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#45bc8d] text-white w-24 h-24 rounded-full" : CACS >= 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#fbef20] text-white w-24 h-24 rounded-full" : "" }>
+                                                        <span className={CACS < 7 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#74b8e4] text-white size-14 lg:size-24 rounded-full" : CACS >= 7 && CACS < 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#45bc8d] text-white w-24 h-24 rounded-full" : CACS >= 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#fbef20] text-white w-24 h-24 rounded-full" : "" }>
                                                             {CACS} <span className='text-base'>%</span>
                                                         </span>
-                            
                                                     </div>
                                                 </div>
                                             </div>
