@@ -163,14 +163,29 @@ export default function Record() {
         let pdfHeight = pdfWidth * (297 / 210);
 
         const elements = [element, element2];
-        const promises = elements.map(el => domtoimage.toPng(el));
+
+        const screenWidth = window.innerWidth;
+        const scale = screenWidth < 700 ? 4 : 1;
+
+        const promises = elements.map(el => domtoimage.toPng(el, {
+            quality: 1,
+            scale: scale,
+            width: el.offsetWidth * scale,
+            height: el.offsetHeight * scale,
+            style: {
+                transform: `scale(${scale})`,
+                transformOrigin: 'top left'
+            }
+        }));
         Promise.all(promises)
           .then((imgDatas) => {
+            
             imgDatas.forEach((imgData, index) => {
+                
               if (index > 0) {
                 pdf.addPage();
               }
-              pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+              pdf.addImage(imgData, "PNG", 0, 0, originalWidth, originalHeight);
             });
             pdf.save(`recorded-1-${time}.pdf`); // บันทึกไฟล์ PDF
           })
@@ -191,7 +206,15 @@ export default function Record() {
     useEffect(() => {
         setTimeout(() => { 
             generatePdf2();
-        }, 5000);
+        }, 2000);
+        // document.addEventListener('DOMContentLoaded', () => {
+        //     if (document.readyState === 'complete') {
+        //         generatePdf2();
+        //     } else {
+        //         window.addEventListener('load', generatePdf2);
+        //     }
+        // });
+
         
     }, []);
 
@@ -426,7 +449,7 @@ export default function Record() {
                                     </div>
                                     <div className="flex-initial">                                                                           
                                         <div className="text-center">
-                                            <span className={RF_PTP < 7 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#74b8e4] text-white size-14 lg:size-24 rounded-full" : RF_PTP >= 7 && RF_PTP < 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#45bc8d] text-white w-24 h-24 rounded-full" : RF_PTP >= 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#fbef20] text-white w-24 h-24 rounded-full" : "" }>
+                                            <span className={RF_PTP < 7 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#74b8e4] text-white size-14 lg:size-24 rounded-full" : RF_PTP >= 7 && RF_PTP < 17 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#45bc8d] text-white size-14 lg:size-24 rounded-full" : RF_PTP >= 17 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#fbef20] text-white size-14 lg:size-24 rounded-full" : "" }>
                                                 {RF_PTP} <span className='text-base'>%</span>
                                             </span>
                 
@@ -636,7 +659,7 @@ export default function Record() {
                                                 </div>
                                                 <div className="flex-initial">                                                                           
                                                     <div className="text-center">
-                                                        <span className={RF_PTP < 7 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#74b8e4] text-white size-14 lg:size-24 rounded-full" : RF_PTP >= 7 && RF_PTP < 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#45bc8d] text-white w-24 h-24 rounded-full" : RF_PTP >= 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#fbef20] text-white w-24 h-24 rounded-full" : "" }>
+                                                        <span className={RF_PTP < 7 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#74b8e4] text-white size-14 lg:size-24 rounded-full" : RF_PTP >= 7 && RF_PTP < 17 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#45bc8d] text-white size-14 lg:size-24 rounded-full" : RF_PTP >= 17 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#fbef20] text-white size-14 lg:size-24 rounded-full" : "" }>
                                                             {RF_PTP} <span className='text-base'>%</span>
                                                         </span>
                             
@@ -668,7 +691,7 @@ export default function Record() {
                                                 </div>
                                                 <div className="flex-initial">                                                                           
                                                     <div className="text-center">
-                                                        <span className={CACS < 7 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#74b8e4] text-white size-14 lg:size-24 rounded-full" : CACS >= 7 && CACS < 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#45bc8d] text-white w-24 h-24 rounded-full" : CACS >= 17 ? "inline-flex aspect-square items-center justify-center text-3xl bg-[#fbef20] text-white w-24 h-24 rounded-full" : "" }>
+                                                        <span className={CACS < 7 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#74b8e4] text-white size-14 lg:size-24 rounded-full" : CACS >= 7 && CACS < 17 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#45bc8d] text-white size-14 lg:size-24 rounded-full" : CACS >= 17 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#fbef20] text-white size-14 lg:size-24 rounded-full" : "" }>
                                                             {CACS} <span className='text-base'>%</span>
                                                         </span>
                                                     </div>

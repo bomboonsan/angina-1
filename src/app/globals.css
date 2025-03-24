@@ -39,6 +39,14 @@ body {
   background-repeat: no-repeat;
 }
 
+#record1 , #record2 {
+  @apply aspect-[210/297];
+  @apply w-full;
+  @apply h-auto;
+  @apply overflow-hidden;
+  @apply bg-white;
+}
+
 .app-wrapper-print #record1 , .app-wrapper-print #record2{
   /* padding-bottom: 0; */
   background: transparent;
