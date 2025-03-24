@@ -39,6 +39,11 @@ body {
   background-repeat: no-repeat;
 }
 
+.app-wrapper-print #record1 , .app-wrapper-print #record2{
+  /* padding-bottom: 0; */
+  background: transparent;
+}
+
 .record-footer {
   content: "";
   position: absolute;

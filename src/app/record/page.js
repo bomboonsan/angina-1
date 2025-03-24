@@ -229,7 +229,7 @@ export default function Record() {
 
                             <div className='space-y-1 mt-4 text-sm'>
                                 <div>
-                                    <span className='mb-2 border border-secondary shadow-md font-semibold text-[0.7rem] lg:text-base lg:w-[250px] inline-flex items-center justify-center py-0.5 px-5 rounded-3xl bg-primary text-white'>
+                                    <span className='mb-2 border border-secondary shadow-md font-semibold text-[0.65rem] lg:text-base lg:w-[250px] inline-flex items-center justify-center py-0.5 px-3 lg:px-5 rounded-3xl bg-primary text-white'>
                                         {
                                             symptom == 'option1' && finalSection1 ? (
                                                 <>Chest pain characteristics</>
@@ -302,7 +302,7 @@ export default function Record() {
                             </div>
                             <div className='space-y-1 mt-4 text-sm'>
                                 <div>
-                                    <span className='mb-2 border border-secondary shadow-md font-semibold text-[0.7rem] lg:text-base lg:w-[250px] inline-flex items-center justify-center py-0.5 px-5 rounded-3xl bg-primary text-white'>
+                                    <span className='mb-2 border border-secondary shadow-md font-semibold text-[0.65rem] lg:text-base lg:w-[250px] inline-flex items-center justify-center py-0.5 px-3 lg:px-5 rounded-3xl bg-primary text-white'>
                                     Risk Factor for CAD
                                     </span>
                                 </div>
@@ -541,6 +541,8 @@ export default function Record() {
                                     type="number" 
                                     className="grow text-center text-xl font-bold text-primary"
                                     value={cacsScore} 
+                                    defaultValue={cacsScore}
+                                    readOnly
                                 />
                             </label>
                         </div>
@@ -549,7 +551,7 @@ export default function Record() {
                                 {/* <div className="absolute -top-[10px] right-[5px] px-3 py-1 bg-yellow-300 rounded-lg shadow-md shadow-black/70 text-primary text-sm">
                                     <span className="font-semibold">Increase</span>
                                 </div> */}
-                                <div className="grid grid-cols-5 gap-5 items-center">
+                                <div className="grid grid-cols-5 gap-1 lg:gap-5 items-center">
                                 
                                     <section className="flex flex-col gap-5 items-center justify-center col-span-2">
                                         <div className="min-w-[170px]">
@@ -559,7 +561,7 @@ export default function Record() {
                                             <p className={RF_PTP < 7 ? "text-[1.2rem] lg:text-3xl font-bold text-center text-[#74b8e4]" : RF_PTP >= 7 && RF_PTP < 17 ? "text-[1rem] lg:text-3xl font-bold text-center text-[#45bc8d]" : RF_PTP >= 17 ? "text-[1rem] lg:text-3xl font-bold text-center text-[#fbef20]" : "" }>{getRiskLevel(RF_PTP)}</p>
                                         </div>
                                         <div>
-                                            <div className="flex flex-row gap-5 items-center justify-center">
+                                            <div className="flex flex-row gap-1 lg:gap-5 items-center justify-center">
                                                 <div>
                                                 <img 
                                                     src="/img/hearth.png"
@@ -591,7 +593,7 @@ export default function Record() {
                                             <p className={CACS < 7 ? "text-[1.2rem] lg:text-3xl font-bold text-center text-[#74b8e4]" : CACS >= 7 && CACS < 17 ? "text-3xl font-bold text-center text-[#45bc8d]" : CACS >= 17 ? "text-3xl font-bold text-center text-[#fbef20]" : "" }>{getRiskLevel(CACS)}</p>
                                         </div>
                                         <div>
-                                            <div className="flex flex-row gap-5 items-center justify-center">
+                                            <div className="flex flex-row gap-1 lg:gap-5 items-center justify-center">
                                                 <div>
                                                 <img 
                                                     src="/img/hearth.png"
