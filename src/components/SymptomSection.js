@@ -35,7 +35,17 @@ export default function SymptomSection({ props }) {
                     >
                         <div className="">
                             <p className="text-center text-xl font-bold text-black">
-                                {props.lang == "en" ? "Chest pain" : "เจ็บหน้าอก"}
+                                {
+                                    props.lang == "en" ?
+                                    (
+                                        <>
+                                            Characteristics <br /> Chest pain
+                                        </>
+                                    ) :
+                                    (
+                                        "เจ็บหน้าอก"
+                                    )
+                                }
                             </p>
                         </div>
                     </div>
@@ -49,7 +59,17 @@ export default function SymptomSection({ props }) {
                     >
                         <div className="">
                             <p className="text-center text-xl font-bold text-black">
-                                {props.lang == "en" ? "Dyspnoea" : "หายใจลำบาก"}
+                                {
+                                    props.lang == "en" ?
+                                    (
+                                        <>
+                                            Characteristics <br /> Dyspnoea
+                                        </>
+                                    ) :
+                                    (
+                                        "หายใจลำบาก"
+                                    )
+                                }
                             </p>
                         </div>
                     </div>

@@ -205,7 +205,7 @@ export default function Record() {
 
     useEffect(() => {
         setTimeout(() => { 
-            // generatePdf2();
+            generatePdf2();
         }, 2000);
         // document.addEventListener('DOMContentLoaded', () => {
         //     if (document.readyState === 'complete') {
@@ -279,7 +279,7 @@ export default function Record() {
 
                             <div className='space-y-1 mt-4 text-sm'>
                                 <div>
-                                    <span className='mb-2 border border-secondary shadow-md font-semibold text-[0.6rem] lg:text-base lg:w-[250px] inline-flex items-center justify-center py-0.5 px-3 lg:px-5 rounded-3xl bg-primary text-white'>
+                                    <span className='mb-2 border border-secondary shadow-md font-semibold text-[0.6rem] lg:text-base w-full lg:w-[250px] inline-flex items-center justify-center py-0.5 px-3 lg:px-5 rounded-3xl bg-primary text-white'>
                                         {
                                             symptom == 'option1' && finalSection1 ? (
                                                 <>Chest pain characteristics</>
@@ -353,7 +353,7 @@ export default function Record() {
                             {/* <hr className='my-3' /> */}
                             <div className='lg:space-y-1 mt-4 lg:mt-4 text-[0.65rem] lg:text-base'>
                                 <div>
-                                    <span className='mb-3 lg:mb-2 border border-secondary shadow-md font-semibold text-[0.6rem] lg:text-base lg:w-[250px] inline-flex items-center justify-center py-1 lg:py-0.5 px-3 lg:px-5 rounded-3xl bg-primary text-white'>
+                                    <span className='mb-3 lg:mb-2 border border-secondary shadow-md font-semibold text-[0.6rem] lg:text-base w-full lg:w-[250px] inline-flex items-center justify-center py-1 lg:py-0.5 px-3 lg:px-5 rounded-3xl bg-primary text-white'>
                                     Risk Factor for CAD
                                     </span>
                                 </div>
@@ -562,7 +562,7 @@ export default function Record() {
                                         <div className="aspect-square lg:aspect-[3/2] h-auto w-full mb-3 p-3 bg-gray-200 flex flex-col justify-center items-center rounded-3xl relative">
                                             <div className="text-center ">
                                                 {/* <svg className="size-5 fill-primary" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" viewBox="0 0 256 256"><path d="M205.66,117.66a8,8,0,0,1-11.32,0L136,59.31V216a8,8,0,0,1-16,0V59.31L61.66,117.66a8,8,0,0,1-11.32-11.32l72-72a8,8,0,0,1,11.32,0l72,72A8,8,0,0,1,205.66,117.66Z"></path></svg> */}
-                                                <svg className="size-5 fill-primary" width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#25215f" stroke-width="1.5"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 1.25C6.06294 1.25 1.25 6.06294 1.25 12C1.25 17.9371 6.06294 22.75 12 22.75C17.9371 22.75 22.75 17.9371 22.75 12C22.75 6.06294 17.9371 1.25 12 1.25ZM16.0303 10.9697L12.5303 7.46967C12.2374 7.17678 11.7626 7.17678 11.4697 7.46967L7.96967 10.9697C7.67678 11.2626 7.67678 11.7374 7.96967 12.0303C8.26256 12.3232 8.73744 12.3232 9.03033 12.0303L11.25 9.81066V16C11.25 16.4142 11.5858 16.75 12 16.75C12.4142 16.75 12.75 16.4142 12.75 16V9.81066L14.9697 12.0303C15.2626 12.3232 15.7374 12.3232 16.0303 12.0303C16.3232 11.7374 16.3232 11.2626 16.0303 10.9697Z" fill="#25215f"></path></svg>
+                                                <svg className="size-5 fill-primary" width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#25215f" strokeWidth="1.5"><path fillRule="evenodd" clipRule="evenodd" d="M12 1.25C6.06294 1.25 1.25 6.06294 1.25 12C1.25 17.9371 6.06294 22.75 12 22.75C17.9371 22.75 22.75 17.9371 22.75 12C22.75 6.06294 17.9371 1.25 12 1.25ZM16.0303 10.9697L12.5303 7.46967C12.2374 7.17678 11.7626 7.17678 11.4697 7.46967L7.96967 10.9697C7.67678 11.2626 7.67678 11.7374 7.96967 12.0303C8.26256 12.3232 8.73744 12.3232 9.03033 12.0303L11.25 9.81066V16C11.25 16.4142 11.5858 16.75 12 16.75C12.4142 16.75 12.75 16.4142 12.75 16V9.81066L14.9697 12.0303C15.2626 12.3232 15.7374 12.3232 16.0303 12.0303C16.3232 11.7374 16.3232 11.2626 16.0303 10.9697Z" fill="#25215f"></path></svg>
                                             </div>
                                             <p className="text-[0.7rem] lg:text-lg font-normal text-center">
                                                 <span className="text-primary text-[0.8rem] lg:text-xl font-bold">
@@ -625,18 +625,15 @@ export default function Record() {
                                 )
                             }
                         </div>
-                        <div className="relative z-0 mx-auto w-fit scale-[0.7] lg:scale-100" >
-                            <label className="lg:input input-bordered shadow-md flex items-center gap-2 h-[1rem] lg:h-[3rem]">
-                                <span className="text-primary font-bold text-[0.7rem] lg:text-lg">
-                                CACS = 
+                        <div className="relative z-0 mx-auto w-full scale-[0.7] lg:scale-100">
+                            <div className="flex items-center justify-center gap-2 border border-neutral-200 px-2 py-1 rounded-lg">
+                                <span className="text-primary font-bold leading-none">
+                                    CACS = 
                                 </span> 
-                                <input 
-                                    type="number" 
-                                    className="grow text-center text-[0.7rem] lg:text-xl font-bold text-primary py-0 "
-                                    value={cacsScore} 
-                                    readOnly
-                                />
-                            </label>
+                                <span className="text-lg font-bold text-primary leading-none">
+                                    {cacsScore} <span className='text-base'>%</span>
+                                </span>
+                            </div>
                         </div>
                         <div className="lg:mt-4 space-y-5 scale-[0.7] lg:scale-100 relative bottom-6 lg:bottom-0">
                             <div className="p-5 py-2 bg-primary text-white rounded-xl relative">
@@ -645,7 +642,7 @@ export default function Record() {
                                 </div> */}
                                 <div className="grid grid-cols-5 gap-1 lg:gap-5 items-center">
                                 
-                                <section className="flex flex-col gap-5 items-center justify-center col-span-2">
+                                    <section className="flex flex-col gap-5 items-center justify-center col-span-2">
                                         <div className="min-w-[170px]">
                                             <p className="text-[1rem] lg:text-xl font-medium text-center">
                                             RF-CL
@@ -682,7 +679,7 @@ export default function Record() {
                                             <p className="text-[1rem] lg:text-xl font-medium text-center">
                                             CACS-CL
                                             </p>
-                                            <p className={CACS < 7 ? "text-[1.2rem] lg:text-3xl font-bold text-center text-[#74b8e4]" : CACS >= 7 && CACS < 17 ? "text-3xl font-bold text-center text-[#45bc8d]" : CACS >= 17 ? "text-3xl font-bold text-center text-[#fbef20]" : "" }>{getRiskLevel(CACS)}</p>
+                                            <p className={CACS < 7 ? "result-circle-text text-[#74b8e4]" : CACS >= 7 && CACS < 17 ? "result-circle-text text-[#45bc8d]" : CACS >= 17 ? "result-circle-text text-[#fbef20]" : "" }>{getRiskLevel(CACS)}</p>
                                         </div>
                                         <div>
                                             <div className="flex flex-row gap-1 lg:gap-5 items-center justify-center">
@@ -698,7 +695,7 @@ export default function Record() {
                                                 <div className="flex-initial">                                                                           
                                                     <div className="text-center">
                                                         <span className={CACS < 7 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#74b8e4] text-white size-14 lg:size-24 rounded-full" : CACS >= 7 && CACS < 17 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#45bc8d] text-white size-14 lg:size-24 rounded-full" : CACS >= 17 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#fbef20] text-white size-14 lg:size-24 rounded-full" : "" }>
-                                                            {CACS} <span className='text-base'>%</span>
+                                                            {CACS >= 100 ? 100 : Number(CACS).toFixed(0)} <span className='text-base'>%</span>
                                                         </span>
                                                     </div>
                                                 </div>

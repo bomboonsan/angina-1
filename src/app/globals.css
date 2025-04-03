@@ -87,3 +87,9 @@ body {
 .recordCheckbox label {
   @apply relative top-[2px];
 }
+
+
+/* Result */
+.result-circle-text {
+  @apply text-[1.2rem] lg:text-3xl font-bold text-center;
+}

@@ -47,6 +47,12 @@ export default function Secondary() {
             setRF_PTP(RF_PTP_value);
             setRF_PTP_percent(RF_PTP_value / 0.8);
         }
+        const lang = cookies.get('lang')
+        if (lang) {
+            setLang(lang)
+        } else {
+            setLang('en')
+        }
     }, []);
 
     const sendLang = (value) => {

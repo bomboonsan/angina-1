@@ -82,7 +82,7 @@ export default function Result({ props }) {
         <div className="bg-[#f2e8ce] rounded-xl overflow-hidden shadow-lg mb-10">
             <div className="bg-primary text-white p-3">
                 <h2 className="text-center text-xl">
-                    {props.lang == "en" ? "Results" : "ผลลัพท์"}
+                    {props.lang == "en" ? "Results" : "ผลลัพธ์"}
                 </h2>
             </div>
             <div className="p-5">
