@@ -49,7 +49,7 @@ body {
 
 .app-wrapper-print #record1 , .app-wrapper-print #record2{
   /* padding-bottom: 0; */
-  background: transparent;
+  /* background: transparent; */
 }
 
 .record-footer {
@@ -85,4 +85,5 @@ body {
   @apply relative top-1;
 }
 .recordCheckbox label {
+  @apply relative top-[2px];
 }

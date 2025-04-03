@@ -471,11 +471,26 @@ export default function Record() {
                                     </div>
 
                                     <div className="col-span-4">
-                                        <div className="aspect-square h-auto w-full mb-3 p-3 bg-gray-200 flex justify-center items-center rounded-3xl">
+                                        {/* <div className="aspect-square h-auto w-full mb-3 p-3 bg-gray-200 flex justify-center items-center rounded-3xl">
                                             <p className="text-[0.7rem] lg:text-lg font-bold text-center">
                                                 {
                                                     finalAdjust[0] == 0 && finalAdjust[1] == 0 && finalAdjust[2] == 0 && finalAdjust[3] == 0 && finalAdjust[4] == 0 && finalAdjust[5] == 0 ? 'Decrease' : 'Increase'
                                                 }
+                                                <br />
+                                                Clinical Likelihood
+                                            </p>
+                                        </div> */}
+                                        <div className="aspect-square lg:aspect-[3/2] h-auto w-full mb-3 p-3 bg-gray-200 flex flex-col justify-center items-center rounded-3xl relative">
+                                            <div className="text-center ">
+                                                {/* <svg className="size-5 fill-primary" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" viewBox="0 0 256 256"><path d="M205.66,117.66a8,8,0,0,1-11.32,0L136,59.31V216a8,8,0,0,1-16,0V59.31L61.66,117.66a8,8,0,0,1-11.32-11.32l72-72a8,8,0,0,1,11.32,0l72,72A8,8,0,0,1,205.66,117.66Z"></path></svg> */}
+                                                <svg className="size-5 fill-primary" width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#25215f" stroke-width="1.5"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 1.25C6.06294 1.25 1.25 6.06294 1.25 12C1.25 17.9371 6.06294 22.75 12 22.75C17.9371 22.75 22.75 17.9371 22.75 12C22.75 6.06294 17.9371 1.25 12 1.25ZM16.0303 10.9697L12.5303 7.46967C12.2374 7.17678 11.7626 7.17678 11.4697 7.46967L7.96967 10.9697C7.67678 11.2626 7.67678 11.7374 7.96967 12.0303C8.26256 12.3232 8.73744 12.3232 9.03033 12.0303L11.25 9.81066V16C11.25 16.4142 11.5858 16.75 12 16.75C12.4142 16.75 12.75 16.4142 12.75 16V9.81066L14.9697 12.0303C15.2626 12.3232 15.7374 12.3232 16.0303 12.0303C16.3232 11.7374 16.3232 11.2626 16.0303 10.9697Z" fill="#25215f"></path></svg>
+                                            </div>
+                                            <p className="text-[0.7rem] lg:text-lg font-normal text-center">
+                                                <span className="text-primary text-[0.8rem] lg:text-xl font-bold">
+                                                    {
+                                                        finalAdjust[0] == 0 && finalAdjust[1] == 0 && finalAdjust[2] == 0 && finalAdjust[3] == 0 && finalAdjust[4] == 0 && finalAdjust[5] == 0 ? 'Decrease' : 'Increase'
+                                                    }
+                                                </span>
                                                 <br />
                                                 Clinical Likelihood
                                             </p>
@@ -535,13 +550,12 @@ export default function Record() {
                         <div className="relative z-0 mx-auto w-fit">
                             <label className="input input-bordered shadow-md flex items-center gap-2">
                                 <span className="text-primary font-bold">
-                                CACS SCORE
+                                CACS = 
                                 </span> 
                                 <input 
                                     type="number" 
                                     className="grow text-center text-xl font-bold text-primary"
                                     value={cacsScore} 
-                                    defaultValue={cacsScore}
                                     readOnly
                                 />
                             </label>
@@ -556,7 +570,7 @@ export default function Record() {
                                     <section className="flex flex-col gap-5 items-center justify-center col-span-2">
                                         <div className="min-w-[170px]">
                                             <p className="text-[1rem] lg:text-xl font-medium text-center">
-                                            RF_PTP
+                                            RF-PTP
                                             </p>
                                             <p className={RF_PTP < 7 ? "text-[1.2rem] lg:text-3xl font-bold text-center text-[#74b8e4]" : RF_PTP >= 7 && RF_PTP < 17 ? "text-[1rem] lg:text-3xl font-bold text-center text-[#45bc8d]" : RF_PTP >= 17 ? "text-[1rem] lg:text-3xl font-bold text-center text-[#fbef20]" : "" }>{getRiskLevel(RF_PTP)}</p>
                                         </div>
@@ -588,7 +602,7 @@ export default function Record() {
                                     <section className="flex flex-col gap-5 items-center justify-center col-span-2">
                                         <div className="min-w-[170px]">
                                             <p className="text-[1rem] lg:text-xl font-medium text-center">
-                                            CACS CL
+                                            CACS-CL
                                             </p>
                                             <p className={CACS < 7 ? "text-[1.2rem] lg:text-3xl font-bold text-center text-[#74b8e4]" : CACS >= 7 && CACS < 17 ? "text-3xl font-bold text-center text-[#45bc8d]" : CACS >= 17 ? "text-3xl font-bold text-center text-[#fbef20]" : "" }>{getRiskLevel(CACS)}</p>
                                         </div>
