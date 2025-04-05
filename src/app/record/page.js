@@ -361,7 +361,7 @@ export default function Record() {
                                     <input type='checkbox' defaultChecked={finalSection2[0] == 0 && finalSection2[1] == 0 && finalSection2[2] == 0 && finalSection2[3] == 0 && finalSection2[4] == 0} readOnly />
                                     <label>
                                         {
-                                            lang == 'th' ? 'ไม่มี' : 'None of Above'
+                                            lang == 'th' ? 'ไม่มี' : 'None'
                                         }
                                     </label>
                                 </div>
@@ -409,7 +409,7 @@ export default function Record() {
                                     <div className="flex-initial">                                                                           
                                         <div className="text-center">
                                             <span className={RF_PTP < 7 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#74b8e4] text-white size-14 lg:size-24 rounded-full" : RF_PTP >= 7 && RF_PTP < 17 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#45bc8d] text-white size-14 lg:size-24 rounded-full" : RF_PTP >= 17 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#fbef20] text-white size-14 lg:size-24 rounded-full" : "" }>
-                                                {RF_PTP} <span className='text-base'>%</span>
+                                                {RF_PTP}
                                             </span>
                 
                                         </div>
