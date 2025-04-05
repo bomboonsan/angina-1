@@ -409,7 +409,7 @@ export default function Record() {
                                     <div className="flex-initial">                                                                           
                                         <div className="text-center">
                                             <span className={RF_PTP < 7 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#74b8e4] text-white size-14 lg:size-24 rounded-full" : RF_PTP >= 7 && RF_PTP < 17 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#45bc8d] text-white size-14 lg:size-24 rounded-full" : RF_PTP >= 17 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#fbef20] text-white size-14 lg:size-24 rounded-full" : "" }>
-                                                {RF_PTP}
+                                                {RF_PTP} <span className='text-base'>%</span>
                                             </span>
                 
                                         </div>
@@ -586,7 +586,7 @@ export default function Record() {
                                     CACS = 
                                 </span> 
                                 <span className="text-lg font-bold text-primary leading-none">
-                                    {cacsScore} <span className='text-base'>%</span>
+                                    {cacsScore}
                                 </span>
                             </div>
                         </div>

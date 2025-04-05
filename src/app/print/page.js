@@ -206,7 +206,7 @@ export default function Record() {
     useEffect(() => {
         setTimeout(() => { 
             generatePdf2();
-        }, 2000);
+        }, 1000);
         // document.addEventListener('DOMContentLoaded', () => {
         //     if (document.readyState === 'complete') {
         //         generatePdf2();
