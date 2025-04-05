@@ -206,6 +206,10 @@ export default function Home() {
     useEffect(() => {
         cookies.set('lang' , lang);
     } , [lang])
+    
+    console.log('totalScore1' , totalScore);
+    console.log('totalScore2' , totalScore2);
+
 
 
     return (

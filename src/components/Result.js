@@ -45,13 +45,13 @@ export default function Result({ props }) {
                 ],
             },
         };
-        const { point1, point2, sex, age } = props;
+        let { point1, point2, sex, age } = props;
         console.log(point1, point2, sex, Number(age));
         const gender = sex === "male" ? "Men" : "Women";
         const point2Final = Math.floor(point2 / 2);
         const genderTable = table[gender];
         // ดึงค่าจากตาราง
-        if (point1 == 0) return 0;
+        point1 == 0 ? point1 = 1 : point1;
         const result = genderTable[point1][Number(age)-1][point2Final]; // คำนวณผลลัพธ์
         // cookies.set('RF_PTP' , Number(result));
         return result
