@@ -39,7 +39,9 @@ export default function SymptomSection({ props }) {
                                     props.lang == "en" ?
                                     (
                                         <>
-                                            Characteristics <br /> Chest pain
+                                            Chest pain
+                                            <br />
+                                            characteristics
                                         </>
                                     ) :
                                     (
@@ -63,7 +65,9 @@ export default function SymptomSection({ props }) {
                                     props.lang == "en" ?
                                     (
                                         <>
-                                            Characteristics <br /> Dyspnoea
+                                            Dyspnoea
+                                            <br />
+                                            characteristics
                                         </>
                                     ) :
                                     (

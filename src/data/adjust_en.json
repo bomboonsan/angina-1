@@ -1,0 +1,30 @@
+[
+    {
+        "text" : "Resting ECG changes (Q-wave or ST-segment/T-wave changes)",
+        "point" : 1
+    },
+    {
+        "text" : "Exercise ECG with abnormal findings",
+        "point" : 1
+    },
+    {
+        "text" : "LV dysfunction (severe or segmental)",
+        "point" : 1
+    },
+    {
+        "text" : "Ventricular arrhythmia",
+        "point" : 1
+    },
+    {
+        "text" : "Peripheral artery disease",
+        "point" : 1
+    },
+    {
+        "text" : "Coronary calcification on pre-existing chest CT",
+        "point" : 1
+    },
+    {
+        "text" : "None",
+        "point" : 0
+    }
+]

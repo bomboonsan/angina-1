@@ -89,6 +89,18 @@ body {
 }
 
 
+.recordCheckbox-2 {
+  @apply flex gap-2 items-start;
+}
+.recordCheckbox-2 input {
+  @apply relative top-1.5;
+}
+.recordCheckbox-2 label {
+  @apply relative top-[2px] md:top-[0px] text-sm md:text-base;
+}
+
+
+
 /* Result */
 .result-circle-text {
   @apply text-[1.2rem] lg:text-3xl font-bold text-center;

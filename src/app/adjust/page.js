@@ -20,7 +20,8 @@ import { useRouter } from 'next/navigation'
 
 import Swal from 'sweetalert2'
 
-import adjust from '@/data/adjust.json'
+import adjust_th from '@/data/adjust.json'
+import adjust_en from '@/data/adjust_en.json'
 
 export default function Secondary() {
     const router = useRouter();
@@ -34,16 +35,34 @@ export default function Secondary() {
         showResult : false
     });
     const [lang , setLang] = useState('en');
+    const [adjust , setAdjust] = useState(adjust_en);
 
     useEffect(() => {
         const RF_PTP_value = cookies.get('RF_PTP')
         if (!RF_PTP_value) {
             router.push('/')
         }
+        const lang = cookies.get('lang')
+        if (lang) {
+            setLang(lang)
+            if (lang === 'th') {
+                setAdjust(adjust_th)
+            } else {
+                setAdjust(adjust_en)
+            }
+        } else {
+            setLang('en')
+            setAdjust(adjust_en)
+        }
     }, []);
 
     const sendLang = (value) => {
         setLang(value);
+        if (value === 'th') {
+            setAdjust(adjust_th)
+        } else {
+            setAdjust(adjust_en)
+        }
     }
 
     const [totalScore , setTotalScore] = useState(0);
@@ -64,7 +83,13 @@ export default function Secondary() {
             <Header />
             <div className="my-5 p-4">
                 <LangSwitch props={{ sendLang: sendLang }} />
-                <TitleSM props={{ title: 'Adjust clinical likelihood based on abnormal clinical findings' }} />
+                {
+                    lang === 'th' ? (
+                        <TitleSM props={{ title: 'ปรับความน่าจะเป็นทางคลินิกตามผลการตรวจทางคลินิกที่ผิดปกติ' }} />
+                    ) : (
+                        <TitleSM props={{ title: 'Adjust clinical likelihood based on abnormal clinical findings' }} />
+                    )
+                }
                 <QuestionList props={{ sendData: saveScore , sendCookie : saveCookies , questions : adjust , lang: lang }} />
             </div>
             </main>

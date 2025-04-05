@@ -232,9 +232,17 @@ export default function Record() {
                                     <span className='mb-2 border border-secondary shadow-md font-semibold text-[0.6rem] lg:text-base w-full lg:w-[250px] inline-flex items-center justify-center py-0.5 px-3 lg:px-5 rounded-3xl bg-primary text-white'>
                                         {
                                             symptom == 'option1' && finalSection1 ? (
-                                                <>Chest pain characteristics</>
+                                                <>
+                                                {
+                                                    lang == 'th' ? 'เจ็บหน้าอก' : 'Chest pain characteristics'
+                                                }
+                                                </>
                                             ) : (
-                                                <>Dyspnoea characteristics</>
+                                                <>
+                                                {
+                                                    lang == 'th' ? 'หายใจลำบาก' : 'Dyspnoea characteristics'
+                                                }
+                                                </>
                                             )
                                         }
                                     </span>
@@ -303,7 +311,7 @@ export default function Record() {
                             <div className='space-y-1 mt-4 text-sm'>
                                 <div>
                                     <span className='mb-2 border border-secondary shadow-md font-semibold text-[0.6rem] lg:text-base w-full lg:w-[250px] inline-flex items-center justify-center py-0.5 px-3 lg:px-5 rounded-3xl bg-primary text-white'>
-                                    Risk Factor for CAD
+                                    {lang == 'th' ? 'ข้อมูลส่วนตัว' : 'Risk Factor for CAD'}
                                     </span>
                                 </div>
                                 {
@@ -369,7 +377,7 @@ export default function Record() {
 
                     <div className='my-2'>
                         <img 
-                            src="/img/score-board.png"
+                            src={lang == 'th' ? '/img/score-board-th.png' : '/img/score-board.png'}
                             alt="score-board"
                             width={900}
                             height={400}
@@ -381,7 +389,9 @@ export default function Record() {
                         <div className="flex flex-row gap-5 items-center justify-center">
                             <div>
                                 <p className="text-[1rem] lg:text-xl font-medium text-center">
-                                Clinical likelihood
+                                {
+                                    lang == 'th' ? 'ความเสี่ยงของคุณอยู่ในระดับ' : 'Clinical likelihood'
+                                }
                                 </p>
                                 <p className={RF_PTP < 7 ? "result-circle-text text-[#74b8e4]" : RF_PTP >= 7 && RF_PTP < 17 ? "result-circle-text text-[#45bc8d]" : RF_PTP >= 17 ? "result-circle-text text-[#fbef20]" : "" }>{getRiskLevel(RF_PTP)}</p>
                             </div>
@@ -414,7 +424,9 @@ export default function Record() {
                     <div className='record-box'>
                         <div className="mt-3">
                             <span className='mb-7 border border-secondary shadow-md font-semibold text-[0.7rem] lg:text-lg flex items-center justify-center py-1.5 px-5 rounded-3xl bg-primary text-white'>
-                            Abnormal clinical findings
+                            {
+                                lang == 'th' ? 'ผลการตรวจทางคลินิกที่ผิดปกติ' : 'Abnormal clinical findings'
+                            }
                             </span>
                         </div>
                         {
@@ -425,46 +437,60 @@ export default function Record() {
                                 
                                     <div className="mb-3 col-span-8">
                                         {/* <img src="/img/test-mockup-01.jpg" alt="graph2" width={939} height={355} className="block my-8" /> */}
-                                        <div className='recordCheckbox'>
+                                        <div className='recordCheckbox-2'>
                                             <input type='checkbox' defaultChecked={finalAdjust[0] != 0} readOnly />
-                                            <label>
-                                                Resting ECG changes (Q-wave or ST-segment/T-wave changes)
+                                            <label>                                                
+                                                {
+                                                    lang == 'th' ? 'ความผิดปกติของคลื่นไฟฟ้าหัวใจขณะพัก (การเปลี่ยนแปลงของคลื่น Q หรือการเปลี่ยนแปลงของส่วน ST/คลื่น T)' : 'Resting ECG changes (Q-wave or ST-segment/T-wave changes)'
+                                                }
                                             </label>
                                         </div>
-                                        <div className='recordCheckbox'>
+                                        <div className='recordCheckbox-2'>
                                             <input type='checkbox' defaultChecked={finalAdjust[1] != 0} readOnly />
                                             <label>
-                                                Exercise ECG with abnormal findings
+                                                {
+                                                    lang == 'th' ? 'ผลการตรวจคลื่นไฟฟ้าหัวใจขณะออกกำลังกายที่ผิดปกติ' : 'Exercise ECG with abnormal findings'
+                                                }
                                             </label>
                                         </div>
-                                        <div className='recordCheckbox'>
+                                        <div className='recordCheckbox-2'>
                                             <input type='checkbox' defaultChecked={finalAdjust[2] != 0} readOnly />
                                             <label>
-                                                LV dysfunction (severe or segmental)
+                                                {
+                                                    lang == 'th' ? 'ภาวะการทำงานบกพร่องของหัวใจห้องล่างซ้าย (ชนิดรุนแรงหรือเฉพาะส่วน)' : 'LV dysfunction (severe or segmental)'
+                                                }
                                             </label>
                                         </div>
-                                        <div className='recordCheckbox'>
+                                        <div className='recordCheckbox-2'>
                                             <input type='checkbox' defaultChecked={finalAdjust[3] != 0} readOnly />
                                             <label>
-                                                Ventricular arrhythmia
+                                                {
+                                                    lang == 'th' ? 'ภาวะหัวใจห้องล่างเต้นผิดจังหวะ' : 'Ventricular arrhythmia'
+                                                }
                                             </label>
                                         </div>
-                                        <div className='recordCheckbox'>
+                                        <div className='recordCheckbox-2'>
                                             <input type='checkbox' defaultChecked={finalAdjust[4] != 0} readOnly />
                                             <label>
-                                                Peripheral artery disease
+                                                {
+                                                    lang == 'th' ? 'โรคหลอดเลือดแดงส่วนปลาย' : 'Peripheral artery disease'
+                                                }
                                             </label>
                                         </div>
-                                        <div className='recordCheckbox'>
+                                        <div className='recordCheckbox-2'>
                                             <input type='checkbox' defaultChecked={finalAdjust[5] != 0} readOnly />
                                             <label>
-                                                Coronary calcification on pre-existing chest CT
+                                                {
+                                                    lang == 'th' ? 'การสะสมของแคลเซียมในหลอดเลือดหัวใจที่พบจากภาพถ่ายทรวงอกที่มีอยู่เดิม' : 'Coronary calcification on pre-existing chest CT'
+                                                }
                                             </label>
                                         </div>
-                                        <div className='recordCheckbox'>
+                                        <div className='recordCheckbox-2'>
                                             <input type='checkbox' defaultChecked={finalAdjust[0] == 0 && finalAdjust[1] == 0 && finalAdjust[2] == 0 && finalAdjust[3] == 0 && finalAdjust[4] == 0 && finalAdjust[5] == 0} readOnly />
                                             <label>
-                                                None
+                                                {
+                                                    lang == 'th' ? 'ไม่พบความผิดปกติ' : 'None'
+                                                }
                                             </label>
                                         </div>
 
@@ -483,16 +509,21 @@ export default function Record() {
                                         <div className="aspect-square lg:aspect-[3/2] h-auto w-full mb-3 p-3 bg-gray-200 flex flex-col justify-center items-center rounded-3xl relative">
                                             <div className="text-center ">
                                                 {/* <svg className="size-5 fill-primary" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" viewBox="0 0 256 256"><path d="M205.66,117.66a8,8,0,0,1-11.32,0L136,59.31V216a8,8,0,0,1-16,0V59.31L61.66,117.66a8,8,0,0,1-11.32-11.32l72-72a8,8,0,0,1,11.32,0l72,72A8,8,0,0,1,205.66,117.66Z"></path></svg> */}
-                                                <svg className="size-5 fill-primary" width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#25215f" strokeWidth="1.5"><path fillRule="evenodd" clipRule="evenodd" d="M12 1.25C6.06294 1.25 1.25 6.06294 1.25 12C1.25 17.9371 6.06294 22.75 12 22.75C17.9371 22.75 22.75 17.9371 22.75 12C22.75 6.06294 17.9371 1.25 12 1.25ZM16.0303 10.9697L12.5303 7.46967C12.2374 7.17678 11.7626 7.17678 11.4697 7.46967L7.96967 10.9697C7.67678 11.2626 7.67678 11.7374 7.96967 12.0303C8.26256 12.3232 8.73744 12.3232 9.03033 12.0303L11.25 9.81066V16C11.25 16.4142 11.5858 16.75 12 16.75C12.4142 16.75 12.75 16.4142 12.75 16V9.81066L14.9697 12.0303C15.2626 12.3232 15.7374 12.3232 16.0303 12.0303C16.3232 11.7374 16.3232 11.2626 16.0303 10.9697Z" fill="#25215f"></path></svg>
+                                                <svg className={`size-5 fill-primary ${finalAdjust[0] == 0 && finalAdjust[1] == 0 && finalAdjust[2] == 0 && finalAdjust[3] == 0 && finalAdjust[4] == 0 && finalAdjust[5] == 0 ? 'rotate-180' : ''}`} width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#25215f" strokeWidth="1.5"><path fillRule="evenodd" clipRule="evenodd" d="M12 1.25C6.06294 1.25 1.25 6.06294 1.25 12C1.25 17.9371 6.06294 22.75 12 22.75C17.9371 22.75 22.75 17.9371 22.75 12C22.75 6.06294 17.9371 1.25 12 1.25ZM16.0303 10.9697L12.5303 7.46967C12.2374 7.17678 11.7626 7.17678 11.4697 7.46967L7.96967 10.9697C7.67678 11.2626 7.67678 11.7374 7.96967 12.0303C8.26256 12.3232 8.73744 12.3232 9.03033 12.0303L11.25 9.81066V16C11.25 16.4142 11.5858 16.75 12 16.75C12.4142 16.75 12.75 16.4142 12.75 16V9.81066L14.9697 12.0303C15.2626 12.3232 15.7374 12.3232 16.0303 12.0303C16.3232 11.7374 16.3232 11.2626 16.0303 10.9697Z" fill="#25215f"></path></svg>
                                             </div>
                                             <p className="text-[0.7rem] lg:text-lg font-normal text-center">
                                                 <span className="text-primary text-[0.8rem] lg:text-xl font-bold">
                                                     {
+                                                        lang == 'th' ?
+                                                        finalAdjust[0] == 0 && finalAdjust[1] == 0 && finalAdjust[2] == 0 && finalAdjust[3] == 0 && finalAdjust[4] == 0 && finalAdjust[5] == 0 ? 'ลดลง' : 'เพิ่มขึ้น'
+                                                        :
                                                         finalAdjust[0] == 0 && finalAdjust[1] == 0 && finalAdjust[2] == 0 && finalAdjust[3] == 0 && finalAdjust[4] == 0 && finalAdjust[5] == 0 ? 'Decrease' : 'Increase'
                                                     }
                                                 </span>
                                                 <br />
-                                                Clinical Likelihood
+                                                {
+                                                    lang == 'th' ? 'ผลการตรวจทางคลินิก' : 'Clinical Likelihood'
+                                                }
                                             </p>
                                         </div>
                                     </div>
@@ -505,13 +536,15 @@ export default function Record() {
 
                         <div className="mt-3">
                             <span className='mb-7 border border-secondary shadow-md font-semibold text-[0.7rem] lg:text-lg flex items-center justify-center py-1.5 px-5 rounded-3xl bg-primary text-white'>
-                                CACS-weighted clinical likelihood
+                                {
+                                    lang == 'th' ? 'ความน่าจะเป็นทางคลินิกที่ถ่วงน้ำหนักด้วย CACS' : 'CACS-weighted clinical likelihood'
+                                }
                             </span>
                         </div>
                         <div className='relative'>
                             <img
                                 className="block my-8"
-                                src="/img/graph2.png"
+                                src={lang == 'th' ? '/img/graph2-th.png' : '/img/graph2.png'}
                                 width={939}
                                 height={355}
                                 alt="Picture of the author"

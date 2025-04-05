@@ -1,30 +1,30 @@
 [
     {
-        "text" : "Resting ECG changes (Q-wave or ST-segment/T-wave changes)",
+        "text" : "ความผิดปกติของคลื่นไฟฟ้าหัวใจขณะพัก (การเปลี่ยนแปลงของคลื่น Q หรือการเปลี่ยนแปลงของส่วน ST/คลื่น T)",
         "point" : 1
     },
     {
-        "text" : "Exercise ECG with abnormal findings",
+        "text" : "ผลการตรวจคลื่นไฟฟ้าหัวใจขณะออกกำลังกายที่ผิดปกติ",
         "point" : 1
     },
     {
-        "text" : "LV dysfunction (severe or segmental)",
+        "text" : "ภาวะการทำงานบกพร่องของหัวใจห้องล่างซ้าย (ชนิดรุนแรงหรือเฉพาะส่วน)",
         "point" : 1
     },
     {
-        "text" : "Ventricular arrhythmia",
+        "text" : "ภาวะหัวใจห้องล่างเต้นผิดจังหวะ",
         "point" : 1
     },
     {
-        "text" : "Peripheral artery disease",
+        "text" : "โรคหลอดเลือดแดงส่วนปลาย",
         "point" : 1
     },
     {
-        "text" : "Coronary calcification on pre-existing chest CT",
+        "text" : "การสะสมของแคลเซียมในหลอดเลือดหัวใจที่พบจากภาพถ่ายทรวงอกที่มีอยู่เดิม",
         "point" : 1
     },
     {
-        "text" : "None",
+        "text" : "ไม่พบความผิดปกติ",
         "point" : 0
     }
 ]
