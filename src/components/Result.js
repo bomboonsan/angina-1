@@ -3,6 +3,7 @@ import { useCookies } from 'next-client-cookies';
 import Image from "next/image";
 import {useEffect, useState} from "react";
 import { useRouter } from 'next/navigation'
+import Swal from 'sweetalert2'
 export default function Result({ props }) {
     const router = useRouter();
     const cookies = useCookies();
@@ -71,6 +72,13 @@ export default function Result({ props }) {
         }; // สีเหลือง
         return "Unknown"; // กรณีไม่มีในช่วง
     };
+
+
+    const submit = () => {
+        
+        router.push('/record-section1')
+    }
+
     useEffect(() => {
         setCad(getResultData());
         cookies.set('RF_PTP' , Number(getResultData()));
@@ -116,6 +124,11 @@ export default function Result({ props }) {
 
         <div className='text-center'>
             <button className="btn btn-primary btn-wide" onClick={() => router.push('/adjust')}>{props.lang == "en" ? "Adjust clinical likelihood" : "ปรับความน่าจะเป็นทางคลินิก"}</button>
+        </div>
+        <div className='text-center mt-10'>
+            <button className="btn btn-primary btn-wide" onClick={submit}>
+                {props.lang == 'en' ? 'SUBMIT' : 'ส่งคำตอบ'}
+            </button>
         </div>
         </>
     );

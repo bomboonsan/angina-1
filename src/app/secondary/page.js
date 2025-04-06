@@ -148,7 +148,7 @@ export default function Secondary() {
                     </div>
                 </div>
 
-                <CacsBox props={{ RF_PTP : RF_PTP , cacs_cs : cacs_cs }} />
+                {/* <CacsBox props={{ RF_PTP : RF_PTP , cacs_cs : cacs_cs }} /> */}
 
                 <div className='text-center mt-10'>
                     <button className="btn btn-primary btn-wide" onClick={submit}>

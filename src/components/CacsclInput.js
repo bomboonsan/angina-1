@@ -32,7 +32,7 @@ export default function CacsclInput({ props }) {
                 <label className="input input-bordered shadow-md flex items-center gap-2">
                     <span className="text-primary font-bold">
                             {
-                                props.lang == 'th' ? 'ค่า CACS' : 'CACS SCORE'
+                                props.lang == 'th' ? 'ค่า CACS' : 'CACS value'
                             }
                     </span> 
                     <input 
