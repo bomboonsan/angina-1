@@ -115,7 +115,7 @@ export default function Record() {
     }, [Section1, Section2, Adjust]);
 
     const getRiskLevel = (value) => {
-        if (value >= 0 && value <= 6) {
+        if (value >= 0 && value < 7) {
             if (lang == 'th') {
                 return "ต่ำมาก";
             }
@@ -127,7 +127,7 @@ export default function Record() {
             }
             return "Low";
         }; // สีเขียว
-        if (value >= 16) {
+        if (value > 15) {
             if (lang == 'th') {
                 return "ปานกลาง";
             }
@@ -728,7 +728,11 @@ export default function Record() {
                                                 <div className="flex-initial">                                                                           
                                                     <div className="text-center">
                                                         <span className={CACS < 7 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#74b8e4] text-white size-14 lg:size-24 rounded-full" : CACS >= 7 && CACS < 17 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#45bc8d] text-white size-14 lg:size-24 rounded-full" : CACS >= 17 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#fbef20] text-white size-14 lg:size-24 rounded-full" : "" }>
-                                                            {CACS >= 100 ? 100 : Number(CACS).toFixed(0)} <span className='text-base'>%</span>
+                                                            {
+                                                                // CACS >= 100 ? 100 : Number(CACS).toFixed(0)
+                                                                Number(CACS).toFixed(0)
+                                                            } 
+                                                            <span className='text-base'>%</span>
                                                         </span>
                                                     </div>
                                                 </div>
