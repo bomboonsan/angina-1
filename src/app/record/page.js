@@ -617,7 +617,14 @@ export default function Record() {
                                                 </div>
                                                 <div className="flex-initial">                                                                           
                                                     <div className="text-center">
-                                                        <span className={RF_PTP < 7 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#74b8e4] text-white size-14 lg:size-24 rounded-full" : RF_PTP >= 7 && RF_PTP < 17 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#45bc8d] text-white size-14 lg:size-24 rounded-full" : RF_PTP >= 17 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#fbef20] text-white size-14 lg:size-24 rounded-full" : "" }>
+                                                        <span className={
+                                                            RF_PTP < 7 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#74b8e4] text-white size-14 lg:size-24 rounded-full" 
+                                                            : 
+                                                            RF_PTP >= 7 && RF_PTP < 17 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#45bc8d] text-white size-14 lg:size-24 rounded-full" 
+                                                            : 
+                                                            RF_PTP >= 17 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#fbef20] text-white size-14 lg:size-24 rounded-full" 
+                                                            :
+                                                             "" }>
                                                             {RF_PTP} <span className='text-base'>%</span>
                                                         </span>
                             
@@ -639,11 +646,11 @@ export default function Record() {
                                                 : 
                                                 CACS >= 7 && CACS < 17 ? "result-circle-text text-[#45bc8d]" 
                                                 : 
-                                                CACS >= 17 && CACS < 100 ? "result-circle-text text-[#fbef20]" 
+                                                CACS >= 17 && CACS < 50 ? "result-circle-text text-[#fbef20]" 
                                                 :
-                                                CACS >= 100 && CACS < 1000 ? "result-circle-text text-[#fbae3d]" 
+                                                CACS >= 50 && CACS < 85 ? "result-circle-text text-[#fbae3d]" 
                                                 :
-                                                CACS >= 1000 ? "result-circle-text text-[#f2654c]" 
+                                                CACS >= 85 ? "result-circle-text text-[#f2654c]" 
                                                 : 
                                                 "" 
                                                 }>{getRiskLevel(CACS)}</p>
@@ -666,17 +673,17 @@ export default function Record() {
                                                             : 
                                                             CACS >= 7 && CACS < 17 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#45bc8d] text-white size-14 lg:size-24 rounded-full" 
                                                             : 
-                                                            CACS >= 17 && CACS < 100 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#fbef20] text-white size-14 lg:size-24 rounded-full" 
+                                                            CACS >= 17 && CACS < 50 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#fbef20] text-white size-14 lg:size-24 rounded-full" 
                                                             :
-                                                            CACS >= 100 && CACS < 1000 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#fbae3d] text-white size-14 lg:size-24 rounded-full" 
+                                                            CACS >= 50 && CACS < 85 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#fbae3d] text-white size-14 lg:size-24 rounded-full" 
                                                             :
-                                                            CACS >= 1000 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#f2654c] text-white size-14 lg:size-24 rounded-full" 
+                                                            CACS >= 85 ? "inline-flex aspect-square items-center justify-center text-[1.2rem] lg:text-3xl bg-[#f2654c] text-white size-14 lg:size-24 rounded-full" 
                                                             : 
                                                             "" 
                                                             }>
                                                             {
-                                                                // CACS >= 100 ? 100 : Number(CACS).toFixed(0)
-                                                                Number(CACS).toFixed(0)
+                                                                CACS >= 100 ? 100 : Number(CACS).toFixed(0)
+                                                                // Number(CACS).toFixed(0)
                                                             }
                                                              <span className='text-base'>%</span>
                                                         </span>
