@@ -13,6 +13,7 @@
     "dom-to-pdf": "^0.3.2",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.2",
+    "mariadb": "^3.4.5",
     "next": "15.0.2",
     "next-client-cookies": "^2.0.0",
     "postcss-color-function": "^4.1.0",
