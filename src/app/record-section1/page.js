@@ -503,12 +503,6 @@ export default function Record() {
                 >
                   {lang == "th" ? "บันทึกเป็น PDF" : "SAVE PDF"}
                 </button>
-                <button
-                  className="btn btn-primary w-full col-span-2"
-                  onClick={() => router.push("/score")}
-                >
-                  {lang == "th" ? "ให้คะแนนผู้แทนยา" : "Score Agent"}
-                </button>
               </div>
             </div>
           </main>
