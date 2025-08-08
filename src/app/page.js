@@ -4,6 +4,7 @@ import Image from "next/image";
 import React, { useEffect, useState, useRef } from "react";
 import { useRouter } from 'next/navigation';
 import Header from '@/components/Header';
+import LangSwitch from "@/components/LangSwitch";
 import Swal from 'sweetalert2';
 
 // Google Font Kanit
@@ -17,7 +18,7 @@ const kanit = Kanit({
 
 export default function Score() {
   const [agent, setAgent] = useState('');
-  const [lang, setLang] = useState('');
+  const [lang, setLang] = useState("en");
   const [errors, setErrors] = useState({});
   const router = useRouter();
   const cookies = useCookies();
@@ -35,6 +36,10 @@ export default function Score() {
       setLang("en");
     }
     }, []);
+  
+  const sendLang = (value) => {
+    setLang(value);
+  };
 
     const validateForm = () => {
       const newErrors = {};
@@ -170,6 +175,7 @@ export default function Score() {
         className={`app-wrapper min-h-screen bg-gradient-to-b from-gray-50 to-white ${kanit.className} max-w-[500px] mx-auto bg-white shadow min-h-screen overflow-hidden app-wrapper relative`}
       >
         <Header />
+        <LangSwitch props={{ sendLang: sendLang }} />
 
         <div className={`container mx-auto px-4 py-8 ${step == 1 ? 'block' : 'hidden'}`}>
           <div className="max-w-2xl mx-auto">
@@ -177,8 +183,8 @@ export default function Score() {
               <div className="mb-6">
                 <h2 className="text-2xl font-bold text-primary text-center">
                   {lang === "th"
-                    ? "คุณชอบผู้แทนของคุณหรือไม่?"
-                    : "Do you like your agent?"}
+                    ? "คุณชอบแอปพลิเคชันนี้หรือไม่?"
+                    : "Do you like this application?"}
                 </h2>
               </div>
               <div className="flex gap-12 justify-center mb-8">
