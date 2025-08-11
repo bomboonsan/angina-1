@@ -22,7 +22,7 @@ export default function Score() {
   const [errors, setErrors] = useState({});
   const router = useRouter();
   const cookies = useCookies();
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(2);
 
     const agentUpperCase = (value) => {
         setAgent(value.toUpperCase());
@@ -114,7 +114,7 @@ export default function Score() {
                 timer: 2500
               }).then(() => {
                 handleReset();
-                router.push('/start'); // Navigate back to the previous page
+                router.push('/'); // Navigate back to the previous page
               });
             } else {
               let errorMessage = lang === "th"
