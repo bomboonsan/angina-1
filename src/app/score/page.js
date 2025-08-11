@@ -69,8 +69,11 @@ export default function Score() {
           if (result.isConfirmed) {
           try {
             // Validate env
-            const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-            const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+            const baseUrl =
+              process.env.NEXT_PUBLIC_API_URL ||
+              "https://dint.wish-integrate.com";
+            const apiKey =
+              process.env.NEXT_PUBLIC_API_KEY || "WMLKASDJKLQWEUIO";
             if (!baseUrl || !apiKey) {
               Swal.fire({
                 icon: 'error',
