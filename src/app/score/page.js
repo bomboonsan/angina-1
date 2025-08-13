@@ -31,9 +31,11 @@ export default function Score() {
     useEffect(() => {
     const lang = cookies.get("lang");
     if (lang) {
-      setLang(lang);
+      // setLang(lang);
+      setLang("th");
+
     } else {
-      setLang("en");
+      setLang("th");
     }
     }, []);
   
