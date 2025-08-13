@@ -18,11 +18,11 @@ const kanit = Kanit({
 
 export default function Score() {
   const [agent, setAgent] = useState('');
-  const [lang, setLang] = useState("en");
+  const [lang, setLang] = useState("th");
   const [errors, setErrors] = useState({});
   const router = useRouter();
   const cookies = useCookies();
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(1);
 
     const agentUpperCase = (value) => {
         setAgent(value.toUpperCase());
@@ -117,7 +117,8 @@ export default function Score() {
                 timer: 2500
               }).then(() => {
                 handleReset();
-                router.push('/'); // Navigate back to the previous page
+                // router.push('/'); // Navigate back to the previous page
+                window.close();
               });
             } else {
               let errorMessage = lang === "th"
@@ -180,7 +181,11 @@ export default function Score() {
         <Header />
         <LangSwitch props={{ sendLang: sendLang }} />
 
-        <div className={`container mx-auto px-4 py-8 ${step == 1 ? 'block' : 'hidden'}`}>
+        <div
+          className={`container mx-auto px-4 py-8 ${
+            step == 1 ? "block" : "hidden"
+          }`}
+        >
           <div className="max-w-2xl mx-auto">
             <div className="flex flex-col items-center justify-center py-12">
               <div className="mb-6">
@@ -252,7 +257,11 @@ export default function Score() {
           </div>
         </div>
 
-        <div className={`container mx-auto px-4 py-8 ${step == 2 ? 'block' : 'hidden'}`}>
+        <div
+          className={`container mx-auto px-4 py-8 ${
+            step == 2 ? "block" : "hidden"
+          }`}
+        >
           <div className="max-w-2xl mx-auto">
             {/* Page Title */}
             <div className="text-center mb-8 hidden">
@@ -279,9 +288,9 @@ export default function Score() {
                 </h2>
                 <h1 className="text-2xl font-bold text-white text-center mb-2">
                   {lang === "th" ? (
-                    <span>ให้กำลังใจผู้แทนของท่าน โดยการให้คะแนน</span>
+                    <span>ให้คะแนนผู้แนะนำ</span>
                   ) : (
-                    <span>Support Your Agent By Giving a Score</span>
+                    <span>Rate Your Agent</span>
                   )}
                 </h1>
               </div>
