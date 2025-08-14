@@ -61,7 +61,7 @@ export default function Score() {
         Swal.fire({
           icon: "warning",
           title: lang === "th" ? "คุณต้องการบันทึกคะแนนนี้หรือไม่?" : "Do you want to submit this score?",
-          text: `${lang === "th" ? "รหัสผู้แทน" : "Agent ID"}: ${agent}`,
+          text: `${lang === "th" ? "รหัสผู้แนะนำ" : "Agent ID"}: ${agent}`,
           showConfirmButton: true,
           showCancelButton: true,
           confirmButtonText: lang === "th" ? "บันทึก" : "Submit",
@@ -112,11 +112,14 @@ export default function Score() {
 
             if (response.ok) {
               Swal.fire({
-                icon: 'success',
-                title: lang === "th" ? 'บันทึกข้อมูลสำเร็จ!' : 'Saved successfully!',
-                text: `${lang === "th" ? "รหัสผู้แทน" : "Agent ID"}: ${data.agent_code || agent} ${lang === "th" ? "ได้รับการบันทึกแล้ว" : "has been saved"}`,
-                confirmButtonColor: '#25215f',
-                timer: 2500
+                icon: "success",
+                title:
+                  lang === "th" ? "บันทึกข้อมูลสำเร็จ!" : "Saved successfully!",
+                text: `${lang === "th" ? "รหัสผู้แนะนำ" : "Agent ID"}: ${
+                  data.agent_code || agent
+                } ${lang === "th" ? "ได้รับการบันทึกแล้ว" : "has been saved"}`,
+                confirmButtonColor: "#25215f",
+                timer: 2500,
               }).then(() => {
                 handleReset();
                 // router.push('/'); // Navigate back to the previous page
@@ -269,7 +272,7 @@ export default function Score() {
             <div className="text-center mb-8 hidden">
               {lang === "th" ? (
                 <h1 className="text-3xl font-bold text-primary mb-2">
-                  ให้กำลังใจผู้แทนของท่าน
+                  ให้กำลังใจผู้แนะนำของท่าน
                   <br />
                   โดยการให้คะแนน
                 </h1>
@@ -303,7 +306,7 @@ export default function Score() {
                   <div>
                     <label className="label">
                       <span className="label-text text-lg font-medium text-gray-700">
-                        {lang === "th" ? "รหัสผู้แทน" : "Agent ID"}{" "}
+                        {lang === "th" ? "รหัสผู้แนะนำ" : "Agent ID"}{" "}
                         <span className="text-red-500">*</span>
                       </span>
                     </label>
